@@ -7,7 +7,7 @@ headers, dependencies or deployment must update the matching row (see `AGENTS.md
 
 Scope: a Next.js web app (`frontend/`), a NestJS API (`backend/`), one MySQL 8
 database, a media folder for pictures, and these third parties: OpenRouter (AI),
-Google (sign-in), Gmail SMTP or Resend (email), Pixabay / Pexels / Wikipedia
+Google (sign-in and AdSense ads), Gmail SMTP or Resend (email), Pixabay / Pexels / Wikipedia
 (stock pictures), flagcdn.com (flag images).
 
 ## GV — Govern
@@ -43,6 +43,9 @@ Google (sign-in), Gmail SMTP or Resend (email), Pixabay / Pexels / Wikipedia
 **Data leaving the system**: learner messages and photos go to OpenRouter and the
 model provider it routes to; the email address goes to the mail provider; Google
 receives the sign-in request; stock-photo searches send only English search words.
+Google AdSense (script in `app/layout.tsx`) receives standard request data and sets
+advertising cookies; no account or practice data is passed to it. Accepted risk: the
+ad script runs in the page and could read the `localStorage` token (see TODO).
 
 ## PR — Protect
 
@@ -58,7 +61,7 @@ receives the sign-in request; stock-photo searches send only English search word
 | PR.DS | Request body capped at 6 MB; CORS only for the origins in `FRONTEND_URL` | `main.ts` |
 | PR.DS | Secrets only in environment variables; `.env*` git-ignored (templates excepted); gitleaks secret scan in CI; `NEXT_PUBLIC_*` values are public by design and never hold secrets | `.gitignore`, `ci.yml` |
 | PR.DS | TLS in production (host certificates) + HSTS 2 years on both apps | `next.config.mjs`, `main.ts` |
-| PR.PS | Web app headers: CSP (self + API + Google sign-in; images from https), HSTS, `X-Content-Type-Options`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy` (microphone for self only), COOP; `X-Powered-By` off; `/admin` is `no-store` + `noindex` | `frontend/next.config.mjs` |
+| PR.PS | Web app headers: CSP (self + API + Google sign-in + Google AdSense hosts; images from https), HSTS, `X-Content-Type-Options`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy` (microphone for self only), COOP; `X-Powered-By` off; `/admin` is `no-store` + `noindex` | `frontend/next.config.mjs` |
 | PR.PS | API headers: `default-src 'none'` CSP, `nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: no-referrer`, CORP cross-origin (pictures are used by the web app), HSTS in production; `X-Powered-By` off | `backend/src/main.ts` |
 | PR.PS | AI prompts treat learner text as data, not instructions; system prompts are built server-side and clients may send only `user` / `assistant` roles | `*/*.prompts.ts`, `ai/` |
 

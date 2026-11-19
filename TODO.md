@@ -22,7 +22,13 @@ Living backlog. Agents: tick items as you finish them and add follow-ups you dis
 - [ ] Check on Vercel that the CSP allows everything in production (Google sign-in popup, flag images, photos); watch the browser console for CSP errors
 - [ ] Choose a license (none yet — all rights reserved)
 
+## Advertising (AdSense, 2026-11-19)
+- [ ] AdSense: approve edsol.academy, then turn on Auto ads for talkmate.edsol.academy only and exclude `/admin`
+- [ ] AdSense > Privacy & messaging: publish Google's consent message for the EEA, UK and Switzerland (required for personalised ads)
+- [ ] Watch the browser console on the live site for CSP errors from ad hosts after approval
+
 ## Security (from `docs/security.md` accepted risks)
+- [ ] Ad scripts run in the page, so they could read the sign-in token in `localStorage`; moving the JWT to an `httpOnly` cookie (below) also closes this
 - [ ] Enforce Premium on the API, not only in the UI (needs real billing first)
 - [ ] Move the JWT from `localStorage` to an `httpOnly` cookie; revoke tokens on password change / account deletion
 - [ ] Refuse to start in production when `JWT_SECRET` < 32 chars (today: warning only)

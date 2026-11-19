@@ -387,6 +387,9 @@ export default function LoginPage() {
               </p>
             </div>
           </form>
+          <p className="mt-4 text-center text-xs text-white/50">
+            <Link href="/privacy" className="underline-offset-2 hover:text-white/80 hover:underline">Privacy and cookies</Link>
+          </p>
         </section>
       </div>
     </main>

@@ -4,19 +4,23 @@ import { fileURLToPath } from "node:url";
 // A new third-party host must be added here, or the browser blocks it.
 const API = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000").replace(/\/+$/, "");
 const GOOGLE = "https://accounts.google.com"; // Google sign-in (Identity Services)
+// Google AdSense (auto ads + Google's consent message). Hosts from Google's CSP guide for AdSense.
+const ADS_SCRIPT = "https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://www.googletagservices.com https://adservice.google.com https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://www.google.com";
+const ADS_FRAME = "https://googleads.g.doubleclick.net https://*.doubleclick.net https://tpc.googlesyndication.com https://*.googlesyndication.com https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://www.google.com";
+const ADS_CONNECT = "https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://*.google.com";
 const dev = process.env.NODE_ENV !== "production";
 
 const csp = [
   "default-src 'self'",
   // Next.js inlines its bootstrap scripts (no nonces yet, see TODO.md); dev mode also needs eval.
-  `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ""} ${GOOGLE}/gsi/client`,
+  `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ""} ${GOOGLE}/gsi/client ${ADS_SCRIPT}`,
   `style-src 'self' 'unsafe-inline' ${GOOGLE}/gsi/style`,
   // API /media pictures, flagcdn.com flags, Pexels/Pixabay/Wikipedia photos, data: avatars
   `img-src 'self' data: blob: https: ${API}`,
   "font-src 'self' data:",
   "media-src 'self' data: blob:",
-  `connect-src 'self' ${API} ${GOOGLE}/gsi/`,
-  `frame-src ${GOOGLE}`,
+  `connect-src 'self' ${API} ${GOOGLE}/gsi/ ${ADS_CONNECT}`,
+  `frame-src ${GOOGLE} ${ADS_FRAME}`,
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",

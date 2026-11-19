@@ -6,6 +6,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versioning: [S
 ## [Unreleased]
 
 ### Added
+- Google AdSense on the web app (2026-11-19): the `adsbygoogle.js` script and the `google-adsense-account` meta tag in `app/layout.tsx`, `public/ads.txt`, and the AdSense hosts in the CSP (`next.config.mjs`). The AdSense account is verified on edsol.academy (AdSense only accepts the root domain); EdSol itself loads no ads. Auto ads and Google's consent message (EEA, UK, Switzerland) are switched on in the AdSense account, not in code.
+- Public privacy page `/privacy` (account data, AI and speech providers, advertising cookies and opt-outs), linked from the login page.
 - Hosted on Hostinger: https://talkmate.edsol.academy (web) and https://talkmate-api.edsol.academy (API), each its own Node.js website, with a local MySQL database; `.hostinger/sites.json` records the targets and `docs/guides/deployment.md` §4 the settings.
 - Backend `prebuild` (`scripts/prebuild.js`): generates the Prisma client and, with `MIGRATE_ON_BUILD=1`, applies migrations (Hostinger only runs `npm run build`).
 - `AGENTS.md`: rules for contributors and AI agents (document every change, security first, CI green, no secrets in git, definition of done). `CLAUDE.md` points to it.
