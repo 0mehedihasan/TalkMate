@@ -8,6 +8,7 @@ import {
 import { Modal, ErrorText } from "@/components/Modal";
 import { GeneratePanel } from "@/components/GeneratePanel";
 import { PhotoPanel } from "@/components/PhotoPanel";
+import { AdUnit } from "@/components/ads/AdUnit";
 import { PracticeTimer } from "@/components/PracticeTimer";
 import { ProgressView } from "@/components/ProgressView";
 import { CoursesView } from "@/components/CoursesView";
@@ -253,6 +254,9 @@ export default function Dashboard() {
                   <span className="rounded-full bg-white/[0.06] px-4 py-2.5 text-sm font-semibold text-white/70">{s.longest} {s.longest === 1 ? "day" : "days"}</span>
                 </div>
               </div>
+
+              {/* ads are shown to free users only; Premium removes them */}
+              {!s.premium && <AdUnit slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_DASHBOARD} className="md:col-span-2 xl:col-span-1" />}
 
               <div className="rounded-2xl border border-white/[0.07] bg-[#171827] p-5 sm:p-6 md:col-span-2 xl:col-span-1">
                 <h3 className="text-xl font-semibold">Daily feedback</h3>
