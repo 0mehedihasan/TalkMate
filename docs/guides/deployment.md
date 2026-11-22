@@ -30,7 +30,7 @@ folder of another site), and the database lives on the same server.
 | App type | Next.js | NestJS, entry file `main.js`, output `dist` |
 | Node | 22 | 22 |
 | Build | `npm run build` = `next build --webpack` (Turbopack's PostCSS worker cannot start on shared hosting) | `npm run build`; its `prebuild` generates the Prisma client and, with `MIGRATE_ON_BUILD=1`, runs `prisma migrate deploy` (Hostinger only runs `npm install` + `npm run build`, no start hook) |
-| Env vars | `NEXT_PUBLIC_API_URL=https://talkmate-api.edsol.academy` (+ `NEXT_PUBLIC_GOOGLE_CLIENT_ID`); a change needs a rebuild | `DATABASE_URL` (host **`127.0.0.1`**, never `localhost` or `srvNNNN.hstgr.io`), `JWT_SECRET`, `MIGRATE_ON_BUILD=1`, `FRONTEND_URL`, `PUBLIC_API_URL`, `MEDIA_DIR=/home/<user>/talkmate-media` (outside the deploy folder so pictures survive redeploys), plus the AI / mail / Google / photo keys |
+| Env vars | `NEXT_PUBLIC_API_URL=https://talkmate-api.edsol.academy` (+ `NEXT_PUBLIC_GOOGLE_CLIENT_ID`); a change needs a rebuild | `DATABASE_URL` (host **`127.0.0.1`**, never `localhost` or `srvNNNN.hstgr.io`), `JWT_SECRET`, `MIGRATE_ON_BUILD=1`, `FRONTEND_URL`, `PUBLIC_API_URL`, `MEDIA_DIR=/home/<user>/talkmate-media` (outside the deploy folder so pictures survive redeploys), `SMTP_HOST=smtp.hostinger.com`, `SMTP_PORT=465`, `SMTP_USER=talkmate@edsol.academy`, `SMTP_PASS` (the mailbox password, kept only in hPanel), plus the AI / Google / photo keys |
 
 **Do not set `NODE_ENV=production` on the API**: Hostinger then installs only
 `dependencies` and the build loses the Nest CLI and Prisma. HSTS is sent anyway
