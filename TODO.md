@@ -14,7 +14,7 @@ Living backlog. Agents: tick items as you finish them and add follow-ups you dis
 - [ ] Add https://talkmate.edsol.academy to the Google OAuth client's Authorized JavaScript origins (Google Cloud console)
 - [ ] Replace the copied dev keys with separate production keys (OpenRouter, Gmail app password) — `docs/security.md` local vs production
 - [ ] Test a real sign-up on the live site (verification email arrives) and one AI mode
-- [ ] Hostinger (2026-11-22): the API's env vars had been wiped (503, `JWT_SECRET` missing). Restored `DATABASE_URL` (new DB password), a new `JWT_SECRET`, `MIGRATE_ON_BUILD`, `FRONTEND_URL`, `PUBLIC_API_URL`, `MEDIA_DIR`, `OPENROUTER_MODEL(S)`. **Still missing on the API: `OPENROUTER_API_KEY`, `GMAIL_USER`, `GMAIL_APP_PASSWORD`, `GOOGLE_CLIENT_ID`, `PIXABAY_API_KEY`, `ADMIN_EMAILS`** (add in hPanel, Node.js > Environment variables)
+- [x] Hostinger (2026-11-22): the API's env vars had been wiped (503, `JWT_SECRET` missing). All 14 restored: new DB password and `JWT_SECRET`, the rest (AI, Gmail, Google, Pixabay, `ADMIN_EMAILS`) copied again from the dev env file
 - [ ] Hostinger: both TalkMate sites auto-deploy from `FaisalAhmedRafi/TalkMate` `main`; `0mehedihasan/TalkMate` no longer exists. Move them to the owner's GitHub (fork/transfer the repo), and enable daily backups
 - [ ] Merge `chore/security-ci-docs` into `main`: `main` still lacks `next build --webpack` and the backend `prebuild` (migrations on build)
 - [ ] GitHub Actions do not run: the repo owner's account is locked for billing — fix it so CI can gate merges
