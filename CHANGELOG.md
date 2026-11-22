@@ -6,6 +6,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versioning: [S
 ## [Unreleased]
 
 ### Changed
+- Email (2026-11-22): the API can send through any SMTP server (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, sender `MAIL_FROM`), tried before Gmail and Resend. Production now sends verification codes and reset links from the Hostinger mailbox `talkmate@edsol.academy` instead of a personal Gmail account.
 - Merged `main` (public landing page, `/learn` language pages, sitemap, robots, SEO metadata, AdSense components, its CI) into the Next 16 branch (2026-11-22). `next.config.mjs` keeps the security headers and CSP and adds `noindex` on every page behind a login; `app/layout.tsx` keeps the AdSense tag and uses the new SEO metadata; `/learn/[language]` reads `params` as a Promise (Next 16); CI keeps the full pipeline and sets `NEXT_PUBLIC_SITE_URL`; local DB credentials are now `talkmate` (docker-compose and `backend/.env.example`).
 
 ### Added
