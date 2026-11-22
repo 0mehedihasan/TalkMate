@@ -42,25 +42,25 @@ export default async function LanguagePage({ params }: Props) {
   };
 
   return (
-    <div className="min-h-screen bg-[#0D0E17] text-white">
+    <div className="min-h-screen bg-canvas text-ink">
       <JsonLd data={[breadcrumb, faqJsonLd(faq)]} />
       <SiteHeader />
       <main className="mx-auto max-w-3xl px-5 py-12">
-        <nav aria-label="Breadcrumb" className="text-sm text-white/50">
-          <Link href="/" className="hover:text-white">Home</Link> / <Link href="/learn" className="hover:text-white">Languages</Link> / <span className="text-white/80">{l.name}</span>
+        <nav aria-label="Breadcrumb" className="text-sm text-muted">
+          <Link href="/" className="hover:text-ink">Home</Link> / <Link href="/learn" className="hover:text-ink">Languages</Link> / <span className="text-ink/90">{l.name}</span>
         </nav>
         <h1 className="mt-4 text-3xl font-bold leading-tight sm:text-4xl">Learn {l.name} online with an AI tutor</h1>
-        <p className="mt-4 text-lg text-white/70">{l.intro}</p>
-        <p className="mt-3 text-white/70">
+        <p className="mt-4 text-lg text-muted">{l.intro}</p>
+        <p className="mt-3 text-muted">
           With TalkMate you practise {l.name} (<span lang={langCode(l.slug)}>{l.native}</span>) by talking, not just reading: your AI tutor answers in {l.name}, corrects your
           mistakes and explains them in the language you already speak.
         </p>
         <Link href="/login" className={`${btnPrimary} mt-6`}>Start learning {l.name} free</Link>
 
         <h2 className="mt-14 text-2xl font-bold">Starter {english ? "phrases" : `${l.name} phrases`}</h2>
-        <div className="mt-4 overflow-x-auto rounded-xl border border-white/10">
+        <div className="mt-4 overflow-x-auto rounded-xl border border-line/10">
           <table className="w-full text-left text-sm">
-            <thead className="bg-[#171827] text-white/60">
+            <thead className="bg-surface text-muted">
               <tr>
                 <th className="px-4 py-3 font-medium">{english ? "Situation" : "In English"}</th>
                 <th className="px-4 py-3 font-medium">{l.name}</th>
@@ -69,10 +69,10 @@ export default async function LanguagePage({ params }: Props) {
             </thead>
             <tbody>
               {l.phrases.map((p) => (
-                <tr key={p.meaning} className="border-t border-white/10">
-                  <td className="px-4 py-3 text-white/70">{p.meaning}</td>
+                <tr key={p.meaning} className="border-t border-line/10">
+                  <td className="px-4 py-3 text-muted">{p.meaning}</td>
                   <td className="px-4 py-3 font-medium" lang={english ? "en" : langCode(l.slug)}>{p.text}</td>
-                  {!english && l.phrases.some((q) => q.roman) && <td className="px-4 py-3 text-white/70">{p.roman ?? ""}</td>}
+                  {!english && l.phrases.some((q) => q.roman) && <td className="px-4 py-3 text-muted">{p.roman ?? ""}</td>}
                 </tr>
               ))}
             </tbody>
@@ -80,14 +80,14 @@ export default async function LanguagePage({ params }: Props) {
         </div>
 
         <h2 className="mt-14 text-2xl font-bold">What is hard about {l.name}?</h2>
-        <p className="mt-3 text-white/70">{l.tricky}</p>
+        <p className="mt-3 text-muted">{l.tricky}</p>
 
         <h2 className="mt-14 text-2xl font-bold">How you practise {l.name} on TalkMate</h2>
-        <ul className="mt-4 space-y-3 text-white/70">
-          <li><strong className="text-white">Chat and Call:</strong> hold a real conversation with an AI tutor and get every message reviewed.</li>
-          <li><strong className="text-white">Sentence and Word Mode:</strong> learn useful sentences and words, read them aloud and get a pronunciation rating.</li>
-          <li><strong className="text-white">Roleplays and Dialogues:</strong> rehearse ordering food, asking for directions and other everyday situations.</li>
-          <li><strong className="text-white">Flashcards, Photo and Debates:</strong> build vocabulary, describe pictures and argue a point in {l.name}.</li>
+        <ul className="mt-4 space-y-3 text-muted">
+          <li><strong className="text-ink">Chat and Call:</strong> hold a real conversation with an AI tutor and get every message reviewed.</li>
+          <li><strong className="text-ink">Sentence and Word Mode:</strong> learn useful sentences and words, read them aloud and get a pronunciation rating.</li>
+          <li><strong className="text-ink">Roleplays and Dialogues:</strong> rehearse ordering food, asking for directions and other everyday situations.</li>
+          <li><strong className="text-ink">Flashcards, Photo and Debates:</strong> build vocabulary, describe pictures and argue a point in {l.name}.</li>
         </ul>
 
         <h2 className="mt-14 text-2xl font-bold">{l.name} learning questions</h2>

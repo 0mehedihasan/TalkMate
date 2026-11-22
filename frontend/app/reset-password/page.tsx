@@ -40,17 +40,17 @@ export default function ResetPasswordPage() {
     <AuthShell title="Choose a new password">
       {done ? (
         <div>
-          <p className="rounded-lg bg-violet-500/15 px-3 py-3 text-sm text-violet-200">Your password has been changed.</p>
-          <Link href="/login" className="mt-5 block rounded-lg bg-violet-600 py-3 text-center text-sm font-semibold hover:bg-violet-500">Sign in</Link>
+          <p className="rounded-lg bg-brand-500/15 px-3 py-3 text-sm text-brand-200">Your password has been changed.</p>
+          <Link href="/login" className="mt-5 block rounded-lg bg-brand-600 py-3 text-center text-sm font-semibold hover:bg-brand-500">Sign in</Link>
         </div>
       ) : !token ? (
-        <p className="text-sm text-white/70">This link is missing its token. <Link href="/forgot-password" className="text-violet-400 hover:text-violet-300">Request a new one</Link>.</p>
+        <p className="text-sm text-muted">This link is missing its token. <Link href="/forgot-password" className="text-brand-400 hover:text-brand-300">Request a new one</Link>.</p>
       ) : (
         <form onSubmit={submit} className="space-y-4">
           <div>
             <label className={authLabel} htmlFor="password">New password</label>
             <input id="password" type="password" required minLength={8} maxLength={72} placeholder="8+ characters" className={authInput} value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="new-password" />
-            <p className="mt-1.5 text-xs text-white/50">{PASSWORD_HINT}</p>
+            <p className="mt-1.5 text-xs text-muted">{PASSWORD_HINT}</p>
           </div>
           <div>
             <label className={authLabel} htmlFor="confirm">Confirm password</label>

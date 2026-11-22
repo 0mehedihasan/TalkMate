@@ -27,14 +27,14 @@ export function PersonalizationView({ onBack, onToast }: { onBack: () => void; o
   return (
     <SubPage title="Personalization" subtitle="Adapt the app to your needs." onBack={onBack}>
       <ErrorText text={error} />
-      {!data && !error && <p className="text-white/60">Loading…</p>}
+      {!data && !error && <p className="text-muted">Loading…</p>}
       <div className="space-y-6">
         {data?.questions.map((q) => (
           <div key={q.key}>
             <label htmlFor={`q-${q.key}`} className="text-sm font-semibold">{q.label}</label>
             <div className="relative mt-3">
               <select id={`q-${q.key}`} value={data.values[q.key] ?? ""} onChange={(e) => change(q.key, e.target.value)}
-                className="w-full appearance-none rounded-2xl border border-white/10 bg-[#1f1f27] px-4 py-4 pr-10 text-sm font-semibold outline-none [color-scheme:dark] focus:ring-2 focus:ring-indigo-500">
+                className="w-full appearance-none rounded-2xl border border-line/10 bg-surface px-4 py-4 pr-10 text-sm font-semibold outline-none [color-scheme:dark] focus:ring-2 focus:ring-brand-500">
                 <option value="" disabled>Select an option</option>
                 {q.options.map((o) => <option key={o} value={o}>{o}</option>)}
               </select>

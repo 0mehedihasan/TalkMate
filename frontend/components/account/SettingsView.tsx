@@ -34,7 +34,7 @@ export const LEVEL_OPTIONS: Option[] = [
 function Flag({ code }: { code: string }) {
   const [failed, setFailed] = useState(false);
   if (failed) {
-    return <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-[11px] font-bold uppercase">{code}</span>;
+    return <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-600 text-[11px] font-bold uppercase">{code}</span>;
   }
   return (
     // eslint-disable-next-line @next/next/no-img-element
@@ -49,7 +49,7 @@ export function PickerField({ label, option, onOpen }: { label: string; option: 
     <div>
       <p className="text-sm font-semibold">{label}</p>
       <button onClick={onOpen} aria-label={label}
-        className="mt-3 flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-[#1f1f27] px-4 py-4 text-left transition-colors hover:border-white/30">
+        className="mt-3 flex w-full items-center gap-3 rounded-2xl border border-line/10 bg-surface px-4 py-4 text-left transition-colors hover:border-line/30">
         {option.flag && <Flag code={option.flag} />}
         <span className="flex-1 text-sm font-semibold">
           {option.title}{!option.flag && <span className="ml-1">({option.sub})</span>}
@@ -76,10 +76,10 @@ export function Picker({ title, options, current, searchable, onSave, onClose }:
       <h2 className="pr-8 text-lg font-semibold">{title}</h2>
 
       {searchable && (
-        <div className="mt-6 flex items-center gap-3 rounded-2xl border border-white/10 px-4 py-4 focus-within:border-white/30">
+        <div className="mt-6 flex items-center gap-3 rounded-2xl border border-line/10 px-4 py-4 focus-within:border-line/30">
           <Search size={20} />
           <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search languages" aria-label="Search languages"
-            className="w-full bg-transparent text-sm font-semibold outline-none placeholder:text-white/50" />
+            className="w-full bg-transparent text-sm font-semibold outline-none placeholder:text-muted" />
         </div>
       )}
 
@@ -87,20 +87,20 @@ export function Picker({ title, options, current, searchable, onSave, onClose }:
         {shown.map((o) => (
           <li key={o.value}>
             <button onClick={() => setPicked(o.value)}
-              className={`flex w-full items-center gap-4 rounded-2xl border px-4 py-3 text-left transition-colors ${picked === o.value ? "border-white" : "border-white/10 hover:border-white/30"}`}>
+              className={`flex w-full items-center gap-4 rounded-2xl border px-4 py-3 text-left transition-colors ${picked === o.value ? "border-white" : "border-line/10 hover:border-line/30"}`}>
               {o.flag && <Flag code={o.flag} />}
               <span>
                 <span className="block text-sm font-semibold">{o.title}</span>
-                <span className="block text-xs text-white/60">{o.sub}</span>
+                <span className="block text-xs text-muted">{o.sub}</span>
               </span>
             </button>
           </li>
         ))}
-        {shown.length === 0 && <li className="py-6 text-center text-sm text-white/60">No results</li>}
+        {shown.length === 0 && <li className="py-6 text-center text-sm text-muted">No results</li>}
       </ul>
 
       <button disabled={!changed} onClick={() => onSave(picked)}
-        className={`mt-5 w-full rounded-2xl py-4 text-sm font-semibold transition-colors ${changed ? "bg-white text-black hover:bg-white/90" : "cursor-not-allowed bg-white/10 text-white/40"}`}>
+        className={`mt-5 w-full rounded-2xl py-4 text-sm font-semibold transition-colors ${changed ? "bg-white text-black hover:bg-white/90" : "cursor-not-allowed bg-white/10 text-subtle"}`}>
         Save
       </button>
     </Modal>

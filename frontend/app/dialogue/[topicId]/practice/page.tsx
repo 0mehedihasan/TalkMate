@@ -1,4 +1,5 @@
 "use client";
+import { IconTile } from "@/components/ui/Glyph";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CornerUpRight, Loader2, Mic, MessageSquareText, RotateCw, Settings, Square, Volume2, VolumeX, X } from "lucide-react";
@@ -16,7 +17,7 @@ import { cancelSpeech, hasVoiceFor, speak } from "@/lib/speech";
 type Res = PronunciationResult | "skipped" | null; // null = not spoken yet
 type Saved = { average: number; passed: boolean } | null;
 
-const roundBtn = "flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white/90 transition-colors hover:bg-white/20 disabled:opacity-40";
+const roundBtn = "flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-ink transition-colors hover:bg-white/20 disabled:opacity-40";
 
 // Step 3: the practice screen. The partner speaks, the learner reads their answer out loud and gets a rating.
 export default function DialoguePracticePage() {
@@ -156,37 +157,37 @@ export default function DialoguePracticePage() {
   const pct = session ? ((idx + (result ? 1 : 0)) / session.turns.length) * 100 : 0;
 
   // the practice card: neutral until spoken, green when it passed, pink when it needs another try
-  const card = !scored ? "border border-white/10 bg-white/5" : passed ? "bg-emerald-100" : "bg-rose-100";
+  const card = !scored ? "border border-line/10 bg-white/5" : passed ? "bg-emerald-100" : "bg-rose-100";
   const label = mic === "listening" ? (live || "Listening… tap to stop")
     : mic === "evaluating" ? "Checking your pronunciation…"
     : !scored ? "Read it out loud"
     : passed ? SCORE_LABEL[scored.score] + "!" : "Try again, read it out loud";
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#222228]">
-      <header className="relative flex items-center justify-between border-b border-white/5 bg-[#1c1c22] px-5 py-4">
+    <div className="flex min-h-screen flex-col bg-canvas">
+      <header className="relative flex items-center justify-between border-b border-line/5 bg-surface px-5 py-4">
         <Logo />
         <h1 className="absolute left-1/2 -translate-x-1/2 text-base font-semibold">Dialogue Mode</h1>
         <div className="relative flex items-center gap-4">
           <button onClick={() => { updatePrefs({ autoplay: !prefs.autoplay }); cancelSpeech(); }}
-            aria-label={prefs.autoplay ? "Turn off automatic audio" : "Turn on automatic audio"} className="text-white/80 hover:text-white">
+            aria-label={prefs.autoplay ? "Turn off automatic audio" : "Turn on automatic audio"} className="text-ink/90 hover:text-ink">
             {prefs.autoplay ? <Volume2 size={20} /> : <VolumeX size={20} />}
           </button>
-          <button onClick={() => setSettingsOpen((o) => !o)} aria-label="Settings" className="text-white/80 hover:text-white"><Settings size={20} /></button>
-          <button onClick={close} aria-label="Close" className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 hover:bg-white/5"><X size={16} /></button>
+          <button onClick={() => setSettingsOpen((o) => !o)} aria-label="Settings" className="text-ink/90 hover:text-ink"><Settings size={20} /></button>
+          <button onClick={close} aria-label="Close" className="flex h-10 w-10 items-center justify-center rounded-xl border border-line/10 hover:bg-white/5"><X size={16} /></button>
           {settingsOpen && (
-            <div className="absolute right-0 top-12 z-20 w-60 rounded-xl border border-white/10 bg-[#1f1f27] p-3 text-sm shadow-xl">
+            <div className="absolute right-0 top-12 z-20 w-60 rounded-xl border border-line/10 bg-surface p-3 text-sm shadow-xl">
               {([["slow", "Slow speech"], ["showTranslation", "Show translation"]] as const).map(([k, l]) => (
                 <label key={k} className="flex cursor-pointer items-center justify-between rounded-lg px-2 py-2 hover:bg-white/5">
                   {l}
-                  <input type="checkbox" checked={prefs[k]} onChange={(e) => updatePrefs({ [k]: e.target.checked })} className="h-4 w-4 accent-indigo-500" />
+                  <input type="checkbox" checked={prefs[k]} onChange={(e) => updatePrefs({ [k]: e.target.checked })} className="h-4 w-4 accent-brand-500" />
                 </label>
               ))}
             </div>
           )}
         </div>
         {session && !summary && (
-          <div className="absolute inset-x-0 bottom-0 h-0.5 bg-white/5"><div className="h-full bg-indigo-600 transition-all" style={{ width: `${pct}%` }} /></div>
+          <div className="absolute inset-x-0 bottom-0 h-0.5 bg-white/5"><div className="h-full bg-brand-600 transition-all" style={{ width: `${pct}%` }} /></div>
         )}
       </header>
 
@@ -195,12 +196,12 @@ export default function DialoguePracticePage() {
           <div className="m-auto text-center">
             <ErrorText text={loadError} />
             <div className="mt-4 flex justify-center gap-3">
-              <button onClick={() => load()} className="rounded-full bg-indigo-600 px-5 py-2 text-sm font-semibold hover:bg-indigo-500">Try again</button>
+              <button onClick={() => load()} className="rounded-full bg-brand-600 px-5 py-2 text-sm font-semibold hover:bg-brand-500">Try again</button>
               <button onClick={close} className="rounded-full bg-white/10 px-5 py-2 text-sm font-semibold">Back</button>
             </div>
           </div>
         ) : !session ? (
-          <div className="m-auto flex flex-col items-center gap-3 text-white/70">
+          <div className="m-auto flex flex-col items-center gap-3 text-muted">
             <Loader2 className="animate-spin" />
             <p className="text-sm">Writing your dialogue…</p>
           </div>
@@ -213,12 +214,12 @@ export default function DialoguePracticePage() {
           <>
             {/* the other speaker */}
             <div className="flex flex-col items-center">
-              <div className="flex h-[72px] w-[72px] items-center justify-center rounded-full bg-gradient-to-br from-slate-600 to-slate-800 text-4xl ring-2 ring-white/10">{session.partner.emoji}</div>
+              <span className="rounded-full ring-2 ring-line/10"><IconTile seed={session.partner.role} title={session.partner.role} mode="dialogue" size={72} rounded="rounded-full" /></span>
               <p className="mt-2 text-xs font-semibold">{session.partner.role}</p>
             </div>
-            <section className="mt-3 rounded-2xl border border-white/10 px-5 py-5 text-center">
+            <section className="mt-3 rounded-2xl border border-line/10 px-5 py-5 text-center">
               <p className="text-[15px] font-semibold leading-snug" lang={lang}>{turn!.partner}</p>
-              {prefs.showTranslation && <p className="mt-2 text-[11px] text-white/70">{turn!.partnerTranslation}</p>}
+              {prefs.showTranslation && <p className="mt-2 text-[11px] text-muted">{turn!.partnerTranslation}</p>}
               <ReplayButton onClick={() => play("partner")} active={speaking === "partner"} label="Replay what they said" />
             </section>
 
@@ -228,30 +229,30 @@ export default function DialoguePracticePage() {
               <ErrorText text={error} />
 
               {/* the learner's line */}
-              <p className="mb-2 mt-3 min-h-[16px] text-center text-[11px] font-semibold text-white/90" aria-live="polite">{label}</p>
+              <p className="mb-2 mt-3 min-h-[16px] text-center text-[11px] font-semibold text-ink" aria-live="polite">{label}</p>
               <section className={`rounded-2xl px-5 py-5 text-center ${card}`}>
-                <p className={`text-[15px] font-semibold leading-snug ${!scored ? "text-white" : passed ? "text-emerald-700" : "text-rose-600"}`} lang={lang}>
+                <p className={`text-[15px] font-semibold leading-snug ${!scored ? "text-ink" : passed ? "text-emerald-700" : "text-rose-600"}`} lang={lang}>
                   {scored ? scored.words.map((w, i) => (
-                    <span key={i} className={w.ok ? (passed ? "text-emerald-700" : "text-rose-400") : "text-rose-600 underline decoration-rose-400 underline-offset-4"}>
+                    <span key={i} className={w.ok ? (passed ? "text-emerald-700" : "text-danger") : "text-rose-600 underline decoration-rose-400 underline-offset-4"}>
                       {w.text}{scored.spaced && i < scored.words.length - 1 ? " " : ""}
                     </span>
                   )) : turn!.you}
                 </p>
-                {prefs.showTranslation && <p className={`mt-2 text-[11px] ${scored ? "text-black/55" : "text-white/70"}`}>{turn!.youTranslation}</p>}
+                {prefs.showTranslation && <p className={`mt-2 text-[11px] ${scored ? "text-black/55" : "text-muted"}`}>{turn!.youTranslation}</p>}
                 <ReplayButton onClick={() => play("you")} active={speaking === "you"} label="Hear how to say it" light={!!scored} />
               </section>
 
               {scored && (
-                <div className="mt-3 rounded-2xl bg-[#26262d] p-4 text-sm">
+                <div className="mt-3 rounded-2xl bg-surface-2 p-4 text-sm">
                   <div className="flex items-center gap-3"><Stars n={scored.score} size={18} /><span className="font-semibold">{scored.score}/5</span></div>
                   {scored.feedback && <p className="mt-2">{scored.feedback}</p>}
-                  {scored.tip && <p className="mt-1 text-white/70"><span className="font-semibold text-white/90">Tip:</span> {scored.tip}</p>}
-                  <p className="mt-2 text-xs text-white/50">We heard: “{scored.heard}”</p>
+                  {scored.tip && <p className="mt-1 text-muted"><span className="font-semibold text-ink">Tip:</span> {scored.tip}</p>}
+                  <p className="mt-2 text-xs text-muted">We heard: “{scored.heard}”</p>
                 </div>
               )}
               {result && (
                 <button onClick={() => advance(results)} disabled={busy}
-                  className="mt-3 w-full rounded-xl bg-indigo-700 py-3.5 text-sm font-semibold hover:bg-indigo-600 disabled:opacity-40">
+                  className="mt-3 w-full rounded-xl bg-brand-700 py-3.5 text-sm font-semibold hover:bg-brand-600 disabled:opacity-40">
                   {last ? "Finish" : "Continue"}
                 </button>
               )}
@@ -260,7 +261,7 @@ export default function DialoguePracticePage() {
                 <button onClick={skip} disabled={busy || !!result} aria-label="Skip this line" className={`${roundBtn} ${result ? "invisible" : ""}`}><CornerUpRight size={18} /></button>
                 <button onClick={onMic} disabled={mic === "evaluating" || !canListen}
                   aria-label={mic === "listening" ? "Stop recording" : scored ? "Try again" : "Start speaking"}
-                  className={`flex h-14 w-14 items-center justify-center rounded-full transition-colors disabled:opacity-40 ${mic === "listening" ? "animate-pulse bg-red-500" : "bg-indigo-700 hover:bg-indigo-600"}`}>
+                  className={`flex h-14 w-14 items-center justify-center rounded-full transition-colors disabled:opacity-40 ${mic === "listening" ? "animate-pulse bg-danger" : "bg-brand-700 hover:bg-brand-600"}`}>
                   {mic === "evaluating" ? <Loader2 className="animate-spin" size={22} /> : mic === "listening" ? <Square size={18} fill="white" /> : <Mic size={22} />}
                 </button>
                 <button onClick={() => setHistoryOpen(true)} aria-label="Show the conversation so far" className={roundBtn}><MessageSquareText size={18} /></button>
@@ -276,15 +277,15 @@ export default function DialoguePracticePage() {
           <ul className="mt-4 space-y-3">
             {session.turns.slice(0, idx + 1).flatMap((t, i) => [
               <li key={`p${i}`} className="mr-10 rounded-2xl rounded-tl-sm bg-white/5 px-4 py-3 text-sm">
-                <p className="text-[11px] font-semibold text-white/50">{session.partner.role}</p>
+                <p className="text-[11px] font-semibold text-muted">{session.partner.role}</p>
                 <p lang={lang}>{t.partner}</p>
-                {prefs.showTranslation && <p className="mt-1 text-xs text-white/60">{t.partnerTranslation}</p>}
+                {prefs.showTranslation && <p className="mt-1 text-xs text-muted">{t.partnerTranslation}</p>}
               </li>,
               ...(i < idx || result ? [
-                <li key={`y${i}`} className="ml-10 rounded-2xl rounded-tr-sm bg-indigo-700/60 px-4 py-3 text-sm">
-                  <p className="text-[11px] font-semibold text-white/60">You</p>
+                <li key={`y${i}`} className="ml-10 rounded-2xl rounded-tr-sm bg-brand-700/60 px-4 py-3 text-sm">
+                  <p className="text-[11px] font-semibold text-muted">You</p>
                   <p lang={lang}>{t.you}</p>
-                  {prefs.showTranslation && <p className="mt-1 text-xs text-white/70">{t.youTranslation}</p>}
+                  {prefs.showTranslation && <p className="mt-1 text-xs text-muted">{t.youTranslation}</p>}
                 </li>,
               ] : []),
             ])}
@@ -298,7 +299,7 @@ export default function DialoguePracticePage() {
 function ReplayButton({ onClick, active, label, light }: { onClick: () => void; active: boolean; label: string; light?: boolean }) {
   return (
     <button onClick={onClick} aria-label={label}
-      className={`mx-auto mt-3 flex h-7 w-7 items-center justify-center rounded-full transition-colors ${light ? "bg-black/10 text-black/70 hover:bg-black/20" : "bg-white/15 text-white/90 hover:bg-white/25"} ${active ? "animate-pulse" : ""}`}>
+      className={`mx-auto mt-3 flex h-7 w-7 items-center justify-center rounded-full transition-colors ${light ? "bg-black/10 text-black/70 hover:bg-black/20" : "bg-white/15 text-ink hover:bg-white/25"} ${active ? "animate-pulse" : ""}`}>
       <RotateCw size={13} />
     </button>
   );
@@ -311,14 +312,14 @@ function Summary({ session, results, saved, saveError, onAgain, onNew, onBack }:
   const done = results.filter((r): r is PronunciationResult => !!r && r !== "skipped");
   return (
     <div className="w-full">
-      <div className="rounded-2xl bg-[#26262d] p-6 text-center">
+      <div className="rounded-2xl bg-surface-2 p-6 text-center">
         {done.length === 0 ? (
           <>
             <h2 className="text-xl font-semibold">Nothing practised</h2>
-            <p className="mt-2 text-sm text-white/60">You skipped every line, so nothing was saved.</p>
+            <p className="mt-2 text-sm text-muted">You skipped every line, so nothing was saved.</p>
           </>
         ) : !saved && !saveError ? (
-          <p className="flex items-center justify-center gap-2 text-white/70"><Loader2 className="animate-spin" size={18} /> Saving your result…</p>
+          <p className="flex items-center justify-center gap-2 text-muted"><Loader2 className="animate-spin" size={18} /> Saving your result…</p>
         ) : (
           <>
             {saved && (
@@ -328,7 +329,7 @@ function Summary({ session, results, saved, saveError, onAgain, onNew, onBack }:
                   <Stars n={Math.round(saved.average)} size={26} />
                   <span className="text-lg font-semibold">{saved.average.toFixed(1)}/5</span>
                 </div>
-                {!saved.passed && <p className="mt-2 text-sm text-white/60">You need an average of {PASS_SCORE}.0 to complete this dialogue.</p>}
+                {!saved.passed && <p className="mt-2 text-sm text-muted">You need an average of {PASS_SCORE}.0 to complete this dialogue.</p>}
               </>
             )}
             <ErrorText text={saveError} />
@@ -340,9 +341,9 @@ function Summary({ session, results, saved, saveError, onAgain, onNew, onBack }:
         {session.turns.map((t, i) => {
           const r = results[i];
           return (
-            <li key={i} className="flex items-center justify-between gap-4 rounded-xl bg-[#26262d] px-4 py-3 text-sm">
+            <li key={i} className="flex items-center justify-between gap-4 rounded-xl bg-surface-2 px-4 py-3 text-sm">
               <span>{t.you}</span>
-              {r && r !== "skipped" ? <Stars n={r.score} size={14} /> : <span className="shrink-0 text-xs text-white/40">Skipped</span>}
+              {r && r !== "skipped" ? <Stars n={r.score} size={14} /> : <span className="shrink-0 text-xs text-subtle">Skipped</span>}
             </li>
           );
         })}
@@ -350,9 +351,9 @@ function Summary({ session, results, saved, saveError, onAgain, onNew, onBack }:
 
       <div className="mt-6 flex gap-3">
         <button onClick={onAgain} className="flex-1 rounded-xl bg-white/10 py-3 text-sm font-semibold hover:bg-white/20">Practise again</button>
-        <button onClick={onBack} className="flex-1 rounded-xl bg-indigo-700 py-3 text-sm font-semibold hover:bg-indigo-600">Back to dialogues</button>
+        <button onClick={onBack} className="flex-1 rounded-xl bg-brand-700 py-3 text-sm font-semibold hover:bg-brand-600">Back to dialogues</button>
       </div>
-      <button onClick={onNew} className="mt-3 w-full text-center text-sm font-semibold text-white/70 hover:text-white">New dialogue</button>
+      <button onClick={onNew} className="mt-3 w-full text-center text-sm font-semibold text-muted hover:text-ink">New dialogue</button>
     </div>
   );
 }

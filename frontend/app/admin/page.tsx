@@ -22,16 +22,16 @@ export default function AdminPage() {
 
   if (state === "yes") return <AdminPanel />;
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-[#0D0E17] px-6 text-center text-white/70">
+    <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-canvas px-6 text-center text-muted">
       {state === "loading" ? <Loader2 className="animate-spin" /> : (
         <>
-          <ShieldAlert size={28} className="text-violet-300" />
+          <ShieldAlert size={28} className="text-brand-300" />
           <p className="max-w-sm text-sm">
             {state === "no" && "This account is not an admin."}
             {state === "unconfigured" && <>No admin is set up yet. Add your account email to <code className="rounded bg-white/10 px-1">ADMIN_EMAILS</code> in the backend <code className="rounded bg-white/10 px-1">.env</code> and restart the API.</>}
             {state === "error" && msg}
           </p>
-          <Link href="/dashboard" className="text-sm text-violet-300 hover:underline">Back to the app</Link>
+          <Link href="/dashboard" className="text-sm text-brand-300 hover:underline">Back to the app</Link>
         </>
       )}
     </div>

@@ -1,4 +1,5 @@
 "use client";
+import { IconTile } from "@/components/ui/Glyph";
 import Link from "next/link";
 import { Check, ChevronRight } from "lucide-react";
 import { SentenceShell } from "@/components/sentence/SentenceShell";
@@ -12,42 +13,42 @@ export default function SentenceUnitsPage() {
 
   return (
     <SentenceShell title="Sentence Mode" backHref="/dashboard">
-      <p className="mt-3 text-[13px] text-white/80">
+      <p className="mt-3 text-[13px] text-ink/90">
         The Sentence Mode is a unique way to learn everyday phrases. This interactive mode creates an engaging
         learning environment, helping you improve your pronunciation skills.
       </p>
-      <hr className="mt-4 border-white/10" />
+      <hr className="mt-4 border-line/10" />
 
       <div className="mt-5 flex items-center gap-2" aria-label={`Course progress ${percent}%`}>
         <span className="z-[1] rounded-full bg-white px-3 py-1.5 text-xs font-bold text-black">{percent}%</span>
-        <div className="-ml-4 h-1 flex-1 overflow-hidden rounded-full bg-indigo-300/60">
-          <div className="h-full rounded-full bg-indigo-600 transition-all" style={{ width: `${percent}%` }} />
+        <div className="-ml-4 h-1 flex-1 overflow-hidden rounded-full bg-brand-300/60">
+          <div className="h-full rounded-full bg-brand-600 transition-all" style={{ width: `${percent}%` }} />
         </div>
       </div>
 
       <ErrorText text={unitsError} />
       {unitsError && <button onClick={reloadUnits} className="mt-3 rounded-full bg-white/10 px-4 py-2 text-sm">Try again</button>}
-      {!units && !unitsError && <p className="mt-8 text-white/60">Loading units…</p>}
+      {!units && !unitsError && <p className="mt-8 text-muted">Loading units…</p>}
 
       {units?.units.map((u) => (
         <section key={u.number} className="mt-8">
-          <p className="text-xs font-semibold text-indigo-300">Unit {u.number}</p>
+          <p className="text-xs font-semibold text-brand-300">Unit {u.number}</p>
           <h2 className="mt-1 text-base font-semibold">{u.title}</h2>
           <ul className="mt-3 flex flex-col gap-2">
             {u.skills.map((k) => (
               <li key={k.id}>
                 <Link
                   href={`/sentence/${k.id}`}
-                  className="flex items-center gap-4 rounded-xl border border-white/5 bg-[#1f1f27] px-4 py-3 transition-colors hover:border-white/20"
+                  className="flex items-center gap-4 rounded-xl border border-line/5 bg-surface px-4 py-3 transition-colors hover:border-line/20"
                 >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-800 text-xl">{k.emoji}</span>
+                  <IconTile seed={k.id} title={`${k.title} ${k.description ?? ""}`} mode="sentence" size={40} />
                   <span className="flex-1 text-[13px] font-semibold">{k.title}</span>
                   {k.passed ? (
-                    <span className="flex items-center gap-1 text-xs font-semibold text-emerald-300">
+                    <span className="flex items-center gap-1 text-xs font-semibold text-success">
                       <Check size={14} /> {k.bestScore.toFixed(1)}/5
                     </span>
                   ) : (
-                    <ChevronRight size={16} className="text-white/40" />
+                    <ChevronRight size={16} className="text-subtle" />
                   )}
                 </Link>
               </li>

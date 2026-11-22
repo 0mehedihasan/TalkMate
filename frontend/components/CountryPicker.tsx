@@ -129,32 +129,32 @@ export function CountryPicker({ value, onChange, variant, ariaLabel, placeholder
 
   const trigger = dial
     ? `flex items-center ${compact ? "gap-1.5 pl-3 pr-2" : "gap-2 pl-3.5 pr-2.5"} rounded-l-2xl text-sm outline-none hover:bg-white/5 focus-visible:bg-white/10`
-    : `flex w-full items-center gap-3 rounded-2xl border bg-white/5 ${compact ? "py-2.5" : "py-3.5"} pl-3.5 pr-3 text-left text-sm outline-none transition-colors ${open ? "border-violet-400 ring-2 ring-violet-500/30" : invalid ? "border-red-400/60" : "border-white/15 hover:border-white/30"} focus-visible:border-violet-400 focus-visible:ring-2 focus-visible:ring-violet-500/30`;
+    : `flex w-full items-center gap-3 rounded-2xl border bg-white/5 ${compact ? "py-2.5" : "py-3.5"} pl-3.5 pr-3 text-left text-sm outline-none transition-colors ${open ? "border-brand-400 ring-2 ring-brand-500/30" : invalid ? "border-danger/60" : "border-line/15 hover:border-line/30"} focus-visible:border-brand-400 focus-visible:ring-2 focus-visible:ring-brand-500/30`;
 
   return (
     <div ref={root} className={`relative ${className}`}>
       <button ref={btn} type="button" aria-haspopup="listbox" aria-expanded={open} aria-controls={`${id}-list`} aria-label={`${ariaLabel}${current ? `: ${current.name}${dial ? ` +${current.dial}` : ""}` : ""}`}
         onClick={() => (open ? close() : openList())} className={trigger}>
         <span className="grid w-5 shrink-0 place-items-center">
-          {current ? <Flag code={current.code} className="text-[15px]" /> : <Globe size={dial ? 18 : 20} className="text-white/50" />}
+          {current ? <Flag code={current.code} className="text-[15px]" /> : <Globe size={dial ? 18 : 20} className="text-muted" />}
         </span>
         {dial ? (
-          <span className={`tabular-nums ${current ? "text-white" : "text-white/50"}`}>{current ? `+${current.dial}` : "Code"}</span>
+          <span className={`tabular-nums ${current ? "text-ink" : "text-muted"}`}>{current ? `+${current.dial}` : "Code"}</span>
         ) : (
-          <span className={`min-w-0 flex-1 truncate ${current ? "text-white" : "text-white/45"}`}>{current ? current.name : placeholder}</span>
+          <span className={`min-w-0 flex-1 truncate ${current ? "text-ink" : "text-subtle"}`}>{current ? current.name : placeholder}</span>
         )}
-        <ChevronDown size={16} aria-hidden="true" className={`shrink-0 text-white/50 transition-transform duration-150 ${open ? "rotate-180 text-violet-300" : ""}`} />
+        <ChevronDown size={16} aria-hidden="true" className={`shrink-0 text-muted transition-transform duration-150 ${open ? "rotate-180 text-brand-300" : ""}`} />
       </button>
 
       {open && pos && (
         <div style={{ position: "fixed", left: pos.left, width: pos.width, top: pos.top, bottom: pos.bottom, maxHeight: pos.maxHeight }}
-          className="z-[70] flex flex-col overflow-hidden rounded-2xl border border-white/15 bg-[#1d1640] shadow-2xl shadow-black/60">
-          <div className="relative border-b border-white/10 p-2">
-            <Search size={16} aria-hidden="true" className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-white/40" />
+          className="z-[70] flex flex-col overflow-hidden rounded-2xl border border-line/15 bg-brand-900 shadow-2xl shadow-black/60">
+          <div className="relative border-b border-line/10 p-2">
+            <Search size={16} aria-hidden="true" className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-subtle" />
             <input ref={search} value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={onKeyDown} placeholder={dial ? "Search country or code" : "Search country"}
               role="combobox" aria-expanded="true" aria-controls={`${id}-list`} aria-activedescendant={results[active] ? `${id}-${results[active].code}` : undefined}
               aria-label={dial ? "Search country or code" : "Search country"} autoComplete="off" autoCorrect="off" spellCheck={false}
-              className="w-full rounded-xl bg-white/5 py-2 pl-9 pr-3 text-sm text-white outline-none placeholder:text-white/40 focus:ring-2 focus:ring-violet-500/40" />
+              className="w-full rounded-xl bg-white/5 py-2 pl-9 pr-3 text-sm text-ink outline-none placeholder:text-subtle focus:ring-2 focus:ring-brand-500/40" />
           </div>
           <ul ref={list} id={`${id}-list`} role="listbox" aria-label={ariaLabel} onScroll={onListScroll} className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-1">
             {results.slice(0, shown).map((c, i) => {
@@ -162,15 +162,15 @@ export function CountryPicker({ value, onChange, variant, ariaLabel, placeholder
               return (
                 <li key={c.code} id={`${id}-${c.code}`} role="option" aria-selected={picked} data-i={i}
                   onMouseEnter={() => setActive(i)} onMouseDown={(e) => e.preventDefault()} onClick={() => choose(i)}
-                  className={`flex cursor-pointer items-center gap-3 rounded-xl px-2.5 py-2 text-sm ${i === active ? "bg-white/10" : ""} ${picked ? "font-medium text-violet-200" : "text-white/85"}`}>
+                  className={`flex cursor-pointer items-center gap-3 rounded-xl px-2.5 py-2 text-sm ${i === active ? "bg-white/10" : ""} ${picked ? "font-medium text-brand-200" : "text-ink/90"}`}>
                   <Flag code={c.code} className="text-lg" />
                   <span className="min-w-0 flex-1 truncate">{c.name}</span>
-                  {dial && <span className="shrink-0 tabular-nums text-white/50">+{c.dial}</span>}
-                  {picked && <Check size={15} aria-hidden="true" className="shrink-0 text-violet-300" />}
+                  {dial && <span className="shrink-0 tabular-nums text-muted">+{c.dial}</span>}
+                  {picked && <Check size={15} aria-hidden="true" className="shrink-0 text-brand-300" />}
                 </li>
               );
             })}
-            {results.length === 0 && <li className="px-3 py-6 text-center text-sm text-white/50">No country found</li>}
+            {results.length === 0 && <li className="px-3 py-6 text-center text-sm text-muted">No country found</li>}
           </ul>
         </div>
       )}

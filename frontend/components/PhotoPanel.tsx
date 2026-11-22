@@ -54,18 +54,18 @@ export function PhotoPanel({ learner, onPractice, onClose }: {
   return (
     <Modal onClose={onClose} label="Photo Mode" wide>
       <h2 className="text-xl font-semibold">Photo Mode</h2>
-      <p className="mt-1 text-sm text-white/60">Upload a photo, describe it in {learner.targetLanguage}, get feedback.</p>
+      <p className="mt-1 text-sm text-muted">Upload a photo, describe it in {learner.targetLanguage}, get feedback.</p>
       <input type="file" accept="image/png,image/jpeg,image/webp" onChange={(e) => pick(e.target.files?.[0])}
-        className="mt-4 block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-white/10 file:px-4 file:py-2 file:text-white" />
+        className="mt-4 block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-white/10 file:px-4 file:py-2 file:text-ink" />
       {/* eslint-disable-next-line @next/next/no-img-element */}
       {image && <img src={image} alt="Your upload" className="mt-4 max-h-56 rounded-xl" />}
       <textarea
         value={description} onChange={(e) => setDescription(e.target.value)} rows={3} maxLength={1500}
         placeholder={`Describe the photo in ${learner.targetLanguage} (leave empty for a sample description)`}
-        className="mt-4 w-full rounded-xl bg-white/10 px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-indigo-500"
+        className="mt-4 w-full rounded-xl bg-white/10 px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-brand-500"
       />
       <button onClick={submit} disabled={!image || busy}
-        className="mt-3 rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold hover:bg-indigo-500 disabled:opacity-50">
+        className="mt-3 rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold hover:bg-brand-500 disabled:opacity-50">
         {busy ? "Checking…" : "Get feedback"}
       </button>
       <ErrorText text={error} />

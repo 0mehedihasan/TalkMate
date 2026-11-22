@@ -108,17 +108,17 @@ export function AdminSelect({ value, onChange, options, ariaLabel, placeholder =
     else if (e.key === "Tab") close();
   }
 
-  const surface = variant === "compact" ? "bg-[#171827]" : "bg-[#16161c]";
+  const surface = variant === "compact" ? "bg-surface" : "bg-canvas";
 
   return (
     <div ref={root} className={`relative ${className}`}>
       <button
         ref={btn} type="button" role="combobox" aria-haspopup="listbox" aria-expanded={open} aria-controls={`${id}-list`} aria-label={ariaLabel}
         onClick={() => (open ? close() : openList())} onKeyDown={onKeyDown}
-        className={`flex w-full items-center justify-between gap-2 rounded-lg border px-3 py-2 text-left text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-violet-500 ${surface} ${open ? "border-violet-400/50 ring-2 ring-violet-500/30" : "border-white/10 hover:border-white/25"}`}
+        className={`flex w-full items-center justify-between gap-2 rounded-lg border px-3 py-2 text-left text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-brand-500 ${surface} ${open ? "border-brand-400/50 ring-2 ring-brand-500/30" : "border-line/10 hover:border-line/25"}`}
       >
-        <span className={`min-w-0 flex-1 truncate ${selected ? "text-white" : "text-white/40"}`}>{selected ? selected.label : placeholder}</span>
-        <ChevronDown size={16} aria-hidden className={`shrink-0 text-white/50 transition-transform duration-150 ${open ? "rotate-180 text-violet-300" : ""}`} />
+        <span className={`min-w-0 flex-1 truncate ${selected ? "text-ink" : "text-subtle"}`}>{selected ? selected.label : placeholder}</span>
+        <ChevronDown size={16} aria-hidden className={`shrink-0 text-muted transition-transform duration-150 ${open ? "rotate-180 text-brand-300" : ""}`} />
       </button>
 
       {open && pos && (
@@ -126,7 +126,7 @@ export function AdminSelect({ value, onChange, options, ariaLabel, placeholder =
           ref={list} id={`${id}-list`} role="listbox" aria-label={ariaLabel}
           onClick={(e) => e.preventDefault()} // a click inside the list must not reach a surrounding <label> and re-open it
           style={{ position: "fixed", left: pos.left, width: pos.width, top: pos.top, bottom: pos.bottom, maxHeight: pos.maxHeight }}
-          className="z-[60] overflow-y-auto rounded-xl border border-white/10 bg-[#1d1e2e] p-1 shadow-2xl shadow-black/60 ring-1 ring-black/30"
+          className="z-[60] overflow-y-auto rounded-xl border border-line/10 bg-surface p-1 shadow-2xl shadow-black/60 ring-1 ring-black/30"
         >
           {options.map((o, i) => {
             const isSel = i === selectedIdx;
@@ -135,10 +135,10 @@ export function AdminSelect({ value, onChange, options, ariaLabel, placeholder =
                 key={`${o.value}-${i}`} role="option" aria-selected={isSel} aria-disabled={o.disabled} data-i={i}
                 onMouseEnter={() => !o.disabled && setActive(i)}
                 onClick={(e) => { e.preventDefault(); choose(i); }}
-                className={`flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm transition-colors ${o.disabled ? "cursor-not-allowed text-white/25" : "cursor-pointer"} ${!o.disabled && i === active ? "bg-white/[0.08]" : ""} ${isSel ? "font-medium text-violet-200" : o.disabled ? "" : "text-white/80"}`}
+                className={`flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm transition-colors ${o.disabled ? "cursor-not-allowed text-subtle" : "cursor-pointer"} ${!o.disabled && i === active ? "bg-white/[0.08]" : ""} ${isSel ? "font-medium text-brand-200" : o.disabled ? "" : "text-ink/90"}`}
               >
                 <span className="min-w-0 flex-1 truncate" title={o.label}>{o.label}</span>
-                {isSel && <Check size={15} aria-hidden className="shrink-0 text-violet-300" />}
+                {isSel && <Check size={15} aria-hidden className="shrink-0 text-brand-300" />}
               </li>
             );
           })}

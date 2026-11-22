@@ -28,7 +28,7 @@ export default function ForgotPasswordPage() {
   return (
     <AuthShell title="Forgot your password?" subtitle="Enter your email and we'll send you a link to choose a new one.">
       {sent ? (
-        <p className="rounded-lg bg-violet-500/15 px-3 py-3 text-sm text-violet-200">
+        <p className="rounded-lg bg-brand-500/15 px-3 py-3 text-sm text-brand-200">
           If an account exists for <b>{email}</b>, a reset link is on its way. It works for 1 hour.
         </p>
       ) : (

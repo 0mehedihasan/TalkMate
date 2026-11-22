@@ -23,12 +23,12 @@ export default function LearnIndex() {
     ],
   };
   return (
-    <div className="min-h-screen bg-[#0D0E17] text-white">
+    <div className="min-h-screen bg-canvas text-ink">
       <JsonLd data={breadcrumb} />
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-5 py-12">
         <h1 className="text-3xl font-bold sm:text-4xl">Learn languages online with an AI tutor</h1>
-        <p className="mt-3 max-w-2xl text-white/70">{DESCRIPTION}</p>
+        <p className="mt-3 max-w-2xl text-muted">{DESCRIPTION}</p>
         <LanguageLinks />
       </main>
       <SiteFooter />

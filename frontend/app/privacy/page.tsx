@@ -61,15 +61,15 @@ const sections: { id: string; title: string; body: React.ReactNode }[] = [
           In the EEA, the UK and Switzerland, Google asks for your consent before using cookies for personalised ads;
           you can change that choice from the privacy link Google shows on the page. Anywhere, you can turn off
           personalised ads in{" "}
-          <a className="text-violet-400 hover:text-violet-300" href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">
+          <a className="text-brand-400 hover:text-brand-300" href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">
             Google&apos;s Ad Settings
           </a>{" "}
           or at{" "}
-          <a className="text-violet-400 hover:text-violet-300" href="https://www.aboutads.info/choices" target="_blank" rel="noopener noreferrer">
+          <a className="text-brand-400 hover:text-brand-300" href="https://www.aboutads.info/choices" target="_blank" rel="noopener noreferrer">
             aboutads.info
           </a>
           . Read{" "}
-          <a className="text-violet-400 hover:text-violet-300" href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">
+          <a className="text-brand-400 hover:text-brand-300" href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">
             how Google uses information from sites that use its services
           </a>
           .
@@ -99,7 +99,7 @@ const sections: { id: string; title: string; body: React.ReactNode }[] = [
         You can change privacy preferences in Account &gt; Profile &gt; Privacy preferences, delete your account from
         Account, and ask anything through Account &gt; Support. Clearing this site&apos;s data in your browser signs you
         out. TalkMate is part of{" "}
-        <a className="text-violet-400 hover:text-violet-300" href="https://edsol.academy">EdSol Academy</a>, which itself
+        <a className="text-brand-400 hover:text-brand-300" href="https://edsol.academy">EdSol Academy</a>, which itself
         shows no ads and has its own privacy policy.
       </p>
     ),
@@ -108,20 +108,20 @@ const sections: { id: string; title: string; body: React.ReactNode }[] = [
 
 export default function PrivacyPage() {
   return (
-    <main className="min-h-screen bg-[#0e0e12] px-4 py-10 text-white">
+    <main className="min-h-screen bg-canvas px-4 py-10 text-ink">
       <div className="mx-auto max-w-2xl">
-        <Link href="/login" className="text-sm text-violet-400 hover:text-violet-300">
+        <Link href="/login" className="text-sm text-brand-400 hover:text-brand-300">
           TalkMate home
         </Link>
         <h1 className="mt-6 text-3xl font-semibold">Privacy and cookies</h1>
-        <p className="mt-2 text-sm text-white/50">Last updated: {UPDATED}</p>
+        <p className="mt-2 text-sm text-muted">Last updated: {UPDATED}</p>
         <div className="mt-8 space-y-8">
           {sections.map((section) => (
             <section key={section.id} id={section.id} aria-labelledby={`${section.id}-title`}>
               <h2 id={`${section.id}-title`} className="text-lg font-semibold">
                 {section.title}
               </h2>
-              <div className="mt-2 space-y-3 text-sm leading-relaxed text-white/75">{section.body}</div>
+              <div className="mt-2 space-y-3 text-sm leading-relaxed text-ink/90">{section.body}</div>
             </section>
           ))}
         </div>

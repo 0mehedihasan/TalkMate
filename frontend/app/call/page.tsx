@@ -25,7 +25,7 @@ const fmt = (s: number) => {
   return h > 0 ? `${h}:${mm}:${ss}` : `${mm}:${ss}`;
 };
 
-const ctrl = "flex h-11 w-11 items-center justify-center rounded-full text-white/80 transition-colors hover:bg-white/10 disabled:opacity-40";
+const ctrl = "flex h-11 w-11 items-center justify-center rounded-full text-ink/90 transition-colors hover:bg-white/10 disabled:opacity-40";
 const hasUser = (m: Msg[]) => m.some((x) => x.role === "user");
 
 // Call Mode: an audio-only phone call with an AI tutor. The right panel reviews what the learner said.
@@ -330,14 +330,14 @@ export default function CallPage() {
       onRetry={(i) => review(i, msgs[i].content)} />
   );
   const live = listening && (
-    <div className="mx-4 mb-4 rounded-xl border border-dashed border-white/15 bg-black/40 px-4 py-4 text-sm font-semibold text-white/70" lang={lang}>
+    <div className="mx-4 mb-4 rounded-xl border border-dashed border-line/15 bg-black/40 px-4 py-4 text-sm font-semibold text-muted" lang={lang}>
       {heard || "Listening…"}
     </div>
   );
   const advancedButton = (
     <div className="shrink-0 p-4 pt-2">
       <button onClick={() => { advanced(); }} disabled={userCount === 0 || adv?.state === "loading"}
-        className="flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-white/15 text-sm font-semibold text-indigo-200 transition-colors hover:bg-white/5 disabled:opacity-40">
+        className="flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-line/15 text-sm font-semibold text-brand-200 transition-colors hover:bg-white/5 disabled:opacity-40">
         <Sparkles size={16} /> Advanced feedback
       </button>
     </div>
@@ -354,40 +354,40 @@ export default function CallPage() {
   ];
 
   return (
-    <div className="flex h-screen flex-col bg-[#222228]">
-      <header className="relative flex shrink-0 items-center justify-between border-b border-white/5 bg-[#1c1c22] px-5 py-4">
+    <div className="flex h-dvh flex-col bg-canvas">
+      <header className="relative flex shrink-0 items-center justify-between border-b border-line/5 bg-surface px-5 py-4">
         <Logo />
         <h1 className="absolute left-1/2 -translate-x-1/2 text-base font-semibold">Call Mode</h1>
-        <button onClick={close} aria-label="Close" className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 hover:bg-white/5"><X size={16} /></button>
+        <button onClick={close} aria-label="Close" className="flex h-10 w-10 items-center justify-center rounded-xl border border-line/10 hover:bg-white/5"><X size={16} /></button>
       </header>
 
       <main className="mx-auto flex min-h-0 w-full max-w-[1180px] flex-1 gap-6 px-4 py-6 sm:px-6">
         {/* the call */}
-        <section className="relative flex min-h-0 min-w-0 flex-1 flex-col rounded-2xl border border-white/10 bg-[#1f1f27]">
-          <div className="relative mx-5 flex shrink-0 items-center justify-between border-b border-white/5 py-4">
+        <section className="relative flex min-h-0 min-w-0 flex-1 flex-col rounded-2xl border border-line/10 bg-surface">
+          <div className="relative mx-5 flex shrink-0 items-center justify-between border-b border-line/5 py-4">
             <div className="flex items-center gap-3">
               <div className="relative">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={tutorImg(tutor)} alt="" className="h-10 w-10 rounded-full bg-[#f7f7fc] object-cover" />
-                <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#1f1f27] bg-green-500" />
+                <img src={tutorImg(tutor)} alt="" className="h-10 w-10 rounded-full bg-ink object-cover" />
+                <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-surface bg-success" />
               </div>
               <span className="text-sm font-semibold">{tutor}</span>
             </div>
-            <button onClick={() => setMenuOpen((o) => !o)} aria-label={menuOpen ? "Close menu" : "More options"} aria-expanded={menuOpen} className="relative z-30 text-white/90 hover:text-white">
+            <button onClick={() => setMenuOpen((o) => !o)} aria-label={menuOpen ? "Close menu" : "More options"} aria-expanded={menuOpen} className="relative z-30 text-ink hover:text-ink">
               {menuOpen ? <X size={22} /> : <MoreVertical size={22} />}
             </button>
             {menuOpen && (
               <>
                 <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
-                <div className="absolute -right-2 top-0 z-20 w-[min(430px,calc(100vw-48px))] overflow-hidden rounded-3xl border border-white/10 bg-[#25252d] pt-12 shadow-2xl">
+                <div className="absolute -right-2 top-0 z-20 w-[min(430px,calc(100vw-48px))] overflow-hidden rounded-2xl border border-line/10 bg-surface-2 pt-12 shadow-2xl">
                   <ul className="divide-y divide-white/10">
                     {items.map(({ icon: Icon, title, sub, act, accent, small }) => (
                       <li key={title} className={small ? "lg:hidden" : ""}>
-                        <button onClick={act} className={`${menuItem} group hover:text-indigo-300`}>
+                        <button onClick={act} className={`${menuItem} group hover:text-brand-300`}>
                           <Icon size={24} className="mt-1 shrink-0" />
                           <span>
                             <span className="block text-lg font-semibold">{title}</span>
-                            <span className="mt-1 block text-sm text-white/60 group-hover:text-indigo-300">{sub}</span>
+                            <span className="mt-1 block text-sm text-muted group-hover:text-brand-300">{sub}</span>
                           </span>
                         </button>
                       </li>
@@ -399,7 +399,7 @@ export default function CallPage() {
           </div>
 
           <button onClick={() => setInfoOpen(true)} aria-label="About Call Mode"
-            className="absolute right-5 top-[76px] flex h-6 w-6 items-center justify-center rounded-full bg-amber-500 text-white hover:bg-amber-400">
+            className="absolute right-5 top-[76px] flex h-6 w-6 items-center justify-center rounded-full bg-amber-500 text-ink hover:bg-amber-400">
             <Info size={14} />
           </button>
 
@@ -408,24 +408,24 @@ export default function CallPage() {
               <div className="py-10">
                 <ErrorText text={loadError} />
                 <div className="mt-4 flex justify-center gap-3">
-                  <button onClick={connect} className="rounded-full bg-indigo-600 px-5 py-2 text-sm font-semibold hover:bg-indigo-500">Try again</button>
+                  <button onClick={connect} className="rounded-full bg-brand-600 px-5 py-2 text-sm font-semibold hover:bg-brand-500">Try again</button>
                   <button onClick={close} className="rounded-full bg-white/10 px-5 py-2 text-sm font-semibold">Back</button>
                 </div>
               </div>
             ) : (
               <>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={tutorImg(tutor)} alt={tutor} className={`h-32 w-32 rounded-full bg-[#f7f7fc] object-cover ${speaking ? "ring-4 ring-indigo-500/60 ring-offset-4 ring-offset-[#1f1f27]" : ""}`} />
+                <img src={tutorImg(tutor)} alt={tutor} className={`h-32 w-32 rounded-full bg-ink object-cover ${speaking ? "ring-4 ring-brand-500/60 ring-offset-4 ring-offset-surface" : ""}`} />
                 <p className="mt-5 text-xl font-semibold">{tutor}</p>
                 <p className="mt-1 text-sm font-semibold tabular-nums">{fmt(seconds)}</p>
-                <p className="mt-2 h-5 text-xs text-white/60" aria-live="polite">
+                <p className="mt-2 h-5 text-xs text-muted" aria-live="polite">
                   {status && <span className="inline-flex items-center gap-1.5">{!listening && <Loader2 size={12} className="animate-spin" />}{status}</span>}
                 </p>
                 {captionVisible && (
                   <div className="mt-4 max-w-md rounded-xl bg-white/5 px-4 py-3 text-left text-sm leading-relaxed">
                     <p className="whitespace-pre-wrap font-medium" lang={lang}>{msgs[lastTutor].content}</p>
                     {captionOn && (
-                      <p className="mt-2 border-t border-white/10 pt-2 text-xs text-white/70">
+                      <p className="mt-2 border-t border-line/10 pt-2 text-xs text-muted">
                         {tr[lastTutor]?.text ?? <span className="inline-flex items-center gap-2"><Loader2 size={12} className="animate-spin" /> Translating…</span>}
                       </p>
                     )}
@@ -439,7 +439,7 @@ export default function CallPage() {
             {noVoice && <p className="mx-auto mb-3 max-w-md rounded-lg bg-amber-500/15 px-3 py-2 text-center text-sm text-amber-200">Your browser has no {progress.language} voice installed, so {tutor} may not be heard.</p>}
             {error && <div className="mx-auto max-w-md"><ErrorText text={error} /></div>}
             <div className="mt-4 flex justify-center">
-              <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-[#15151b] p-2">
+              <div className="flex items-center gap-2 rounded-2xl border border-line/10 bg-canvas p-2">
                 <button onClick={toggleVoice} aria-pressed={voiceOn} aria-label={voiceOn ? `Turn off ${tutor}'s voice` : `Turn on ${tutor}'s voice`}
                   className={`${ctrl} ${voiceOn ? "bg-white/15" : ""}`}><Speech size={18} /></button>
                 <button onClick={() => setCaptionOn((v) => !v)} aria-pressed={captionOn} disabled={!connected} aria-label={`Show ${tutor}'s words with a translation`}
@@ -447,7 +447,7 @@ export default function CallPage() {
                 <button onClick={replay} disabled={lastTutor < 0} aria-label={`Hear ${tutor}'s last line again`}
                   className={`${ctrl} ${speaking ? "animate-pulse" : ""}`}><RotateCw size={18} /></button>
                 <button onClick={listen} disabled={busy || !connected} aria-label={listening ? "Stop recording" : "Speak"}
-                  className={`flex h-12 w-12 items-center justify-center rounded-full text-white transition-colors disabled:opacity-50 ${listening ? "animate-pulse bg-red-500" : "bg-indigo-600 hover:bg-indigo-500"}`}>
+                  className={`flex h-12 w-12 items-center justify-center rounded-full text-ink transition-colors disabled:opacity-50 ${listening ? "animate-pulse bg-danger" : "bg-brand-600 hover:bg-brand-500"}`}>
                   {listening ? <Square size={16} fill="white" /> : <Mic size={20} />}
                 </button>
               </div>
@@ -456,7 +456,7 @@ export default function CallPage() {
         </section>
 
         {/* what the learner said, with corrections (a modal below lg) */}
-        <aside className="hidden min-h-0 w-[330px] shrink-0 flex-col rounded-2xl border border-white/10 bg-[#1f1f27] lg:flex">
+        <aside className="hidden min-h-0 w-[330px] shrink-0 flex-col rounded-2xl border border-line/10 bg-surface lg:flex">
           {userCount === 0 && !listening ? <FeedbackEmpty /> : <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">{panel}{live}<div ref={panelEnd} /></div>}
           {advancedButton}
         </aside>
@@ -469,15 +469,15 @@ export default function CallPage() {
       {infoOpen && (
         <Modal label="About Call Mode" onClose={() => setInfoOpen(false)}>
           <h2 className="text-lg font-semibold">Call Mode</h2>
-          <p className="mt-2 text-sm text-white/80">An audio-only phone call with {tutor}, your {progress.language} teacher. Tap the mic, say something, tap it again (or just pause) and {tutor} answers out loud.</p>
-          <ul className="mt-3 space-y-1.5 text-sm text-white/70">
+          <p className="mt-2 text-sm text-ink/90">An audio-only phone call with {tutor}, your {progress.language} teacher. Tap the mic, say something, tap it again (or just pause) and {tutor} answers out loud.</p>
+          <ul className="mt-3 space-y-1.5 text-sm text-muted">
             <li>• The panel on the right shows what you said, with a correction when it can be better.</li>
             <li>• Use the translate button to see {tutor}&apos;s words and their {progress.nativeLanguage} translation.</li>
             <li>• The loop button plays {tutor}&apos;s last line again. Voice speed is in Settings (⋮ menu).</li>
             <li>• The ⋮ menu also starts a new call, shows your call history and changes your AI tutor.</li>
             <li>• Speech recognition works in Chrome and Edge.</li>
           </ul>
-          <p className="mt-3 text-xs text-white/50">{progress.language} · {progress.level} · Feedback in {progress.nativeLanguage}</p>
+          <p className="mt-3 text-xs text-muted">{progress.language} · {progress.level} · Feedback in {progress.nativeLanguage}</p>
         </Modal>
       )}
       {feedbackOpen && (
@@ -485,7 +485,7 @@ export default function CallPage() {
           <h2 className="text-lg font-semibold">Message feedback</h2>
           <div className="mt-3 flex max-h-[65vh] min-h-[200px] flex-col overflow-y-auto">{userCount === 0 ? <FeedbackEmpty /> : panel}</div>
           <button onClick={() => { setFeedbackOpen(false); advanced(); }} disabled={userCount === 0}
-            className="mt-3 flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-white/15 text-sm font-semibold text-indigo-200 hover:bg-white/5 disabled:opacity-40">
+            className="mt-3 flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-line/15 text-sm font-semibold text-brand-200 hover:bg-white/5 disabled:opacity-40">
             <Sparkles size={16} /> Advanced feedback
           </button>
         </Modal>
@@ -504,12 +504,12 @@ export default function CallPage() {
 function FeedbackEmpty() {
   return (
     <div className="m-auto flex flex-col items-center px-6 text-center">
-      <div className="flex items-center gap-3 rounded-xl border border-dashed border-white/15 px-5 py-3">
-        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-green-600 text-white"><Check size={14} strokeWidth={3} /></span>
-        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/15 text-white"><X size={13} /></span>
+      <div className="flex items-center gap-3 rounded-xl border border-dashed border-line/15 px-5 py-3">
+        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-green-600 text-ink"><Check size={14} strokeWidth={3} /></span>
+        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/15 text-ink"><X size={13} /></span>
       </div>
       <p className="mt-6 text-sm font-semibold">Get feedback on what you say</p>
-      <p className="mt-2 text-xs text-white/70">Tap the mic and speak. AI will check each thing you say and show you how to say it better.</p>
+      <p className="mt-2 text-xs text-muted">Tap the mic and speak. AI will check each thing you say and show you how to say it better.</p>
     </div>
   );
 }
@@ -528,18 +528,18 @@ function ReviewList({ msgs, reviews, hearing, lang, onSpeak, onRetry }: {
         const fixed = d && !d.correct && d.corrected ? d.corrected : null;
         return (
           <article key={i}>
-            <div className="rounded-xl border border-dashed border-white/15 bg-black/40 px-4 py-4 text-sm font-semibold" lang={lang}>{m.content}</div>
-            {r.state === "loading" && <p className="mt-4 flex items-center gap-2 text-xs text-white/60"><Loader2 size={14} className="animate-spin" /> Checking…</p>}
+            <div className="rounded-xl border border-dashed border-line/15 bg-black/40 px-4 py-4 text-sm font-semibold" lang={lang}>{m.content}</div>
+            {r.state === "loading" && <p className="mt-4 flex items-center gap-2 text-xs text-muted"><Loader2 size={14} className="animate-spin" /> Checking…</p>}
             {r.state === "error" && (
               <div className="mt-4">
-                <p className="text-xs text-red-300">{r.error}</p>
+                <p className="text-xs text-danger">{r.error}</p>
                 <button onClick={() => onRetry(i)} className="mt-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold hover:bg-white/20">Try again</button>
               </div>
             )}
             {d && (
               <>
                 {!d.correct && (
-                  <div className="mt-4 flex w-fit max-w-full items-start gap-2 rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-sm text-white/70" lang={lang}>
+                  <div className="mt-4 flex w-fit max-w-full items-start gap-2 rounded-md border border-line/10 bg-white/5 px-2.5 py-1 text-sm text-muted" lang={lang}>
                     <X size={14} className="mt-1 shrink-0" strokeWidth={3} /> <span>{m.content}</span>
                   </div>
                 )}
@@ -555,7 +555,7 @@ function ReviewList({ msgs, reviews, hearing, lang, onSpeak, onRetry }: {
                 ) : (
                   <p className="mt-4 flex items-center gap-2 text-xs font-semibold text-amber-400"><AlertTriangle size={14} /> Can be improved</p>
                 )}
-                {d.explanation && <p className="mt-3 text-xs leading-relaxed text-white/80">{d.explanation}</p>}
+                {d.explanation && <p className="mt-3 text-xs leading-relaxed text-ink/90">{d.explanation}</p>}
               </>
             )}
           </article>
@@ -567,26 +567,26 @@ function ReviewList({ msgs, reviews, hearing, lang, onSpeak, onRetry }: {
 
 function AdvancedBody({ adv, lang, onRetry }: { adv: Adv; lang: string; onRetry: () => void }) {
   if (adv.state === "loading") {
-    return <p className="mt-6 flex items-center gap-2 py-6 text-sm text-white/70"><Loader2 size={16} className="animate-spin" /> Reviewing your call…</p>;
+    return <p className="mt-6 flex items-center gap-2 py-6 text-sm text-muted"><Loader2 size={16} className="animate-spin" /> Reviewing your call…</p>;
   }
   if (adv.state === "error") {
     return (
       <div className="mt-3">
         <ErrorText text={adv.error} />
-        <button onClick={onRetry} className="mt-4 rounded-full bg-indigo-600 px-5 py-2 text-sm font-semibold hover:bg-indigo-500">Try again</button>
+        <button onClick={onRetry} className="mt-4 rounded-full bg-brand-600 px-5 py-2 text-sm font-semibold hover:bg-brand-500">Try again</button>
       </div>
     );
   }
   const d = adv.data;
-  const h = "mt-5 text-xs font-semibold uppercase tracking-wide text-white/50";
+  const h = "mt-5 text-xs font-semibold uppercase tracking-wide text-muted";
   return (
     <div className="mt-2 text-sm">
-      <p className="leading-relaxed text-white/90">{d.summary}</p>
+      <p className="leading-relaxed text-ink">{d.summary}</p>
       {d.strengths.length > 0 && (
         <>
           <h3 className={h}>What went well</h3>
           <ul className="mt-2 space-y-1.5">
-            {d.strengths.map((s, i) => <li key={i} className="flex gap-2 text-white/80"><Check size={14} className="mt-1 shrink-0 text-green-400" strokeWidth={3} /> {s}</li>)}
+            {d.strengths.map((s, i) => <li key={i} className="flex gap-2 text-ink/90"><Check size={14} className="mt-1 shrink-0 text-success" strokeWidth={3} /> {s}</li>)}
           </ul>
         </>
       )}
@@ -595,10 +595,10 @@ function AdvancedBody({ adv, lang, onRetry }: { adv: Adv; lang: string; onRetry:
           <h3 className={h}>To fix</h3>
           <div className="mt-2 space-y-3">
             {d.mistakes.map((m, i) => (
-              <div key={i} className="rounded-xl bg-[#26262d] p-3">
-                <p className="flex items-start gap-2 text-white/60" lang={lang}><X size={14} className="mt-1 shrink-0" strokeWidth={3} /> {m.original}</p>
-                <p className="mt-1 flex items-start gap-2 font-semibold text-green-300" lang={lang}><Check size={14} className="mt-1 shrink-0" strokeWidth={3} /> {m.corrected}</p>
-                {m.explanation && <p className="mt-2 text-xs text-white/70">{m.explanation}</p>}
+              <div key={i} className="rounded-xl bg-surface-2 p-3">
+                <p className="flex items-start gap-2 text-muted" lang={lang}><X size={14} className="mt-1 shrink-0" strokeWidth={3} /> {m.original}</p>
+                <p className="mt-1 flex items-start gap-2 font-semibold text-success" lang={lang}><Check size={14} className="mt-1 shrink-0" strokeWidth={3} /> {m.corrected}</p>
+                {m.explanation && <p className="mt-2 text-xs text-muted">{m.explanation}</p>}
               </div>
             ))}
           </div>
@@ -608,7 +608,7 @@ function AdvancedBody({ adv, lang, onRetry }: { adv: Adv; lang: string; onRetry:
         <>
           <h3 className={h}>Practise next</h3>
           <ul className="mt-2 space-y-1.5">
-            {d.tips.map((t, i) => <li key={i} className="flex gap-2 text-white/80"><Sparkles size={14} className="mt-1 shrink-0 text-indigo-300" /> {t}</li>)}
+            {d.tips.map((t, i) => <li key={i} className="flex gap-2 text-ink/90"><Sparkles size={14} className="mt-1 shrink-0 text-brand-300" /> {t}</li>)}
           </ul>
         </>
       )}
