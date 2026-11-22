@@ -15,7 +15,7 @@ function resolveSiteUrl(): string {
 }
 export const SITE_URL = resolveSiteUrl().replace(/\/+$/, "");
 
-export const SUPPORT_EMAIL = "support@talkmate.ai";
+export const SUPPORT_EMAIL = "talkmate@edsol.academy"; // the Hostinger mailbox (also the sender of verification and reset emails)
 
 // Pages that must never appear in search results (they need a login or are forms).
 export const PRIVATE_PATHS = [

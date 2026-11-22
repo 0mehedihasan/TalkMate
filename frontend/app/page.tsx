@@ -4,7 +4,9 @@ import { JsonLd } from "@/components/JsonLd";
 import { AuthRedirect } from "@/components/marketing/AuthRedirect";
 import { FaqList, LanguageLinks, SiteFooter, SiteHeader, btnGhost, btnPrimary, faqJsonLd, type Faq } from "@/components/marketing/Marketing";
 import Link from "next/link";
+import { Globe2, Layers, MessageCircle, CheckCheck, AudioLines, Languages } from "lucide-react";
 import { MODES } from "@/lib/modes";
+import { MODE_ICON } from "@/components/ui/Glyph";
 import { LANGUAGE_PAGES } from "@/lib/languages";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
@@ -12,6 +14,24 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   openGraph: { url: "/" },
 };
+
+const PROOF = [
+  { icon: Globe2, label: `${LANGUAGE_PAGES.length} languages` },
+  { icon: Layers, label: "10 practice modes" },
+  { icon: MessageCircle, label: "Chat Mode is free" },
+];
+
+const FEATURES = [
+  { icon: CheckCheck, title: "A correction on every message", text: "Each thing you write or say is checked. You see the fixed sentence and a short reason, without breaking the conversation." },
+  { icon: AudioLines, title: "Pronunciation you can measure", text: "Read sentences aloud and get a rating from 1 to 5, word by word, with a tip on what to change next time." },
+  { icon: Languages, title: "Explained in your language", text: "Translations, tips and daily feedback come in the language you already speak, at Beginner, Intermediate or Advanced level." },
+];
+
+const STEPS = [
+  ["Pick your language and level", "Choose from 12 languages and a Beginner, Intermediate or Advanced level. Feedback and translations come in the language you already speak."],
+  ["Speak or type with your tutor", "Chat with an AI tutor, make a call, act out a real-life scenario or argue a point. Everything adapts to your level."],
+  ["Get instant feedback", "Each message is checked with a correction and a short explanation. Read-aloud exercises get a rating from 1 to 5. Daily practice builds your streak and XP."],
+] as const;
 
 const FAQ: Faq[] = [
   { q: "What is TalkMate?", a: "TalkMate is an AI language tutor that runs in your browser. You chat, call and role-play with the tutor, and it corrects your messages, explains the corrections and rates your pronunciation." },
@@ -53,59 +73,95 @@ export default function Home() {
               <Link href="/login" className={btnPrimary}>Start practising free</Link>
               <a href="#how-it-works" className={btnGhost}>See how it works</a>
             </div>
-            <p className="mt-4 text-sm text-subtle">Chat Mode is free. No download needed.</p>
+            <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-muted">
+              {PROOF.map(({ icon: Icon, label }) => (
+                <li key={label} className="flex items-center gap-2"><Icon size={16} aria-hidden="true" className="text-brand-300" />{label}</li>
+              ))}
+            </ul>
           </div>
           <HeroDemo />
         </section>
 
-        <section className="mx-auto max-w-6xl px-5 py-12" aria-labelledby="modes">
-          <p className="eyebrow">Ten modes</p>
-          <h2 id="modes" className="mt-2 font-display text-2xl font-bold sm:text-3xl">Ten ways to practise speaking</h2>
-          <p className="mt-2 max-w-2xl text-muted">Mix and match the modes to build vocabulary, grammar and confidence.</p>
+        <section className="border-y border-line/[0.06] bg-surface/40" aria-labelledby="why">
+          <div className="mx-auto max-w-6xl px-5 py-16">
+            <p className="eyebrow">Why it works</p>
+            <h2 id="why" className="mt-2 max-w-[22ch] font-display text-2xl font-bold sm:text-3xl">Speak more, and know exactly what to fix</h2>
+            <ul className="mt-10 grid gap-8 md:grid-cols-3">
+              {FEATURES.map(({ icon: Icon, title, text }) => (
+                <li key={title}>
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-500/15 text-brand-300"><Icon size={22} aria-hidden="true" /></span>
+                  <h3 className="mt-4 text-lg font-semibold">{title}</h3>
+                  <p className="mt-2 max-w-[42ch] leading-relaxed text-muted">{text}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section id="modes" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-16" aria-labelledby="modes-title">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="eyebrow">Ten modes</p>
+              <h2 id="modes-title" className="mt-2 font-display text-2xl font-bold sm:text-3xl">Ten ways to practise speaking</h2>
+              <p className="mt-2 max-w-2xl text-muted">Mix and match the modes to build vocabulary, grammar and confidence.</p>
+            </div>
+            <Link href="/login" className={btnGhost}>Try Chat Mode free</Link>
+          </div>
           <ul className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-5">
-            {MODES.map((m) => (
-              <li key={m.id} className="overflow-hidden rounded-card border border-line/[0.07] bg-surface">
-                <Image src={m.image} alt={`${m.title} for language learning`} width={350} height={200} className="aspect-[16/10] h-auto w-full object-cover" />
-                <div className="p-3.5">
-                  <h3 className="text-[15px] font-semibold">{m.title}</h3>
-                  <p className="mt-1 line-clamp-3 text-[13px] leading-relaxed text-muted">{m.desc}</p>
-                </div>
-              </li>
-            ))}
+            {MODES.map((m) => {
+              const Icon = MODE_ICON[m.id];
+              return (
+                <li key={m.id} className="overflow-hidden rounded-card border border-line/[0.07] bg-surface">
+                  <Image src={m.image} alt={`${m.title} for language learning`} width={350} height={200} className="aspect-[16/10] h-auto w-full object-cover" />
+                  <div className="p-3.5">
+                    <h3 className="flex items-center gap-2 text-[15px] font-semibold">
+                      <Icon size={15} aria-hidden="true" className="shrink-0 text-brand-300" />{m.title}
+                      {!m.premium && <span className="ml-auto rounded-full bg-success/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-success">Free</span>}
+                    </h3>
+                    <p className="mt-1.5 line-clamp-3 text-[13px] leading-relaxed text-muted">{m.desc}</p>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </section>
 
-        <section id="how-it-works" className="mx-auto max-w-6xl scroll-mt-6 px-5 py-12" aria-labelledby="how">
-          <h2 id="how" className="font-display text-2xl font-bold sm:text-3xl">How TalkMate works</h2>
-          <ol className="mt-8 grid gap-4 md:grid-cols-3">
-            {[
-              ["Pick your language and level", "Choose from 12 languages and a Beginner, Intermediate or Advanced level. Feedback and translations come in the language you already speak."],
-              ["Speak or type with your tutor", "Chat with an AI tutor, make a call, act out a real-life scenario or argue a point. Everything adapts to your level."],
-              ["Get instant feedback", "Each message is checked with a correction and a short explanation. Read-aloud exercises get a pronunciation rating from 1 to 5. Daily practice builds your streak and XP."],
-            ].map(([t, d], i) => (
-              <li key={t} className="rounded-2xl border border-line/10 bg-surface p-5">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-500/15 font-display text-sm font-bold text-brand-200">{i + 1}</span>
-                <h3 className="mt-3 font-semibold">{t}</h3>
-                <p className="mt-1 text-sm text-muted">{d}</p>
+        <section id="how-it-works" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-16" aria-labelledby="how">
+          <p className="eyebrow">Three steps</p>
+          <h2 id="how" className="mt-2 font-display text-2xl font-bold sm:text-3xl">How TalkMate works</h2>
+          <ol className="mt-10 grid gap-4 md:grid-cols-3">
+            {STEPS.map(([t, d], i) => (
+              <li key={t} className="card relative p-6">
+                <span className="font-display text-4xl font-extrabold text-brand-500/40">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="mt-3 text-lg font-semibold">{t}</h3>
+                <p className="mt-2 leading-relaxed text-muted">{d}</p>
               </li>
             ))}
           </ol>
         </section>
 
-        <section className="mx-auto max-w-6xl px-5 py-12" aria-labelledby="languages">
-          <h2 id="languages" className="font-display text-2xl font-bold sm:text-3xl">Languages you can learn</h2>
+        <section className="mx-auto max-w-6xl px-5 py-16" aria-labelledby="languages">
+          <p className="eyebrow">{LANGUAGE_PAGES.length} languages</p>
+          <h2 id="languages" className="mt-2 font-display text-2xl font-bold sm:text-3xl">Languages you can learn</h2>
+          <p className="mt-2 max-w-2xl text-muted">Every language has Beginner, Intermediate and Advanced levels, with feedback in the language you already speak.</p>
           <LanguageLinks />
         </section>
 
-        <section className="mx-auto max-w-3xl px-5 py-12" aria-labelledby="faq">
-          <h2 id="faq" className="font-display text-2xl font-bold sm:text-3xl">Frequently asked questions</h2>
+        <section id="faq" className="mx-auto max-w-3xl scroll-mt-20 px-5 py-16" aria-labelledby="faq-title">
+          <p className="eyebrow">FAQ</p>
+          <h2 id="faq-title" className="mt-2 font-display text-2xl font-bold sm:text-3xl">Frequently asked questions</h2>
           <FaqList items={FAQ} />
         </section>
 
-        <section className="mx-auto max-w-3xl px-5 py-16 text-center">
-          <h2 className="font-display text-2xl font-bold sm:text-3xl">Ready to start speaking?</h2>
-          <p className="mt-2 text-muted">Create your account and have your first conversation today.</p>
-          <Link href="/login" className={`${btnPrimary} mt-6`}>Get started free</Link>
+        <section className="mx-auto max-w-6xl px-5 pb-20 pt-8">
+          <div className="relative overflow-hidden rounded-card border border-brand-400/20 bg-gradient-to-br from-brand-900 via-surface to-surface px-6 py-12 text-center sm:px-12">
+            <h2 className="font-display text-2xl font-bold sm:text-4xl">Ready to start speaking?</h2>
+            <p className="mx-auto mt-3 max-w-[48ch] text-muted">Create your account and have your first conversation today. Chat Mode stays free.</p>
+            <div className="mt-7 flex flex-wrap justify-center gap-3">
+              <Link href="/login" className={btnPrimary}>Get started free</Link>
+              <Link href="/learn" className={btnGhost}>Browse languages</Link>
+            </div>
+          </div>
         </section>
       </main>
       <SiteFooter />

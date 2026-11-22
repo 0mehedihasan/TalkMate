@@ -6,7 +6,7 @@ import { ErrorText } from "@/components/Modal";
 import { api } from "@/lib/api";
 import { SubPage } from "./SubPage";
 
-export const SUPPORT_EMAIL = "support@talkmate.ai";
+import { SUPPORT_EMAIL } from "@/lib/site";
 // keep in step with SUPPORT_TYPES in backend/src/account/account.options.ts
 const ISSUE_TYPES = ["Account or login", "Subscription or billing", "Bug or technical problem", "Feedback or suggestion", "Other"];
 
