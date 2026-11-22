@@ -9,10 +9,11 @@ import { SITE_URL } from "@/lib/site";
 export const dynamicParams = false;
 export const generateStaticParams = () => LANGUAGE_PAGES.map((l) => ({ language: l.slug }));
 
-type Props = { params: { language: string } };
+// Next 16: params is a Promise.
+type Props = { params: Promise<{ language: string }> };
 
-export function generateMetadata({ params }: Props): Metadata {
-  const l = languageBySlug(params.language);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const l = languageBySlug((await params).language);
   if (!l) return {};
   const title = `Learn ${l.name} Online with an AI Tutor`;
   const description = `Practise speaking ${l.name} with an AI tutor: chat, calls, roleplays and instant pronunciation feedback for beginners to advanced learners.`;
@@ -20,8 +21,8 @@ export function generateMetadata({ params }: Props): Metadata {
   return { title, description, alternates: { canonical: url }, openGraph: { url, title, description } };
 }
 
-export default function LanguagePage({ params }: Props) {
-  const l = languageBySlug(params.language);
+export default async function LanguagePage({ params }: Props) {
+  const l = languageBySlug((await params).language);
   if (!l) notFound();
   const english = l.slug === "english";
 
