@@ -5,6 +5,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versioning: [S
 
 ## [Unreleased]
 
+### Changed
+- Merged `main` (public landing page, `/learn` language pages, sitemap, robots, SEO metadata, AdSense components, its CI) into the Next 16 branch (2026-11-22). `next.config.mjs` keeps the security headers and CSP and adds `noindex` on every page behind a login; `app/layout.tsx` keeps the AdSense tag and uses the new SEO metadata; `/learn/[language]` reads `params` as a Promise (Next 16); CI keeps the full pipeline and sets `NEXT_PUBLIC_SITE_URL`; local DB credentials are now `talkmate` (docker-compose and `backend/.env.example`).
+
 ### Added
 - Google AdSense on the web app (2026-11-19): the `adsbygoogle.js` script and the `google-adsense-account` meta tag in `app/layout.tsx`, `public/ads.txt`, and the AdSense hosts in the CSP (`next.config.mjs`). The AdSense account is verified on edsol.academy (AdSense only accepts the root domain); EdSol itself loads no ads. Auto ads and Google's consent message (EEA, UK, Switzerland) are switched on in the AdSense account, not in code.
 - Public privacy page `/privacy` (account data, AI and speech providers, advertising cookies and opt-outs), linked from the login page.
