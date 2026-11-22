@@ -76,39 +76,39 @@ export default function CompleteProfilePage() {
 
   if (!ready) return null;
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#140e33] p-4 text-white">
+    <main className="flex min-h-screen items-center justify-center bg-brand-900 p-4 text-ink">
       <style>{"html { font-size: 110%; }"}</style>
       <form onSubmit={submit} className="w-full max-w-[460px]">
         <div className="mb-4 flex items-center gap-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo/logo-mark.png" alt="" width={44} height={44} className="h-11 w-11 object-contain" />
-          <p className="text-xl font-bold tracking-tight">Talk<span className="text-violet-300">Mate</span></p>
+          <p className="text-xl font-bold tracking-tight">Talk<span className="text-brand-300">Mate</span></p>
         </div>
-        <h1 className="text-3xl font-bold leading-tight tracking-tight">One last <span className="text-violet-400">step</span></h1>
-        <p className="mt-2 text-sm text-white/70">
-          Add your country and phone number to finish setting up your account{email ? <> (<b className="text-white/90">{email}</b>)</> : null}.
+        <h1 className="text-3xl font-bold leading-tight tracking-tight">One last <span className="text-brand-400">step</span></h1>
+        <p className="mt-2 text-sm text-muted">
+          Add your country and phone number to finish setting up your account{email ? <> (<b className="text-ink">{email}</b>)</> : null}.
         </p>
 
         <div className="mt-5 space-y-2.5">
           <CountryPicker variant="country" compact ariaLabel="Country" placeholder="Country" value={country} onChange={pickCountry} invalid={triedSubmit && !country} />
           <div>
-            <div className={`flex min-w-0 items-stretch rounded-2xl border bg-white/5 transition-colors focus-within:border-violet-400 focus-within:ring-2 focus-within:ring-violet-500/30 ${phoneTouched && !phoneCheck.ok ? "border-red-400/60" : "border-white/15"}`}>
-              <CountryPicker variant="dial" compact ariaLabel="Phone country code" value={dial} onChange={pickDial} returnFocus={false} className="flex shrink-0 border-r border-white/15" />
+            <div className={`flex min-w-0 items-stretch rounded-2xl border bg-white/5 transition-colors focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-500/30 ${phoneTouched && !phoneCheck.ok ? "border-danger/60" : "border-line/15"}`}>
+              <CountryPicker variant="dial" compact ariaLabel="Phone country code" value={dial} onChange={pickDial} returnFocus={false} className="flex shrink-0 border-r border-line/15" />
               <input id="phone" ref={phoneInput} aria-label="Phone number" aria-invalid={phoneTouched && !phoneCheck.ok} type="tel" inputMode="tel" autoComplete="tel-national" placeholder="Phone Number" required maxLength={20} value={phone}
                 onChange={(e) => setPhone(e.target.value.replace(/[^\d+\s().-]/g, ""))} onBlur={phoneBlur}
-                className="min-w-0 flex-1 bg-transparent py-2.5 pl-3 pr-2 text-sm text-white outline-none placeholder:text-white/45" />
-              {phoneCheck.ok && <Check size={18} aria-label="Valid phone number" className="my-auto mr-3 shrink-0 text-emerald-400" />}
+                className="min-w-0 flex-1 bg-transparent py-2.5 pl-3 pr-2 text-sm text-ink outline-none placeholder:text-subtle" />
+              {phoneCheck.ok && <Check size={18} aria-label="Valid phone number" className="my-auto mr-3 shrink-0 text-success" />}
             </div>
-            {phoneTouched && !phoneCheck.ok && <p role="alert" className="mt-1.5 px-1 text-xs text-red-300">{phoneCheck.message}</p>}
+            {phoneTouched && !phoneCheck.ok && <p role="alert" className="mt-1.5 px-1 text-xs text-danger">{phoneCheck.message}</p>}
           </div>
         </div>
 
         <ErrorText text={error} />
 
-        <button disabled={busy} className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#7c4dff] py-3 text-base font-semibold shadow-[0_8px_24px_rgba(124,77,255,0.35)] hover:bg-[#8f68ff] disabled:opacity-50">
+        <button disabled={busy} className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-brand-500 py-3 text-base font-semibold shadow-[0_8px_24px_rgba(124,77,255,0.35)] hover:bg-brand-400 disabled:opacity-50">
           {busy ? "Please wait…" : <>Continue <ArrowRight size={20} /></>}
         </button>
-        <button type="button" onClick={logout} className="mt-3 block w-full text-center text-sm text-white/60 hover:text-white">Use a different account</button>
+        <button type="button" onClick={logout} className="mt-3 block w-full text-center text-sm text-muted hover:text-ink">Use a different account</button>
       </form>
     </main>
   );

@@ -87,17 +87,17 @@ export default function PhotoPage() {
   const split = !!(res && judged); // after judging: your input on the left, the AI's output on the right
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#222228]">
-      <header className="relative flex items-center justify-between border-b border-white/5 bg-[#1c1c22] px-5 py-4">
+    <div className="flex min-h-screen flex-col bg-canvas">
+      <header className="relative flex items-center justify-between border-b border-line/5 bg-surface px-5 py-4">
         <Logo />
         <h1 className="absolute left-1/2 -translate-x-1/2 text-base font-semibold">Photo Mode</h1>
-        <button onClick={close} aria-label="Close" className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 hover:bg-white/5"><X size={16} /></button>
+        <button onClick={close} aria-label="Close" className="flex h-10 w-10 items-center justify-center rounded-xl border border-line/10 hover:bg-white/5"><X size={16} /></button>
       </header>
 
       <main className={`mx-auto flex w-full flex-1 flex-col px-5 py-6 ${split ? "max-w-[1100px]" : "max-w-[684px]"}`}>
-        <p className="text-center text-sm font-semibold text-white/90">Describe what you see</p>
+        <p className="text-center text-sm font-semibold text-ink">Describe what you see</p>
 
-        {!units && <p className="m-auto text-white/60">Loading…</p>}
+        {!units && <p className="m-auto text-muted">Loading…</p>}
         {units && !photo && (
           <div className="m-auto text-center">
             <ErrorText text="That photo doesn't exist." />
@@ -108,11 +108,11 @@ export default function PhotoPage() {
         {photo && (
           <div className={split ? "mt-5 grid items-start gap-5 md:grid-cols-2" : ""}>
             {/* Left: what the learner entered */}
-            <div className={split ? "rounded-2xl border border-white/10 bg-[#1f1f27] p-4" : ""}>
-              {split && <h2 className="text-xs font-bold uppercase tracking-wide text-white/50">Your input</h2>}
+            <div className={split ? "rounded-2xl border border-line/10 bg-surface p-4" : ""}>
+              {split && <h2 className="text-xs font-bold uppercase tracking-wide text-muted">Your input</h2>}
               <div className={`${split ? "mt-3" : "mt-5"} overflow-hidden rounded-2xl bg-black/30`}>
                 {imgFailed ? (
-                  <p className="px-6 py-16 text-center text-sm text-white/60">
+                  <p className="px-6 py-16 text-center text-sm text-muted">
                     The picture is missing. Add it as <code>frontend/public{photo.image}</code>.
                   </p>
                 ) : (
@@ -122,36 +122,36 @@ export default function PhotoPage() {
               </div>
               {split && judged && (
                 <div className="mt-4">
-                  <h3 className="text-xs font-semibold text-white/50">Your description</h3>
-                  <p className="mt-2 whitespace-pre-wrap break-words rounded-xl bg-white/5 p-3 text-sm text-white/90">{judged.description}</p>
+                  <h3 className="text-xs font-semibold text-muted">Your description</h3>
+                  <p className="mt-2 whitespace-pre-wrap break-words rounded-xl bg-white/5 p-3 text-sm text-ink">{judged.description}</p>
                 </div>
               )}
             </div>
 
             {res && judged && (
-              <section className="rounded-2xl border border-white/10 bg-[#1f1f27] p-5" aria-label="AI feedback">
-                <h2 className="mb-4 text-xs font-bold uppercase tracking-wide text-white/50">AI output</h2>
+              <section className="rounded-2xl border border-line/10 bg-surface p-5" aria-label="AI feedback">
+                <h2 className="mb-4 text-xs font-bold uppercase tracking-wide text-muted">AI output</h2>
                 <div className="flex items-center justify-between">
                   <div className="flex gap-1" aria-label={`Score ${res.score} out of 5`}>
                     {[1, 2, 3, 4, 5].map((n) => (
-                      <Star key={n} size={22} className={n <= res.score ? "fill-yellow-400 text-yellow-400" : "text-white/20"} />
+                      <Star key={n} size={22} className={n <= res.score ? "fill-yellow-400 text-yellow-400" : "text-subtle"} />
                     ))}
                   </div>
-                  <span className={`rounded-full px-3 py-1 text-xs font-semibold ${judged.passed ? "bg-green-500/20 text-green-300" : "bg-yellow-500/20 text-yellow-200"}`}>
+                  <span className={`rounded-full px-3 py-1 text-xs font-semibold ${judged.passed ? "bg-success/20 text-success" : "bg-yellow-500/20 text-yellow-200"}`}>
                     {judged.passed ? "Photo completed" : `Keep practising (needs ${PASS_SCORE})`}
                   </span>
                 </div>
-                <p className="mt-4 text-sm text-white/90">{res.summary}</p>
+                <p className="mt-4 text-sm text-ink">{res.summary}</p>
 
                 {res.corrections.length > 0 && (
                   <div className="mt-5">
-                    <h2 className="text-xs font-bold uppercase tracking-wide text-white/50">Corrections</h2>
+                    <h2 className="text-xs font-bold uppercase tracking-wide text-muted">Corrections</h2>
                     <ul className="mt-2 space-y-3">
                       {res.corrections.map((c, i) => (
                         <li key={i} className="rounded-xl bg-white/5 p-3 text-sm">
-                          {c.original && <p className="text-red-300 line-through decoration-red-300/50">{c.original}</p>}
-                          <p className="mt-1 flex items-start gap-1.5 text-green-300"><Check size={15} className="mt-0.5 shrink-0" />{c.corrected}</p>
-                          {c.explanation && <p className="mt-1 text-white/70">{c.explanation}</p>}
+                          {c.original && <p className="text-danger line-through decoration-red-300/50">{c.original}</p>}
+                          <p className="mt-1 flex items-start gap-1.5 text-success"><Check size={15} className="mt-0.5 shrink-0" />{c.corrected}</p>
+                          {c.explanation && <p className="mt-1 text-muted">{c.explanation}</p>}
                         </li>
                       ))}
                     </ul>
@@ -160,24 +160,24 @@ export default function PhotoPage() {
 
                 {res.better && (
                   <div className="mt-5">
-                    <h2 className="text-xs font-bold uppercase tracking-wide text-white/50">Better version</h2>
+                    <h2 className="text-xs font-bold uppercase tracking-wide text-muted">Better version</h2>
                     <div className="mt-2 rounded-xl bg-white/5 p-3 text-sm">
                       <p className="flex items-start gap-2">
                         <span className="flex-1">{res.better}</span>
-                        <button onClick={() => speak(res.better, lang, 0.95)} aria-label="Listen" className="text-white/70 hover:text-white"><Volume2 size={17} /></button>
+                        <button onClick={() => speak(res.better, lang, 0.95)} aria-label="Listen" className="text-muted hover:text-ink"><Volume2 size={17} /></button>
                       </p>
-                      {res.betterTranslation && <p className="mt-1 text-white/60">{res.betterTranslation}</p>}
+                      {res.betterTranslation && <p className="mt-1 text-muted">{res.betterTranslation}</p>}
                     </div>
                   </div>
                 )}
 
                 {res.words.length > 0 && (
                   <div className="mt-5">
-                    <h2 className="text-xs font-bold uppercase tracking-wide text-white/50">New words</h2>
+                    <h2 className="text-xs font-bold uppercase tracking-wide text-muted">New words</h2>
                     <div className="mt-2 flex flex-wrap gap-2">
                       {res.words.map((w, i) => (
-                        <span key={i} className="rounded-full bg-indigo-500/20 px-3 py-1 text-sm">
-                          {w.word}{w.translation && <span className="text-white/60"> · {w.translation}</span>}
+                        <span key={i} className="rounded-full bg-brand-500/20 px-3 py-1 text-sm">
+                          {w.word}{w.translation && <span className="text-muted"> · {w.translation}</span>}
                         </span>
                       ))}
                     </div>
@@ -185,8 +185,8 @@ export default function PhotoPage() {
                 )}
 
                 <div className="mt-6 flex flex-wrap gap-3">
-                  <button onClick={() => { setJudged(null); setError(null); }} className="rounded-xl border border-white/20 px-5 py-3 text-sm font-semibold hover:bg-white/5">Try again</button>
-                  {next && <button onClick={() => router.push(`/photo/${next}`)} className="rounded-xl bg-indigo-700 px-5 py-3 text-sm font-semibold hover:bg-indigo-600">Next photo</button>}
+                  <button onClick={() => { setJudged(null); setError(null); }} className="rounded-xl border border-line/20 px-5 py-3 text-sm font-semibold hover:bg-white/5">Try again</button>
+                  {next && <button onClick={() => router.push(`/photo/${next}`)} className="rounded-xl bg-brand-700 px-5 py-3 text-sm font-semibold hover:bg-brand-600">Next photo</button>}
                   <button onClick={close} className="rounded-xl bg-white/10 px-5 py-3 text-sm font-semibold hover:bg-white/15">Back to photos</button>
                 </div>
               </section>
@@ -196,11 +196,11 @@ export default function PhotoPage() {
       </main>
 
       {photo && !judged && (
-        <footer className="sticky bottom-0 bg-[#222228] px-5 pb-6 pt-3">
+        <footer className="sticky bottom-0 bg-surface-2 px-5 pb-6 pt-3">
           <div className="mx-auto w-full max-w-[684px]">
             <ErrorText text={error} />
             <div className="mt-2 flex items-center gap-3">
-              <div className="flex h-16 flex-1 items-center rounded-full border border-white/15 bg-[#1f1f27] pl-6 pr-2">
+              <div className="flex h-16 flex-1 items-center rounded-full border border-line/15 bg-surface pl-6 pr-2">
                 <input
                   value={text}
                   onChange={(e) => setText(e.target.value)}
@@ -209,21 +209,21 @@ export default function PhotoPage() {
                   disabled={busy}
                   placeholder="Aa"
                   aria-label={`Describe the photo in ${progress.language}`}
-                  className="h-full flex-1 bg-transparent text-sm outline-none placeholder:text-white/40"
+                  className="h-full flex-1 bg-transparent text-sm outline-none placeholder:text-subtle"
                 />
                 <button onClick={submit} disabled={busy || text.trim().length < 2} aria-label="Send"
-                  className="flex h-11 w-11 items-center justify-center rounded-full bg-indigo-600 hover:bg-indigo-500 disabled:opacity-30">
+                  className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-600 hover:bg-brand-500 disabled:opacity-30">
                   {busy ? <Loader2 size={18} className="animate-spin" /> : <ArrowUp size={18} />}
                 </button>
               </div>
               {canListen && (
                 <button onClick={toggleMic} disabled={busy} aria-label={listening ? "Stop listening" : "Speak your description"}
-                  className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-full ${listening ? "bg-red-500 hover:bg-red-400" : "bg-indigo-500/40 hover:bg-indigo-500/60"}`}>
+                  className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-full ${listening ? "bg-danger hover:bg-danger" : "bg-brand-500/40 hover:bg-brand-500/60"}`}>
                   {listening ? <Square size={20} /> : <Mic size={22} />}
                 </button>
               )}
             </div>
-            {busy && <p className="mt-3 text-center text-xs text-white/60">Judging your description…</p>}
+            {busy && <p className="mt-3 text-center text-xs text-muted">Judging your description…</p>}
           </div>
         </footer>
       )}

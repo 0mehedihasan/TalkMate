@@ -25,6 +25,13 @@ Living backlog. Agents: tick items as you finish them and add follow-ups you dis
 - [ ] Check on Vercel that the CSP allows everything in production (Google sign-in popup, flag images, photos); watch the browser console for CSP errors
 - [ ] Choose a license (none yet — all rights reserved)
 
+## Design (premium UI pass, 2026-11-22)
+- [x] Semantic colour tokens, fonts, focus/reduced-motion base, no emoji in the UI, Home/tabs/grids/landing restyled (branch `design/premium-ui`)
+- [ ] Practice screens (Chat, Call, Debate, Roleplay, Characters, Sentence/Word practice) only got the token and background pass: give their headers, bubbles and feedback panels the same care as Home
+- [ ] Admin panel and Account sub-pages only got the token pass
+- [ ] Backend error texts reach the UI raw (e.g. "OPENROUTER_API_KEY is not set on the server"); map them to learner-friendly messages
+- [ ] Run an axe/contrast check on the main screens
+
 ## Advertising (AdSense, 2026-11-19)
 - [ ] AdSense: approve edsol.academy, then turn on Auto ads for talkmate.edsol.academy only and exclude `/admin`
 - [ ] AdSense > Privacy & messaging: publish Google's consent message for the EEA, UK and Switzerland (required for personalised ads)

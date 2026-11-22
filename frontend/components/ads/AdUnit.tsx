@@ -23,8 +23,8 @@ export function AdUnit({ slot, format = "auto", className = "" }: {
 
   if (!client || !slot) return null;
   return (
-    <div className={`overflow-hidden rounded-2xl border border-white/[0.07] bg-[#171827] p-3 ${className}`}>
-      <p className="mb-1 text-[10px] uppercase tracking-widest text-white/30">Advertisement</p>
+    <div className={`overflow-hidden rounded-2xl border border-line/[0.07] bg-surface p-3 ${className}`}>
+      <p className="mb-1 text-[10px] uppercase tracking-widest text-subtle">Advertisement</p>
       <ins className="adsbygoogle block" style={{ display: "block" }}
         data-ad-client={client} data-ad-slot={slot}
         data-ad-format={format} data-full-width-responsive="true" />

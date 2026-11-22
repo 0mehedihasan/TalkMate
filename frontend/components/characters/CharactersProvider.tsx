@@ -44,16 +44,16 @@ export function CharactersProvider({ children }: { children: React.ReactNode }) 
 
   if (!progress) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-[#16161c] text-white/70">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-canvas text-muted">
         <p>{error ?? "Loading…"}</p>
-        {error && <button onClick={() => location.reload()} className="rounded-full bg-white/10 px-4 py-2 text-sm text-white">Try again</button>}
+        {error && <button onClick={() => location.reload()} className="rounded-full bg-white/10 px-4 py-2 text-sm text-ink">Try again</button>}
       </div>
     );
   }
 
   return (
     <CharactersCtx.Provider value={{ progress, list, listError, reloadList }}>
-      <div className="min-h-screen bg-[#16161c] text-white">
+      <div className="min-h-screen bg-canvas text-ink">
         <PracticeTimer onSnapshot={setProgress} />
         {children}
       </div>
