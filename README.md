@@ -3,7 +3,7 @@
 - `backend/`  NestJS API: MySQL 8 (Prisma), JWT auth, OpenRouter free models
 - `frontend/` Next.js (App Router) + Tailwind dashboard
 - `docker-compose.yml`  local MySQL 8
-
+test
 ## Run
 
 ```bash
