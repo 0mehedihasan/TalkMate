@@ -36,9 +36,11 @@ folder of another site), and the database lives on the same server.
 `dependencies` and the build loses the Nest CLI and Prisma. HSTS is sent anyway
 because `PUBLIC_API_URL` is `https://`.
 
-Deploys are uploaded archives (`git archive --format=zip -o app.zip HEAD:backend`,
-same for `frontend`) built with the Hostinger API; the repository is not reachable
-from this Hostinger account's Git installation, so there is no auto-deploy yet.
+Both sites auto-deploy from GitHub on every push to `main` of
+`FaisalAhmedRafi/TalkMate` (Hostinger Git auto-deployment, root directory `backend` /
+`frontend`). Environment variables are set per site in hPanel (Node.js > Environment
+variables); a Git build never reads a `.env` file, and the API replaces its whole set
+when one is saved through the API, so always send every key.
 
 The Vercel + Railway setup is described below.
 
