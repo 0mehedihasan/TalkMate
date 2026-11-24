@@ -1,0 +1,51 @@
+# Changelog
+
+All notable changes to this project are documented here.
+Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versioning: [SemVer](https://semver.org/).
+
+## [Unreleased]
+
+### Added
+- Search ranking pass (2026-11-24): `/guides` and three written guides (`/guides/<slug>`, content in `frontend/lib/guides.ts`, Article + BreadcrumbList structured data), linked from the header, footer, home page, `/learn` and every language page. Each `/learn/<language>` page now has an "at a glance" table (writing system, direction, word order), eight everyday phrases (was four), three language-specific tips, and two more FAQ entries; the page title and description name the language and the native name. `/learn` has an intro text and an ItemList.
+
+### Changed
+- Sitemap (2026-11-24): `lastmod` is the fixed `CONTENT_UPDATED` date in `lib/site.ts` instead of the build time (Google ignores a date that changes on every build); the guides and `/privacy` are listed.
+- Home page `<h1>` now says "Learn a language by speaking it with an AI tutor." `/privacy` title no longer repeats the brand name and has a canonical link.
+- Premium UI pass on the web app (2026-11-22), keeping TalkMate's dark violet/indigo look: one palette of semantic colour tokens (`app/globals.css`, `tailwind.config.ts`) replaces the two hard-coded hex palettes; Inter + Plus Jakarta Sans via `next/font`; visible focus rings, selection colour and reduced-motion support; no emoji anywhere in the interface (line icons from `components/ui/Glyph.tsx` instead, emoji stay in the content data); new Home (greeting header, compact 3-column mode grid, level/streak card, quieter Premium card); shared `PageHeader` on Learn, Courses, Explore, Progress and Account; calmer course, Explore and Progress colours (no rainbow gradients, no solid yellow/violet blocks); mode grids and intros with a cleaner shell; practice pages on the page background; one error-banner style; landing page with a two-column hero and a sample corrected chat turn, modes in a 5-column grid.
+- Public site redesign (2026-11-22): landing page with a two-column hero (sample corrected chat turn, facts row), a "Why it works" section, mode cards with icons and a Free badge, numbered steps, languages, FAQ with chevrons and a closing call-to-action panel; sticky header with Modes / How it works / Languages links; multi-column footer (brand, Languages, Practice, Company, Support) with the copyright, AI disclaimer and a "Developed by DEVAAS" credit linking to https://devaas.tech. Applies to `/`, `/learn` and `/learn/<language>`.
+- Support address is now `talkmate@edsol.academy` (the Hostinger mailbox; `support@talkmate.ai` never existed): `SUPPORT_EMAIL` in `frontend/lib/site.ts`, which `SupportView` now imports instead of keeping its own copy.
+- Email (2026-11-22): the API can send through any SMTP server (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, sender `MAIL_FROM`), tried before Gmail and Resend. Production now sends verification codes and reset links from the Hostinger mailbox `talkmate@edsol.academy` instead of a personal Gmail account.
+- Merged `main` (public landing page, `/learn` language pages, sitemap, robots, SEO metadata, AdSense components, its CI) into the Next 16 branch (2026-11-22). `next.config.mjs` keeps the security headers and CSP and adds `noindex` on every page behind a login; `app/layout.tsx` keeps the AdSense tag and uses the new SEO metadata; `/learn/[language]` reads `params` as a Promise (Next 16); CI keeps the full pipeline and sets `NEXT_PUBLIC_SITE_URL`; local DB credentials are now `talkmate` (docker-compose and `backend/.env.example`).
+
+### Added
+- Google AdSense on the web app (2026-11-19): the `adsbygoogle.js` script and the `google-adsense-account` meta tag in `app/layout.tsx`, `public/ads.txt`, and the AdSense hosts in the CSP (`next.config.mjs`). The AdSense account is verified on edsol.academy (AdSense only accepts the root domain); EdSol itself loads no ads. Auto ads and Google's consent message (EEA, UK, Switzerland) are switched on in the AdSense account, not in code.
+- Public privacy page `/privacy` (account data, AI and speech providers, advertising cookies and opt-outs), linked from the login page.
+- Hosted on Hostinger: https://talkmate.edsol.academy (web) and https://talkmate-api.edsol.academy (API), each its own Node.js website, with a local MySQL database; `.hostinger/sites.json` records the targets and `docs/guides/deployment.md` §4 the settings.
+- Backend `prebuild` (`scripts/prebuild.js`): generates the Prisma client and, with `MIGRATE_ON_BUILD=1`, applies migrations (Hostinger only runs `npm run build`).
+- `AGENTS.md`: rules for contributors and AI agents (document every change, security first, CI green, no secrets in git, definition of done). `CLAUDE.md` points to it.
+- `docs/security.md`: NIST CSF 2.0 profile (Govern / Identify / Protect / Detect / Respond / Recover), data classification, data that leaves the system, local vs production credentials, checklist for every change.
+- `docs/guides/deployment.md`: Vercel + Railway + MySQL setup, environment variables, release steps and a go-live security checklist.
+- CI (`.github/workflows/ci.yml`): gitleaks secret scan, `npm audit` (high+) for both apps, type-check and build for both apps, `prisma migrate deploy` on MySQL 8 and smoke tests (health, content loaded, security headers, auth required, validation, pages render).
+- Dependabot for `backend/`, `frontend/` and GitHub Actions (weekly).
+- `backend/.env.example` and `frontend/.env.local.example` (the README referred to them, but they did not exist).
+- `npm run typecheck` in both apps; `engines.node >= 20.9`.
+- Security headers on the web app (CSP, HSTS, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`, COOP; `no-store` + `noindex` on `/admin`) and on the API (`default-src 'none'` CSP, `nosniff`, `X-Frame-Options`, `Referrer-Policy`, CORP, HSTS in production); `X-Powered-By` removed from both.
+- API start-up warning when `JWT_SECRET` is shorter than 32 characters.
+- Root `.gitignore`; all `.env*` files (except the templates) are ignored in both apps.
+- `README.md` rewritten: badges, features, stack, architecture, setup, configuration, scripts, structure, API overview, CI, deployment, security, contributing, license.
+- `CHANGELOG.md` and `TODO.md`.
+
+### Changed
+- **Security upgrades** (all high/critical `npm audit` findings fixed, 0 left in production dependencies):
+  - Frontend: Next.js 14.2 → 16.4, React 18 → 19 (Next 14 has no patched release for the current advisories). Three `RefObject` prop types adjusted for React 19; `tsconfig.json` updated by Next.
+  - Backend: NestJS 10 → 11 (Express 5), `@nestjs/config` 3 → 4, `@nestjs/jwt` 10 → 11, `@nestjs/throttler` 6.5, nodemailer 6 → 10.
+- Frontend production build uses webpack (`next build --webpack`): Turbopack's PostCSS worker cannot start on Hostinger shared hosting.
+- API sends HSTS when `PUBLIC_API_URL` is `https://` (not only with `NODE_ENV=production`, which Hostinger cannot set without dropping the build tools).
+- `frontend/next.config.mjs` pins `turbopack.root` (the repo has no root `package.json`).
+
+### Removed
+- The 28 old PostgreSQL migration folders. They were left next to the MySQL baseline when the database moved to MySQL, could not run on MySQL, and made `prisma migrate deploy` fail on a fresh database.
+
+## [0.1.0] — 2026-11-12
+
+Initial state before this changelog: ten practice modes, accounts with email verification and Google sign-in, progress and achievements, Courses / Learn / Explore, Account pages, the Admin panel with Analytics, all content in MySQL. See `CLAUDE.md` for details.
