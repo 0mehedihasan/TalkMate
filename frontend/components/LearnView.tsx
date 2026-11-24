@@ -1,5 +1,7 @@
 "use client";
 
+import { PageHeader } from "@/components/ui/PageHeader";
+import { IconTile } from "@/components/ui/Glyph";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { BookOpen, Check, ChevronDown } from "lucide-react";
@@ -8,6 +10,7 @@ import { CourseThumb, useCourseCovers } from "@/components/CoursesView";
 import { api, type DialogueTopicInfo, type SentenceSkill, type WordStar } from "@/lib/api";
 import { COURSES, COURSE_GROUPS, pathFor, titleize, type Course, type CourseItem, type Unit } from "@/lib/courses";
 
+const MODE_OF = { "Word Mode": "word", "Sentence Mode": "sentence", "Dialogue Mode": "dialogue" } as const;
 type Step = { n: number; mode: "Word Mode" | "Sentence Mode" | "Dialogue Mode"; href: string; emoji: string; cover?: string | null; title: string; done: boolean };
 
 /** Learn: the learning path of the selected course. Each unit is up to three exercises (Word, Sentence and Dialogue Mode). */
@@ -82,9 +85,7 @@ export function LearnView({ course, premium, onSelectCourse, onLocked }: {
 
   return (
     <div className="mx-auto w-full max-w-[560px]">
-      <h1 className="text-lg font-semibold">Learning path</h1>
-      <p className="mt-3 text-[13px] text-white/80">Learning path of currently selected course.</p>
-      <hr className="mt-4 border-white/10" />
+      <PageHeader eyebrow="Your course" title="Learning path" lead="Three short exercises per unit: a word, a sentence and a dialogue." className="!mb-6" />
 
       <div ref={pickerRef} className="relative mt-4">
         <button onClick={() => setPicker((v) => !v)} aria-haspopup="listbox" aria-expanded={picker} aria-label="Change course"
@@ -94,16 +95,16 @@ export function LearnView({ course, premium, onSelectCourse, onLocked }: {
           <ChevronDown size={14} className={`transition-transform ${picker ? "rotate-180" : ""}`} />
         </button>
         {picker && (
-          <div role="listbox" aria-label="Courses" className="absolute left-0 top-full z-20 mt-2 max-h-[60vh] w-[280px] overflow-y-auto rounded-2xl border border-white/10 bg-[#1f1f27] p-2 shadow-2xl">
+          <div role="listbox" aria-label="Courses" className="absolute left-0 top-full z-20 mt-2 max-h-[60vh] w-[280px] overflow-y-auto rounded-2xl border border-line/10 bg-surface p-2 shadow-2xl">
             {COURSE_GROUPS.map((g) => (
               <div key={g.id} className="mb-1">
-                <p className="px-3 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wide text-white/40">{g.title}</p>
+                <p className="px-3 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wide text-subtle">{g.title}</p>
                 {COURSES.filter((c) => c.group === g.id).map((c) => (
                   <button key={c.id} role="option" aria-selected={c.id === course.id} onClick={() => { setPicker(false); onSelectCourse(c); }}
                     className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-[13px] font-semibold hover:bg-white/5 ${c.id === course.id ? "bg-white/10" : ""}`}>
                     <CourseThumb course={c} covers={courseCovers} className="h-7 w-7 rounded-full text-sm" />
                     <span className="flex-1">{c.title}</span>
-                    {c.badge && <span className="text-[10px] text-white/50">{c.badge}</span>}
+                    {c.badge && <span className="text-[10px] text-muted">{c.badge}</span>}
                   </button>
                 ))}
               </div>
@@ -111,12 +112,12 @@ export function LearnView({ course, premium, onSelectCourse, onLocked }: {
           </div>
         )}
       </div>
-      <hr className="mt-4 border-white/10" />
+      <hr className="mt-4 border-line/10" />
 
       <div className="mt-5 flex items-center gap-2" aria-label={`Course progress ${percent}%`}>
         <span className="z-[1] rounded-full bg-white px-3 py-1.5 text-xs font-bold text-black">{percent}%</span>
-        <div className="-ml-4 h-1 flex-1 overflow-hidden rounded-full bg-indigo-300/60">
-          <div className="h-full rounded-full bg-indigo-600 transition-all" style={{ width: `${percent}%` }} />
+        <div className="-ml-4 h-1 flex-1 overflow-hidden rounded-full bg-brand-300/60">
+          <div className="h-full rounded-full bg-brand-600 transition-all" style={{ width: `${percent}%` }} />
         </div>
       </div>
 
@@ -124,30 +125,30 @@ export function LearnView({ course, premium, onSelectCourse, onLocked }: {
         <section key={ui} className="mt-8" aria-label={`Unit ${ui + 1}: ${u.title}`}>
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-xs font-semibold text-indigo-300">Unit {ui + 1}</p>
+              <p className="text-xs font-semibold text-brand-300">Unit {ui + 1}</p>
               <h2 className="mt-1 text-base font-semibold">{u.title}</h2>
             </div>
             <button onClick={() => setGuide(ui)} aria-label={`About unit ${ui + 1}`}
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-white/20"><BookOpen size={14} /></button>
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-ink/90 hover:bg-white/20"><BookOpen size={14} /></button>
           </div>
           <ul className="mt-3 flex flex-col gap-3">
             {u.steps.map((s, i) => {
               const row = (
                 <>
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-zinc-800 text-xl">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-line/10 bg-surface-2">
                     {s.cover
                       // eslint-disable-next-line @next/next/no-img-element
                       ? <img src={s.cover} alt="" loading="lazy" className="h-full w-full object-cover" />
-                      : s.emoji}
+                      : <IconTile seed={s.href} title={s.title} mode={MODE_OF[s.mode]} size={40} rounded="rounded-full" />}
                   </span>
                   <span className="flex-1">
                     <span className="block text-[13px] font-semibold">Exercise {s.n}</span>
-                    <span className="block text-[11px] text-white/60">{s.mode}</span>
+                    <span className="block text-[11px] text-muted">{s.mode}</span>
                   </span>
-                  {s.done && <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white text-indigo-600"><Check size={14} strokeWidth={3} /></span>}
+                  {s.done && <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white text-brand-600"><Check size={14} strokeWidth={3} /></span>}
                 </>
               );
-              const cls = "flex w-full items-center gap-4 rounded-xl border border-white/5 bg-[#1f1f27] px-3 py-3 text-left transition-colors hover:border-white/20";
+              const cls = "flex w-full items-center gap-4 rounded-xl border border-line/5 bg-surface px-3 py-3 text-left transition-colors hover:border-line/20";
               return (
                 <li key={s.n} className="relative">
                   {i < u.steps.length - 1 && <span aria-hidden="true" className="absolute left-[29px] top-full h-3 w-px bg-white/10" />}
@@ -163,14 +164,14 @@ export function LearnView({ course, premium, onSelectCourse, onLocked }: {
 
       {guide !== null && (
         <Modal onClose={() => setGuide(null)} label={`Unit ${guide + 1}`}>
-          <p className="text-xs font-semibold text-indigo-300">Unit {guide + 1}</p>
+          <p className="text-xs font-semibold text-brand-300">Unit {guide + 1}</p>
           <h2 className="mt-1 text-xl font-semibold">{units[guide].title}</h2>
           <ul className="mt-5 flex flex-col gap-2">
             {units[guide].steps.map((s) => (
               <li key={s.n} className="flex items-center gap-3 rounded-xl bg-white/5 px-3 py-2.5 text-[13px]">
-                <span className="text-xl">{s.emoji}</span>
-                <span className="flex-1"><span className="block font-semibold">{s.title}</span><span className="block text-[11px] text-white/60">Exercise {s.n} · {s.mode}</span></span>
-                {s.done && <Check size={16} className="text-emerald-300" />}
+                <IconTile seed={s.href} title={s.title} mode={MODE_OF[s.mode]} size={32} rounded="rounded-lg" />
+                <span className="flex-1"><span className="block font-semibold">{s.title}</span><span className="block text-[11px] text-muted">Exercise {s.n} · {s.mode}</span></span>
+                {s.done && <Check size={16} className="text-success" />}
               </li>
             ))}
           </ul>

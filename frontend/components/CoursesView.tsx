@@ -1,13 +1,15 @@
 "use client";
 
+import { PageHeader } from "@/components/ui/PageHeader";
+import { iconFor } from "@/components/ui/Glyph";
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import { COURSES, COURSE_GROUPS, COURSE_PHOTO, type Course } from "@/lib/courses";
 
 // Static class names so Tailwind can see them; each course gets one by its position.
+// Calm brand tints (no rainbow): the icon or photo carries the variety.
 const TILES = [
-  "from-indigo-500 to-violet-600", "from-pink-500 to-rose-600", "from-amber-400 to-orange-600", "from-emerald-500 to-teal-600",
-  "from-sky-500 to-blue-700", "from-fuchsia-500 to-purple-700",
+  "from-brand-600 to-brand-800", "from-brand-700 to-brand-900", "from-surface-3 to-brand-900", "from-brand-500 to-brand-700",
 ];
 export const tileOf = (c: Course) => TILES[COURSES.indexOf(c) % TILES.length];
 
@@ -40,12 +42,12 @@ export function useCourseCovers() {
   return covers;
 }
 
-/** A course's picture on its gradient tile, with the emoji underneath as the fallback. `className` sets the size and shape. */
+/** A course's picture on its gradient tile, with a line icon underneath as the fallback. `className` sets the size and shape. */
 export function CourseThumb({ course, covers, className = "" }: { course: Course; covers: Record<string, string | null>; className?: string }) {
   const src = covers[COURSE_PHOTO[course.id]];
   return (
     <span className={`relative flex shrink-0 items-center justify-center overflow-hidden bg-gradient-to-br ${tileOf(course)} ${className}`}>
-      {course.emoji}
+      <CourseIcon course={course} />
       {src && (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={src} alt="" loading="lazy" draggable={false}
@@ -61,9 +63,7 @@ export function CoursesView({ selected, onSelect }: { selected: string; onSelect
 
   return (
     <div className="mx-auto w-full max-w-[760px]">
-      <h1 className="text-lg font-semibold">Courses</h1>
-      <p className="mt-3 text-[13px] text-white/80">Advance your language skills with a guided curriculum tailored to your knowledge level.</p>
-      <hr className="mt-4 border-white/10" />
+      <PageHeader eyebrow="Curriculum" title="Courses" lead="Guided paths of words, sentences and dialogues. Pick one and it opens on Learn." />
 
       {COURSE_GROUPS.map((g) => (
         <section key={g.id} className="mt-8" aria-label={g.title}>
@@ -72,11 +72,11 @@ export function CoursesView({ selected, onSelect }: { selected: string; onSelect
             {COURSES.filter((c) => c.group === g.id).map((c) => (
               <li key={c.id}>
                 <button onClick={() => onSelect(c)} aria-label={`Open the ${c.title} course`} aria-current={c.id === selected ? "true" : undefined}
-                  className={`flex h-[116px] w-full gap-4 rounded-2xl border bg-[#1f1f27] p-3.5 text-left transition-colors hover:border-white/25 border-white/5 focus:outline-none focus-visible:border-white/25`}>
+                  className={`flex h-[116px] w-full gap-4 rounded-2xl border bg-surface p-3.5 text-left transition-colors hover:border-line/25 border-line/5 focus:outline-none focus-visible:border-line/25`}>
                   <CourseThumb course={c} covers={covers} className="w-[70px] rounded-xl text-3xl" />
                   <span className="flex min-w-0 flex-1 flex-col">
                     <span className="text-[13px] font-semibold">{c.title}</span>
-                    <span className="mt-1 text-[11px] leading-snug text-white/70">{c.desc}</span>
+                    <span className="mt-1 text-[11px] leading-snug text-muted">{c.desc}</span>
                     {c.badge && <span className="mt-auto w-fit rounded-md bg-white/10 px-2 py-0.5 text-[10px] font-bold">{c.badge}</span>}
                   </span>
                 </button>
@@ -87,4 +87,9 @@ export function CoursesView({ selected, onSelect }: { selected: string; onSelect
       ))}
     </div>
   );
+}
+
+function CourseIcon({ course }: { course: Course }) {
+  const Icon = iconFor(`${course.title} ${course.desc ?? ""}`, "word");
+  return <Icon aria-hidden="true" size={22} strokeWidth={1.75} className="text-ink/85" />;
 }

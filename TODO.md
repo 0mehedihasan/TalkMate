@@ -25,6 +25,7 @@ Living backlog. Agents: tick items as you finish them and add follow-ups you dis
 - [ ] Check on Vercel that the CSP allows everything in production (Google sign-in popup, flag images, photos); watch the browser console for CSP errors
 - [ ] Choose a license (none yet — all rights reserved)
 
+<<<<<<< HEAD
 ## SEO (2026-11-24)
 - [x] Public landing page, `/learn` language pages, `/guides`, sitemap, robots, structured data, `noindex` behind the login
 - [ ] Have a native speaker check the phrases and romanisation in `lib/languages.ts` (Bengali, Hindi, Arabic, Korean first) and read the three guides in `lib/guides.ts`; rewrite them in your own voice
@@ -33,6 +34,8 @@ Living backlog. Agents: tick items as you finish them and add follow-ups you dis
 - [ ] Get real links to the site (edsol.academy, GitHub README, LinkedIn, communities); run PageSpeed Insights on `/` and `/learn/spanish` (the AdSense script loads on every page and can slow the first paint)
 - [ ] Consider keeping ads off the public marketing pages until they have more original content
 
+=======
+>>>>>>> ed4a835333706e874657e00e76d8f33995f28349
 ## Design (premium UI pass, 2026-11-22)
 - [x] Semantic colour tokens, fonts, focus/reduced-motion base, no emoji in the UI, Home/tabs/grids/landing restyled (branch `design/premium-ui`)
 - [ ] Practice screens (Chat, Call, Debate, Roleplay, Characters, Sentence/Word practice) only got the token and background pass: give their headers, bubbles and feedback panels the same care as Home

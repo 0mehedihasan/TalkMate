@@ -1,5 +1,6 @@
 "use client";
 
+import { PageHeader } from "@/components/ui/PageHeader";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CalendarCheck, Gift, LayoutList, LifeBuoy, LogOut, Settings, SlidersHorizontal, User, type LucideIcon } from "lucide-react";
@@ -27,12 +28,12 @@ function Row({ icon: Icon, title, sub, onClick, danger }: {
       <Icon size={22} className={danger ? "text-pink-500" : ""} />
       <span>
         <span className={`block font-semibold ${danger ? "text-pink-500" : ""}`}>{title}</span>
-        <span className="text-xs text-white/60">{sub}</span>
+        <span className="text-xs text-muted">{sub}</span>
       </span>
     </button>
   );
 }
-const card = "overflow-hidden rounded-2xl border border-white/5 bg-[#1f1f27]";
+const card = "overflow-hidden rounded-2xl border border-line/5 bg-surface";
 
 export function AccountView({ s, onSettings, onLogout, onToast, onSnapshot }: {
   s: Progress; onSettings: (patch: { language?: string; nativeLanguage?: string; level?: string }) => void; onLogout: () => void;
@@ -54,7 +55,7 @@ export function AccountView({ s, onSettings, onLogout, onToast, onSnapshot }: {
 
   return (
     <div className="mx-auto max-w-[656px] pt-1">
-      <h1 className="border-b border-white/5 pb-6 text-lg font-semibold">Account</h1>
+      <PageHeader eyebrow={s.email} title="Account" className="!mb-2" />
 
       <h2 className="mt-8 text-xl font-semibold">Account settings</h2>
       <div className="mt-5 flex flex-col gap-4">
@@ -70,7 +71,7 @@ export function AccountView({ s, onSettings, onLogout, onToast, onSnapshot }: {
         </div>
       </div>
 
-      <div className="mt-10 pb-6 text-center text-[11px] leading-5 text-white/70">
+      <div className="mt-10 pb-6 text-center text-[11px] leading-5 text-muted">
         {FOOTER.map((t) => <p key={t}>{t}</p>)}
       </div>
     </div>

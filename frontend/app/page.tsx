@@ -64,7 +64,11 @@ export default function Home() {
           <div>
             <p className="eyebrow !text-brand-300">AI language tutor &middot; {LANGUAGE_PAGES.length} languages</p>
             <h1 className="mt-4 font-display text-[40px] font-extrabold leading-[1.05] tracking-tight sm:text-[56px]">
+<<<<<<< HEAD
               Learn a language by speaking it with an AI tutor.
+=======
+              Learn a language by speaking it.
+>>>>>>> ed4a835333706e874657e00e76d8f33995f28349
             </h1>
             <p className="mt-5 max-w-[52ch] text-lg leading-relaxed text-muted">
               A patient AI tutor that chats, calls and role-plays with you, corrects every message and rates your pronunciation. Right in your browser.
@@ -147,12 +151,15 @@ export default function Home() {
           <LanguageLinks />
         </section>
 
+<<<<<<< HEAD
         <section className="mx-auto max-w-6xl px-5 py-16" aria-labelledby="guides-title">
           <p className="eyebrow">Guides</p>
           <h2 id="guides-title" className="mt-2 font-display text-2xl font-bold sm:text-3xl">Learn how to practise speaking</h2>
           <GuideLinks />
         </section>
 
+=======
+>>>>>>> ed4a835333706e874657e00e76d8f33995f28349
         <section id="faq" className="mx-auto max-w-3xl scroll-mt-20 px-5 py-16" aria-labelledby="faq-title">
           <p className="eyebrow">FAQ</p>
           <h2 id="faq-title" className="mt-2 font-display text-2xl font-bold sm:text-3xl">Frequently asked questions</h2>

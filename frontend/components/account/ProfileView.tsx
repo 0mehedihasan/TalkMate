@@ -13,8 +13,8 @@ import { SubPage } from "./SubPage";
 
 type Page = "menu" | "details" | "password" | "email" | "app" | "privacy";
 
-const card = "overflow-hidden rounded-2xl border border-white/5 bg-[#1f1f27]";
-const input = "w-full rounded-2xl border border-white/10 bg-[#1f1f27] px-5 py-4 text-sm font-semibold outline-none transition-colors placeholder:text-white/50 focus:border-white/30";
+const card = "overflow-hidden rounded-2xl border border-line/5 bg-surface";
+const input = "w-full rounded-2xl border border-line/10 bg-surface px-5 py-4 text-sm font-semibold outline-none transition-colors placeholder:text-muted focus:border-line/30";
 const label = "mb-3 block text-sm font-semibold";
 
 // "UTC-12:00" ... "UTC+14:00", including the half and quarter hour zones
@@ -80,7 +80,7 @@ export function ProfileView({ onBack, onToast, onSnapshot, onLogout }: {
   if (!profile) {
     return (
       <SubPage title="Profile" subtitle="Manage your profile information below." onBack={onBack}>
-        {error ? <ErrorText text={error} /> : <p className="text-sm text-white/60">Loading…</p>}
+        {error ? <ErrorText text={error} /> : <p className="text-sm text-muted">Loading…</p>}
       </SubPage>
     );
   }
@@ -106,7 +106,7 @@ export function ProfileView({ onBack, onToast, onSnapshot, onLogout }: {
             <Icon size={22} />
             <span>
               <span className="block font-semibold">{title}</span>
-              <span className="text-xs text-white/60">{sub}</span>
+              <span className="text-xs text-muted">{sub}</span>
             </span>
           </button>
         ))}
@@ -117,7 +117,7 @@ export function ProfileView({ onBack, onToast, onSnapshot, onLogout }: {
           <Trash2 size={22} className="text-pink-500" />
           <span>
             <span className="block font-semibold text-pink-500">Delete account</span>
-            <span className="text-xs text-white/60">This action can not be undone.</span>
+            <span className="text-xs text-muted">This action can not be undone.</span>
           </span>
         </button>
       </div>
@@ -126,13 +126,13 @@ export function ProfileView({ onBack, onToast, onSnapshot, onLogout }: {
         <Modal onClose={() => !deleting && setConfirmDelete(false)} label="Delete account">
           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-pink-200 text-pink-600"><Trash2 size={22} /></span>
           <h2 className="mt-6 text-2xl font-bold">Delete account?</h2>
-          <p className="mt-3 text-[15px] font-semibold leading-relaxed text-white/80">Are you sure you want to delete your account? This action can not be undone.</p>
+          <p className="mt-3 text-[15px] font-semibold leading-relaxed text-ink/90">Are you sure you want to delete your account? This action can not be undone.</p>
           <button onClick={deleteAccount} disabled={deleting}
-            className="mt-8 w-full rounded-2xl border border-white/15 py-4 text-sm font-semibold text-pink-500 transition-colors hover:bg-white/5 disabled:opacity-50">
+            className="mt-8 w-full rounded-2xl border border-line/15 py-4 text-sm font-semibold text-pink-500 transition-colors hover:bg-white/5 disabled:opacity-50">
             {deleting ? "Deleting…" : "Delete"}
           </button>
           <button onClick={() => setConfirmDelete(false)} disabled={deleting}
-            className="mt-3 w-full rounded-2xl bg-indigo-600 py-4 text-sm font-semibold transition-colors hover:bg-indigo-500 disabled:opacity-50">
+            className="mt-3 w-full rounded-2xl bg-brand-600 py-4 text-sm font-semibold transition-colors hover:bg-brand-500 disabled:opacity-50">
             Cancel
           </button>
         </Modal>
@@ -142,7 +142,7 @@ export function ProfileView({ onBack, onToast, onSnapshot, onLogout }: {
 }
 
 const saveBtn = (enabled: boolean) =>
-  `mt-2 w-full rounded-2xl py-4 text-sm font-semibold transition-colors ${enabled ? "bg-white text-black hover:bg-white/90" : "cursor-not-allowed bg-white/10 text-white/40"}`;
+  `mt-2 w-full rounded-2xl py-4 text-sm font-semibold transition-colors ${enabled ? "bg-white text-black hover:bg-white/90" : "cursor-not-allowed bg-white/10 text-subtle"}`;
 
 function DetailsPage({ profile, onBack, onSaved, onToast, onSnapshot }: {
   profile: ProfileData; onBack: () => void; onSaved: (p: ProfileData) => void; onToast: (m: string) => void; onSnapshot: (p: Progress) => void;
@@ -227,11 +227,11 @@ function DetailsPage({ profile, onBack, onSaved, onToast, onSnapshot }: {
   return (
     <SubPage title="Personal details" subtitle="Manage your personal details below." onBack={onBack}>
       <div className="mb-8 flex flex-col items-center gap-4">
-        <div className="flex h-36 w-36 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-[#1f1f27]">
+        <div className="flex h-36 w-36 items-center justify-center overflow-hidden rounded-full border border-line/10 bg-surface">
           {profile.avatar
             // eslint-disable-next-line @next/next/no-img-element
             ? <img src={profile.avatar} alt="Your profile picture" className="h-full w-full object-cover" />
-            : <User size={64} className="text-white/70" />}
+            : <User size={64} className="text-muted" />}
         </div>
         <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={pickPhoto} className="hidden" aria-label="Upload a profile picture" />
         <div className="flex items-center gap-3">
@@ -241,7 +241,7 @@ function DetailsPage({ profile, onBack, onSaved, onToast, onSnapshot }: {
           </button>
           {profile.avatar && (
             <button type="button" onClick={removePhoto} disabled={photoBusy}
-              className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-semibold text-pink-500 transition-colors hover:bg-white/5 disabled:opacity-50">
+              className="rounded-full border border-line/15 px-5 py-2.5 text-sm font-semibold text-pink-500 transition-colors hover:bg-white/5 disabled:opacity-50">
               Remove
             </button>
           )}
@@ -251,7 +251,7 @@ function DetailsPage({ profile, onBack, onSaved, onToast, onSnapshot }: {
       <form onSubmit={save} className="space-y-6">
         <div>
           <label htmlFor="email" className={label}>Your email address</label>
-          <input id="email" value={profile.email} readOnly aria-readonly className={`${input} cursor-default text-white/70`} />
+          <input id="email" value={profile.email} readOnly aria-readonly className={`${input} cursor-default text-muted`} />
         </div>
         <div>
           <label htmlFor="firstName" className={label}>First name</label>
@@ -266,7 +266,7 @@ function DetailsPage({ profile, onBack, onSaved, onToast, onSnapshot }: {
           <div className="relative">
             <select id="timeZone" value={timeZone} onChange={(e) => setTimeZone(e.target.value)} className={`${input} cursor-pointer appearance-none pr-12`}>
               {!TIME_ZONES.includes(timeZone) && <option value={timeZone}>{timeZone}</option>}
-              {TIME_ZONES.map((z) => <option key={z} value={z} className="bg-[#1f1f27]">{z}</option>)}
+              {TIME_ZONES.map((z) => <option key={z} value={z} className="bg-surface">{z}</option>)}
             </select>
             <ChevronDown size={18} className="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2" />
           </div>
@@ -277,15 +277,15 @@ function DetailsPage({ profile, onBack, onSaved, onToast, onSnapshot }: {
         </div>
         <div>
           <label htmlFor="phone" className={label}>Phone number</label>
-          <div className={`flex min-w-0 items-stretch rounded-2xl border bg-[#1f1f27] transition-colors focus-within:border-white/30 ${phoneTouched && !phoneCheck.ok ? "border-red-400/60" : "border-white/10"}`}>
-            <CountryPicker variant="dial" ariaLabel="Phone country code" value={dial} onChange={pickDial} returnFocus={false} className="flex shrink-0 border-r border-white/10" />
+          <div className={`flex min-w-0 items-stretch rounded-2xl border bg-surface transition-colors focus-within:border-line/30 ${phoneTouched && !phoneCheck.ok ? "border-danger/60" : "border-line/10"}`}>
+            <CountryPicker variant="dial" ariaLabel="Phone country code" value={dial} onChange={pickDial} returnFocus={false} className="flex shrink-0 border-r border-line/10" />
             <input id="phone" ref={phoneInput} type="tel" inputMode="tel" autoComplete="tel-national" placeholder="Phone number" maxLength={20} value={phone}
               aria-invalid={phoneTouched && !phoneCheck.ok}
               onChange={(e) => setPhone(e.target.value.replace(/[^\d+\s().-]/g, ""))} onBlur={phoneBlur}
-              className="min-w-0 flex-1 bg-transparent py-4 pl-4 pr-2 text-sm font-semibold outline-none placeholder:text-white/50" />
-            {phoneCheck.ok && <Check size={18} aria-label="Valid phone number" className="my-auto mr-4 shrink-0 text-emerald-400" />}
+              className="min-w-0 flex-1 bg-transparent py-4 pl-4 pr-2 text-sm font-semibold outline-none placeholder:text-muted" />
+            {phoneCheck.ok && <Check size={18} aria-label="Valid phone number" className="my-auto mr-4 shrink-0 text-success" />}
           </div>
-          {phoneTouched && !phoneCheck.ok && <p role="alert" className="mt-2 px-1 text-xs text-red-300">{phoneCheck.message}</p>}
+          {phoneTouched && !phoneCheck.ok && <p role="alert" className="mt-2 px-1 text-xs text-danger">{phoneCheck.message}</p>}
         </div>
         <ErrorText text={error} />
         <button type="submit" disabled={!dirty || busy} className={saveBtn(dirty && !busy)}>{busy ? "Saving…" : "Save"}</button>
@@ -305,7 +305,7 @@ function PasswordField({ id, title, value, onChange, autoComplete }: {
         <input id={id} type={shown ? "text" : "password"} required maxLength={72} placeholder="Password" value={value}
           onChange={(e) => onChange(e.target.value)} autoComplete={autoComplete} className={`${input} pr-14`} />
         <button type="button" onClick={() => setShown((v) => !v)} aria-label={shown ? "Hide password" : "Show password"}
-          className="absolute right-5 top-1/2 -translate-y-1/2 text-white/50 hover:text-white">
+          className="absolute right-5 top-1/2 -translate-y-1/2 text-muted hover:text-ink">
           {shown ? <EyeOff size={20} /> : <Eye size={20} />}
         </button>
       </div>
@@ -345,9 +345,9 @@ function PasswordPage({ onBack, onToast }: { onBack: () => void; onToast: (m: st
         <ErrorText text={error} />
         <button type="submit" className={saveBtn(ready && !busy)}>{busy ? "Saving…" : "Save"}</button>
       </form>
-      <div className="mt-6 border-t border-white/5 pt-6 text-center text-sm font-semibold text-white/80">
+      <div className="mt-6 border-t border-line/5 pt-6 text-center text-sm font-semibold text-ink/90">
         Forgot password?{" "}
-        <button type="button" onClick={() => onToast("Password reset by email isn't available yet.")} className="font-bold text-white underline">Click here</button>
+        <button type="button" onClick={() => onToast("Password reset by email isn't available yet.")} className="font-bold text-ink underline">Click here</button>
       </div>
     </SubPage>
   );
@@ -356,7 +356,7 @@ function PasswordPage({ onBack, onToast }: { onBack: () => void; onToast: (m: st
 function Switch({ on, onChange, name }: { on: boolean; onChange: (v: boolean) => void; name: string }) {
   return (
     <button type="button" role="switch" aria-checked={on} aria-label={name} onClick={() => onChange(!on)}
-      className={`relative h-8 w-14 shrink-0 rounded-full transition-colors ${on ? "bg-indigo-600" : "bg-white/15"}`}>
+      className={`relative h-8 w-14 shrink-0 rounded-full transition-colors ${on ? "bg-brand-600" : "bg-white/15"}`}>
       <span className={`absolute top-1 h-6 w-6 rounded-full transition-all ${on ? "left-7 bg-white" : "left-1 bg-white/75"}`} />
     </button>
   );
@@ -374,7 +374,7 @@ function ToggleRow({ title, on, onChange }: { title: string; on: boolean; onChan
 const Section = ({ title, sub, children }: { title: string; sub?: string; children: React.ReactNode }) => (
   <section className="mt-1 first:mt-0">
     <h2 className="text-base font-semibold">{title}</h2>
-    {sub && <p className="mt-1.5 text-xs font-semibold text-white/70">{sub}</p>}
+    {sub && <p className="mt-1.5 text-xs font-semibold text-muted">{sub}</p>}
     <div className="mt-3">{children}</div>
   </section>
 );
@@ -406,7 +406,7 @@ function NotificationsPage({ kind, profile, onBack, onChange, onToast }: {
         </Section>
       </div>
       <div className="mt-8 text-center">
-        <button onClick={() => update({ [offersKey]: false, [learningKey]: false } as Partial<NotificationPrefs>)} className="text-sm font-semibold underline hover:text-white/80">Unsubscribe from all</button>
+        <button onClick={() => update({ [offersKey]: false, [learningKey]: false } as Partial<NotificationPrefs>)} className="text-sm font-semibold underline hover:text-ink/90">Unsubscribe from all</button>
       </div>
     </SubPage>
   );

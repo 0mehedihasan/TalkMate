@@ -28,16 +28,23 @@ export default function LearnIndex() {
   };
   return (
     <div className="min-h-screen bg-canvas text-ink">
+<<<<<<< HEAD
       <JsonLd data={[breadcrumb, list]} />
+=======
+      <JsonLd data={breadcrumb} />
+>>>>>>> ed4a835333706e874657e00e76d8f33995f28349
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-5 py-12">
         <h1 className="text-3xl font-bold sm:text-4xl">Learn languages online with an AI tutor</h1>
         <p className="mt-3 max-w-2xl text-muted">{DESCRIPTION}</p>
+<<<<<<< HEAD
         <p className="mt-3 max-w-2xl text-muted">
           Every language has Beginner, Intermediate and Advanced levels. You can chat by text, make voice calls, act out everyday scenes, practise
           pronunciation with a 1 to 5 rating, and read each correction in the language you already speak. Pick a language to see its writing system,
           everyday phrases and tips.
         </p>
+=======
+>>>>>>> ed4a835333706e874657e00e76d8f33995f28349
         <LanguageLinks />
         <h2 className="mt-16 text-2xl font-bold">Speaking guides</h2>
         <GuideLinks />

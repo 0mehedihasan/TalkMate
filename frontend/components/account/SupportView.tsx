@@ -6,11 +6,11 @@ import { ErrorText } from "@/components/Modal";
 import { api } from "@/lib/api";
 import { SubPage } from "./SubPage";
 
-export const SUPPORT_EMAIL = "support@talkmate.ai";
+import { SUPPORT_EMAIL } from "@/lib/site";
 // keep in step with SUPPORT_TYPES in backend/src/account/account.options.ts
 const ISSUE_TYPES = ["Account or login", "Subscription or billing", "Bug or technical problem", "Feedback or suggestion", "Other"];
 
-const field = "w-full rounded-3xl border border-white/10 bg-[#1f1f27] px-5 text-sm font-semibold outline-none transition-colors placeholder:text-white/60 focus:border-white/30";
+const field = "w-full rounded-2xl border border-line/10 bg-surface px-5 text-sm font-semibold outline-none transition-colors placeholder:text-muted focus:border-line/30";
 
 export function SupportView({ onBack, onToast }: { onBack: () => void; onToast: (message: string) => void }) {
   const [form, setForm] = useState(false);
@@ -19,18 +19,18 @@ export function SupportView({ onBack, onToast }: { onBack: () => void; onToast: 
 
   return (
     <SubPage title="Support" subtitle="Find all the necessary information below." onBack={onBack}>
-      <div className="overflow-hidden rounded-2xl border border-white/5 bg-[#1f1f27]">
+      <div className="overflow-hidden rounded-2xl border border-line/5 bg-surface">
         <button onClick={() => setForm(true)} className="flex w-full items-center gap-4 px-5 py-4 text-left transition-colors hover:bg-white/5">
           <Mail size={22} />
           <span>
             <span className="block font-semibold">Contact us</span>
-            <span className="text-xs text-white/60">Contact our support team.</span>
+            <span className="text-xs text-muted">Contact our support team.</span>
           </span>
         </button>
       </div>
-      <p className="mt-8 text-center text-xs font-semibold text-white/80">
+      <p className="mt-8 text-center text-xs font-semibold text-ink/90">
         Customer support:{" "}
-        <a href={`mailto:${SUPPORT_EMAIL}`} className="underline hover:text-white">{SUPPORT_EMAIL}</a>
+        <a href={`mailto:${SUPPORT_EMAIL}`} className="underline hover:text-ink">{SUPPORT_EMAIL}</a>
       </p>
     </SubPage>
   );
@@ -59,7 +59,7 @@ function ContactForm({ onBack, onSent }: { onBack: () => void; onSent: () => voi
           className={`${field} h-80 resize-none py-5`} />
         <ErrorText text={error} />
         <button type="submit" disabled={!ready || busy}
-          className={`w-full rounded-2xl py-4 text-sm font-semibold transition-colors ${ready && !busy ? "bg-white text-black hover:bg-white/90" : "cursor-not-allowed bg-white/10 text-white/40"}`}>
+          className={`w-full rounded-2xl py-4 text-sm font-semibold transition-colors ${ready && !busy ? "bg-white text-black hover:bg-white/90" : "cursor-not-allowed bg-white/10 text-subtle"}`}>
           {busy ? "Sending…" : "Submit"}
         </button>
       </form>
@@ -94,18 +94,18 @@ function IssueSelect({ value, onChange }: { value: string; onChange: (v: string)
   return (
     <div ref={box} className="relative" onKeyDown={onKey}>
       <button type="button" onClick={() => (open ? setOpen(false) : show())} aria-haspopup="listbox" aria-expanded={open} aria-label="Type of issue"
-        className={`${field} flex items-center justify-between py-5 text-left ${open ? "border-white/30" : ""} ${value ? "text-white" : "text-white/70"}`}>
+        className={`${field} flex items-center justify-between py-5 text-left ${open ? "border-line/30" : ""} ${value ? "text-ink" : "text-muted"}`}>
         {value || "Type of issue"}
-        <ChevronDown size={18} className={`shrink-0 text-white transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
+        <ChevronDown size={18} className={`shrink-0 text-ink transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
       </button>
       {open && (
         <ul role="listbox" aria-label="Type of issue"
-          className="absolute left-0 right-0 top-full z-20 mt-2 overflow-hidden rounded-2xl border border-white/10 bg-[#25252f] py-2 shadow-[0_16px_40px_rgba(0,0,0,0.45)]">
+          className="absolute left-0 right-0 top-full z-20 mt-2 overflow-hidden rounded-2xl border border-line/10 bg-surface-2 py-2 shadow-[0_16px_40px_rgba(0,0,0,0.45)]">
           {ISSUE_TYPES.map((t, i) => (
             <li key={t} role="option" aria-selected={t === value} onClick={() => pick(t)} onMouseEnter={() => setActive(i)}
-              className={`flex cursor-pointer items-center justify-between px-5 py-3.5 text-sm font-semibold transition-colors ${i === active ? "bg-white/[0.07]" : ""} ${t === value ? "text-white" : "text-white/80"}`}>
+              className={`flex cursor-pointer items-center justify-between px-5 py-3.5 text-sm font-semibold transition-colors ${i === active ? "bg-white/[0.07]" : ""} ${t === value ? "text-ink" : "text-ink/90"}`}>
               {t}
-              {t === value && <Check size={16} className="text-indigo-400" />}
+              {t === value && <Check size={16} className="text-brand-400" />}
             </li>
           ))}
         </ul>

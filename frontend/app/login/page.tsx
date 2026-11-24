@@ -203,23 +203,23 @@ export default function LoginPage() {
   const login = mode === "login";
   const register = mode === "register";
   const py = register ? "py-2.5" : "py-3.5"; // the sign-up form is tighter so it fits one screen without scrolling
-  const input = `w-full rounded-2xl border border-white/15 bg-white/5 ${py} pl-10 pr-4 text-sm text-white outline-none placeholder:text-white/45 focus:border-violet-400 focus:ring-2 focus:ring-violet-500/30`;
+  const input = `w-full rounded-2xl border border-line/15 bg-white/5 ${py} pl-10 pr-4 text-sm text-ink outline-none placeholder:text-subtle focus:border-brand-400 focus:ring-2 focus:ring-brand-500/30`;
   const switchMode = () => { setMode(login ? "register" : "login"); setError(null); setConfirm(""); setShowPassword(false); setShowConfirm(false); };
   const eye = (shown: boolean, toggle: () => void) => (
-    <button type="button" onClick={toggle} aria-label={shown ? "Hide password" : "Show password"} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white">
+    <button type="button" onClick={toggle} aria-label={shown ? "Hide password" : "Show password"} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-ink">
       {shown ? <EyeOff size={20} /> : <Eye size={20} />}
     </button>
   );
-  const brand = <>Talk<span className="text-violet-300">Mate</span></>;
+  const brand = <>Talk<span className="text-brand-300">Mate</span></>;
   const fade = "linear-gradient(to bottom, black 92%, transparent 100%)";
 
   return (
-    <main className="min-h-screen bg-[#140e33] text-white lg:h-screen lg:overflow-hidden">
+    <main className="min-h-screen bg-brand-900 text-ink lg:h-screen lg:overflow-hidden">
       {/* same as browser zoom 110%: scales every rem size (text, spacing) on this page only; removed when leaving the page */}
       <style>{"html { font-size: 110%; }"}</style>
       <div className="grid min-h-screen w-full grid-cols-1 lg:h-screen lg:min-h-0 lg:grid-cols-[1.1fr_1fr]">
         {/* left: the same on login and register, only the right side changes */}
-        <section className="relative hidden min-h-screen overflow-hidden bg-[#4a13c0] lg:block lg:h-screen lg:min-h-0">
+        <section className="relative hidden min-h-screen overflow-hidden bg-brand-700 lg:block lg:h-screen lg:min-h-0">
           <style>{ROBOT_CSS}</style>
           {/* "slice" keeps the picture covering the area like object-cover, so the layers stay lined up at any size */}
           <svg viewBox="0 0 1306 1205" preserveAspectRatio="xMidYMid slice" aria-hidden="true" className="absolute inset-x-0 top-0 h-[74%] w-full" style={{ maskImage: fade, WebkitMaskImage: fade }}>
@@ -230,20 +230,20 @@ export default function LoginPage() {
               <image className="tm-smile" href={`${ROBOT}/smile.webp`} x="895" y="694" width="57" height="30" />
             </g>
           </svg>
-          <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-[#1c0861] via-[#2c0e8f]/70 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-brand-900 via-brand-800/70 to-transparent" />
           <div className="absolute left-7 top-6 flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo/logo-mark.png" alt="" width={57} height={57} className="h-[57px] w-[57px] object-contain" />
             <p className="text-3xl font-bold tracking-tight">{brand}</p>
           </div>
           <div className="absolute inset-x-8 bottom-8">
-            <h2 className="text-4xl font-bold leading-tight">Learn Languages<br />with <span className="text-violet-300">TalkMate</span></h2>
-            <p className="mt-3 text-lg leading-snug text-white/75">Practice. Speak. Improve.<br />Anytime, Anywhere.</p>
+            <h2 className="text-4xl font-bold leading-tight">Learn Languages<br />with <span className="text-brand-300">TalkMate</span></h2>
+            <p className="mt-3 text-lg leading-snug text-ink/90">Practice. Speak. Improve.<br />Anytime, Anywhere.</p>
           </div>
         </section>
 
         {/* right: login / register / verify */}
-        <section className={`flex min-h-screen items-center justify-center bg-[#140e33] px-6 lg:h-screen lg:min-h-0 lg:overflow-y-auto ${register ? "py-4 lg:px-10" : "py-10 lg:px-16"}`}>
+        <section className={`flex min-h-screen items-center justify-center bg-brand-900 px-6 lg:h-screen lg:min-h-0 lg:overflow-y-auto ${register ? "py-4 lg:px-10" : "py-10 lg:px-16"}`}>
           <form onSubmit={submit} className={`w-full ${register ? "max-w-[520px]" : "max-w-[460px]"} my-auto`}>
             <div className={`${register ? "mb-3" : "mb-5"} flex items-center gap-2 lg:hidden`}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -252,14 +252,14 @@ export default function LoginPage() {
             </div>
 
             <h1 className={`${register ? "text-3xl" : "text-4xl"} font-bold leading-tight tracking-tight`}>
-              {login ? <>Welcome <span className="text-violet-400">back</span></> : register ? <>Create an <span className="text-violet-400">account</span></> : <>Verify your <span className="text-violet-400">email</span></>}
+              {login ? <>Welcome <span className="text-brand-400">back</span></> : register ? <>Create an <span className="text-brand-400">account</span></> : <>Verify your <span className="text-brand-400">email</span></>}
             </h1>
-            <p className={`${register ? "mt-1" : "mt-2"} text-sm text-white/70`}>
-              {login ? <>Log in to continue your language learning journey with <b className="font-semibold text-violet-400">TalkMate</b>.</>
-                : register ? <>Start your language learning journey with <b className="font-semibold text-violet-400">TalkMate</b>.</>
-                : <>We sent a 6-digit code to <b className="text-white/90">{email}</b>. It can take a minute to arrive, so check your spam folder too.</>}
+            <p className={`${register ? "mt-1" : "mt-2"} text-sm text-muted`}>
+              {login ? <>Log in to continue your language learning journey with <b className="font-semibold text-brand-400">TalkMate</b>.</>
+                : register ? <>Start your language learning journey with <b className="font-semibold text-brand-400">TalkMate</b>.</>
+                : <>We sent a 6-digit code to <b className="text-ink">{email}</b>. It can take a minute to arrive, so check your spam folder too.</>}
             </p>
-            {ref && register && <p className="mt-2 text-xs text-white/60">Invite code <b>{ref}</b> applied.</p>}
+            {ref && register && <p className="mt-2 text-xs text-muted">Invite code <b>{ref}</b> applied.</p>}
 
             {mode !== "verify" && (
               <div className={`${register ? "mt-4 space-y-2.5" : "mt-6 space-y-3"}`}>
@@ -284,15 +284,15 @@ export default function LoginPage() {
                     <div>
                     <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-[1fr_1.25fr] sm:gap-3">
                       <CountryPicker variant="country" compact ariaLabel="Country" placeholder="Country" value={country} onChange={pickCountry} invalid={triedSubmit && !country} />
-                      <div className={`flex min-w-0 items-stretch rounded-2xl border bg-white/5 transition-colors focus-within:border-violet-400 focus-within:ring-2 focus-within:ring-violet-500/30 ${phoneTouched && !phoneCheck.ok ? "border-red-400/60" : "border-white/15"}`}>
-                        <CountryPicker variant="dial" compact ariaLabel="Phone country code" value={dial} onChange={pickDial} returnFocus={false} className="flex shrink-0 border-r border-white/15" />
+                      <div className={`flex min-w-0 items-stretch rounded-2xl border bg-white/5 transition-colors focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-500/30 ${phoneTouched && !phoneCheck.ok ? "border-danger/60" : "border-line/15"}`}>
+                        <CountryPicker variant="dial" compact ariaLabel="Phone country code" value={dial} onChange={pickDial} returnFocus={false} className="flex shrink-0 border-r border-line/15" />
                         <input id="phone" ref={phoneInput} aria-label="Phone number" aria-invalid={phoneTouched && !phoneCheck.ok} type="tel" inputMode="tel" autoComplete="tel-national" placeholder="Phone Number" required maxLength={20} value={phone}
                           onChange={(e) => setPhone(e.target.value.replace(/[^\d+\s().-]/g, ""))} onBlur={phoneBlur}
-                          className="min-w-0 flex-1 bg-transparent py-2.5 pl-3 pr-2 text-sm text-white outline-none placeholder:text-white/45" />
-                        {phoneCheck.ok && <Check size={18} aria-label="Valid phone number" className="my-auto mr-3 shrink-0 text-emerald-400" />}
+                          className="min-w-0 flex-1 bg-transparent py-2.5 pl-3 pr-2 text-sm text-ink outline-none placeholder:text-subtle" />
+                        {phoneCheck.ok && <Check size={18} aria-label="Valid phone number" className="my-auto mr-3 shrink-0 text-success" />}
                       </div>
                     </div>
-                    {phoneTouched && !phoneCheck.ok && <p role="alert" className="mt-1.5 px-1 text-xs text-red-300">{phoneCheck.message}</p>}
+                    {phoneTouched && !phoneCheck.ok && <p role="alert" className="mt-1.5 px-1 text-xs text-danger">{phoneCheck.message}</p>}
                   </div>
                   </>
                 )}
@@ -308,7 +308,7 @@ export default function LoginPage() {
                           value={confirm} onChange={(e) => setConfirm(e.target.value)} autoComplete="new-password" />
                       </Field>
                     </div>
-                    <p className="text-xs leading-tight text-white/50">Use minimum 8 characters with upper and lowercase letters and a number.</p>
+                    <p className="text-xs leading-tight text-muted">Use minimum 8 characters with upper and lowercase letters and a number.</p>
                   </>
                 ) : (
                   <Field icon={Lock} right={eye(showPassword, () => setShowPassword((v) => !v))}>
@@ -327,27 +327,27 @@ export default function LoginPage() {
 
             {mode !== "verify" && (
               <div className={`${register ? "mt-3" : "mt-4"} flex items-center justify-between gap-3`}>
-                <label className="flex cursor-pointer items-center gap-2 text-sm text-white/75">
-                  <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} className="h-5 w-5 rounded accent-violet-500" />
+                <label className="flex cursor-pointer items-center gap-2 text-sm text-ink/90">
+                  <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} className="h-5 w-5 rounded accent-brand-500" />
                   Remember this device
                 </label>
-                {login && <Link href="/forgot-password" className="text-sm font-medium text-violet-400 hover:text-violet-300">Forgot your password?</Link>}
+                {login && <Link href="/forgot-password" className="text-sm font-medium text-brand-400 hover:text-brand-300">Forgot your password?</Link>}
               </div>
             )}
 
             <ErrorText text={error} />
-            {info && <p role="status" className="mt-3 rounded-lg bg-emerald-500/15 px-3 py-2 text-sm text-emerald-300">{info}</p>}
+            {info && <p role="status" className="mt-3 rounded-lg bg-success/15 px-3 py-2 text-sm text-success">{info}</p>}
 
-            <button disabled={busy} className={`${register ? "mt-3.5 py-3" : "mt-5 py-3.5"} flex w-full items-center justify-center gap-2 rounded-full bg-[#7c4dff] text-base font-semibold shadow-[0_8px_24px_rgba(124,77,255,0.35)] hover:bg-[#8f68ff] disabled:opacity-50`}>
+            <button disabled={busy} className={`${register ? "mt-3.5 py-3" : "mt-5 py-3.5"} flex w-full items-center justify-center gap-2 rounded-full bg-brand-500 text-base font-semibold shadow-[0_8px_24px_rgba(124,77,255,0.35)] hover:bg-brand-400 disabled:opacity-50`}>
               {busy ? "Please wait…" : <>{login ? "Sign in" : register ? "Create Account" : "Verify and continue"} <ArrowRight size={20} /></>}
             </button>
 
             {mode === "verify" && (
               <div className="mt-4 flex items-center justify-between text-sm">
-                <button type="button" onClick={resend} disabled={resendIn > 0} className="font-medium text-violet-400 hover:text-violet-300 disabled:text-white/40">
+                <button type="button" onClick={resend} disabled={resendIn > 0} className="font-medium text-brand-400 hover:text-brand-300 disabled:text-subtle">
                   {resendIn > 0 ? `Resend code in ${resendIn}s` : "Resend code"}
                 </button>
-                <button type="button" onClick={() => { setMode("register"); setError(null); setInfo(null); }} className="text-white/60 hover:text-white">
+                <button type="button" onClick={() => { setMode("register"); setError(null); setInfo(null); }} className="text-muted hover:text-ink">
                   Use a different email
                 </button>
               </div>
@@ -355,7 +355,7 @@ export default function LoginPage() {
 
             {/* kept mounted (just hidden) so the Google button is not lost when the verify step opens */}
             <div className={mode === "verify" ? "hidden" : ""}>
-              <div className={`${register ? "my-3" : "my-4"} flex items-center gap-3 text-xs text-white/50`}>
+              <div className={`${register ? "my-3" : "my-4"} flex items-center gap-3 text-xs text-muted`}>
                 <span className="h-px flex-1 bg-white/15" />
                 {login ? "or sign in with" : "or sign up with"}
                 <span className="h-px flex-1 bg-white/15" />
@@ -364,7 +364,7 @@ export default function LoginPage() {
               {GOOGLE_CLIENT_ID ? (
                 // the official Google button (needed to get the ID token) sits invisibly on top of a styled button, so clicks still go to Google
                 <div className={`group relative ${register ? "h-[46px]" : "h-[57px]"} w-full`}>
-                  <div className="pointer-events-none flex h-full w-full items-center justify-center gap-2 rounded-2xl border border-violet-400/50 bg-white/[0.03] text-sm font-medium text-white/90 transition group-hover:bg-violet-500/10">
+                  <div className="pointer-events-none flex h-full w-full items-center justify-center gap-2 rounded-2xl border border-brand-400/50 bg-white/[0.03] text-sm font-medium text-ink transition group-hover:bg-brand-500/10">
                     <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
                       <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
                       <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
@@ -376,16 +376,20 @@ export default function LoginPage() {
                   <div ref={googleBtn} className="absolute left-0 top-0 origin-top-left overflow-hidden opacity-[0.01]" style={{ width: 400, height: 40 }} />
                 </div>
               ) : (
-                <p className="text-center text-xs text-white/40">Google sign-in needs NEXT_PUBLIC_GOOGLE_CLIENT_ID (see CLAUDE.md).</p>
+                <p className="text-center text-xs text-subtle">Google sign-in needs NEXT_PUBLIC_GOOGLE_CLIENT_ID (see CLAUDE.md).</p>
               )}
 
-              <p className={`${register ? "mt-3" : "mt-5"} text-center text-sm text-white/60`}>
+              <p className={`${register ? "mt-3" : "mt-5"} text-center text-sm text-muted`}>
                 {login ? "New here? " : "Already have an account? "}
-                <button type="button" onClick={switchMode} className="font-semibold text-violet-400 underline-offset-2 hover:text-violet-300 hover:underline">
+                <button type="button" onClick={switchMode} className="font-semibold text-brand-400 underline-offset-2 hover:text-brand-300 hover:underline">
                   {login ? "Create an account" : "Log in"}
                 </button>
               </p>
             </div>
+
+            <p className="mt-6 text-center text-xs text-muted">
+              <Link href="/privacy" className="underline-offset-2 hover:text-ink/90 hover:underline">Privacy and cookies</Link>
+            </p>
           </form>
         </section>
       </div>
@@ -397,7 +401,7 @@ export default function LoginPage() {
 function Field({ icon: Icon, right, children }: { icon: LucideIcon; right?: React.ReactNode; children: React.ReactNode }) {
   return (
     <div className="relative">
-      <Icon size={20} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-white/50" />
+      <Icon size={20} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-muted" />
       {children}
       {right}
     </div>

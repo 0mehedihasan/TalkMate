@@ -9,16 +9,16 @@ import { admin, COURSE_OPTIONS, fileToDataUrl, FORMS, type Counts, type Field, t
 type Values = Record<string, any>;
 type Picked = { name: string; dataUrl: string };
 
-const input = "w-full rounded-lg border border-white/10 bg-[#16161c] px-3 py-2 text-sm outline-none placeholder:text-white/30 focus:ring-2 focus:ring-violet-500";
+const input = "w-full rounded-lg border border-line/10 bg-canvas px-3 py-2 text-sm outline-none placeholder:text-subtle focus:ring-2 focus:ring-brand-500";
 
 function Label({ f, children }: { f: Field; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="mb-1 flex items-baseline gap-2 text-xs font-medium text-white/80">
-        {f.label}{f.optional && <span className="font-normal text-white/40">optional</span>}
+      <span className="mb-1 flex items-baseline gap-2 text-xs font-medium text-ink/90">
+        {f.label}{f.optional && <span className="font-normal text-subtle">optional</span>}
       </span>
       {children}
-      {f.hint && <span className="mt-1 block text-[11px] text-white/40">{f.hint}</span>}
+      {f.hint && <span className="mt-1 block text-[11px] text-subtle">{f.hint}</span>}
     </label>
   );
 }
@@ -148,12 +148,12 @@ export function AddElementModal({ info, overview, edit, onChanged, onClose, onTo
   return (
     <Modal onClose={onClose} label={`${edit ? "Edit" : "Add"} ${info.label} element`} wide>
       <h2 className="pr-6 text-lg font-semibold">{edit ? `Edit “${edit.title}”` : `Add to ${info.label} mode`}</h2>
-      <p className="mt-1 text-xs text-white/50">
+      <p className="mt-1 text-xs text-muted">
         {edit
           ? `Changes show up for every learner as soon as you save. Its web address stays the same, so learners keep their progress.${builtin ? " This is a built-in element: your changes are saved on top of it, and Reset in the table puts the original back." : ""}`
           : "It shows up for every learner as soon as you save."}
       </p>
-      {loading && <p className="mt-4 flex items-center gap-2 text-sm text-white/50"><Loader2 size={14} className="animate-spin" /> Loading…</p>}
+      {loading && <p className="mt-4 flex items-center gap-2 text-sm text-muted"><Loader2 size={14} className="animate-spin" /> Loading…</p>}
 
       <div ref={firstRef} className={`mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 ${loading ? "pointer-events-none opacity-40" : ""}`}>
         {fields.map((f) => {
@@ -203,28 +203,28 @@ export function AddElementModal({ info, overview, edit, onChanged, onClose, onTo
               )}
               {f.kind === "portrait" && (
                 <Label f={f}>
-                  <div className="flex items-center gap-3 rounded-xl border border-dashed border-white/15 p-3">
+                  <div className="flex items-center gap-3 rounded-xl border border-dashed border-line/15 p-3">
                     {portrait || (current && !removePortrait)
                       // eslint-disable-next-line @next/next/no-img-element
                       ? <img src={portrait?.dataUrl ?? current!} alt="Portrait" className="h-16 w-16 rounded-lg object-cover object-top" />
                       : <span className="grid h-16 w-16 place-items-center rounded-lg text-2xl" style={{ background: `linear-gradient(135deg, hsl(${values.hue} 70% 45%), hsl(${(values.hue + 40) % 360} 70% 30%))` }}>{values.emoji || "🙂"}</span>}
                     <input ref={portraitRef} type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={(e) => pickPortrait(e.target.files)} />
-                    <button type="button" onClick={() => portraitRef.current?.click()} className="flex items-center gap-2 rounded-lg border border-white/15 px-3 py-2 text-sm hover:bg-white/5"><ImagePlus size={16} /> {portrait || current ? "Replace" : "Upload portrait"}</button>
+                    <button type="button" onClick={() => portraitRef.current?.click()} className="flex items-center gap-2 rounded-lg border border-line/15 px-3 py-2 text-sm hover:bg-white/5"><ImagePlus size={16} /> {portrait || current ? "Replace" : "Upload portrait"}</button>
                     {(portrait || (current && !removePortrait)) && (
-                      <button type="button" onClick={() => { setPortrait(null); setRemovePortrait(true); }} className="rounded-lg px-3 py-2 text-sm text-white/60 hover:bg-white/5 hover:text-red-300">Remove</button>
+                      <button type="button" onClick={() => { setPortrait(null); setRemovePortrait(true); }} className="rounded-lg px-3 py-2 text-sm text-muted hover:bg-white/5 hover:text-danger">Remove</button>
                     )}
                   </div>
                 </Label>
               )}
               {f.kind === "image" && (
                 <Label f={f}>
-                  <div className="rounded-xl border border-dashed border-white/15 p-3">
+                  <div className="rounded-xl border border-dashed border-line/15 p-3">
                     <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/webp" multiple={!edit} className="hidden" onChange={(e) => pick(e.target.files)} />
                     {edit && current && !picked.length && (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={current} alt="Current picture" className="mx-auto mb-2 h-28 rounded-lg object-cover" />
                     )}
-                    <button type="button" onClick={() => fileRef.current?.click()} className="flex w-full items-center justify-center gap-2 rounded-lg py-3 text-sm text-white/70 hover:bg-white/5">
+                    <button type="button" onClick={() => fileRef.current?.click()} className="flex w-full items-center justify-center gap-2 rounded-lg py-3 text-sm text-muted hover:bg-white/5">
                       <ImagePlus size={18} /> {edit ? "Replace the picture (PNG, JPEG, WebP)" : "Choose pictures (PNG, JPEG, WebP)"}
                     </button>
                     {picked.length > 0 && (
@@ -234,7 +234,7 @@ export function AddElementModal({ info, overview, edit, onChanged, onClose, onTo
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src={p.dataUrl} alt={p.name} className="aspect-square w-full rounded-lg object-cover" />
                             <button type="button" aria-label={`Remove ${p.name}`} onClick={() => setPicked((l) => l.filter((_, j) => j !== i))}
-                              className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-black/80 text-white/80 hover:text-white"><X size={12} /></button>
+                              className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-black/80 text-ink/90 hover:text-ink"><X size={12} /></button>
                           </div>
                         ))}
                       </div>
@@ -250,13 +250,13 @@ export function AddElementModal({ info, overview, edit, onChanged, onClose, onTo
       <ErrorText text={err} />
 
       <div className="mt-6 flex flex-wrap items-center justify-end gap-2">
-        {progress && <span className="mr-auto text-xs text-white/50">{progress}</span>}
-        <button onClick={onClose} disabled={busy} className="rounded-lg px-4 py-2 text-sm text-white/70 hover:bg-white/5 disabled:opacity-50">Cancel</button>
+        {progress && <span className="mr-auto text-xs text-muted">{progress}</span>}
+        <button onClick={onClose} disabled={busy} className="rounded-lg px-4 py-2 text-sm text-muted hover:bg-white/5 disabled:opacity-50">Cancel</button>
         {info.mode !== "photo" && !edit && (
-          <button onClick={() => submit(true)} disabled={busy} className="rounded-lg border border-white/15 px-4 py-2 text-sm hover:bg-white/5 disabled:opacity-50">Add and next</button>
+          <button onClick={() => submit(true)} disabled={busy} className="rounded-lg border border-line/15 px-4 py-2 text-sm hover:bg-white/5 disabled:opacity-50">Add and next</button>
         )}
         <button onClick={() => submit(false)} disabled={busy || loading}
-          className="flex items-center gap-2 rounded-lg bg-violet-600 px-5 py-2 text-sm font-semibold hover:bg-violet-500 disabled:opacity-60">
+          className="flex items-center gap-2 rounded-lg bg-brand-600 px-5 py-2 text-sm font-semibold hover:bg-brand-500 disabled:opacity-60">
           {busy && <Loader2 size={14} className="animate-spin" />} {edit ? "Save changes" : "Add"}
         </button>
       </div>

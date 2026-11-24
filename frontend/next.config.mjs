@@ -1,3 +1,44 @@
+import { fileURLToPath } from "node:url";
+
+// Security headers for every page (NIST CSF 2.0 PR.PS, see docs/security.md).
+// A new third-party host must be added here, or the browser blocks it.
+const API = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000").replace(/\/+$/, "");
+const GOOGLE = "https://accounts.google.com"; // Google sign-in (Identity Services)
+// Google AdSense (auto ads + Google's consent message). Hosts from Google's CSP guide for AdSense.
+const ADS_SCRIPT = "https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://www.googletagservices.com https://adservice.google.com https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://www.google.com";
+const ADS_FRAME = "https://googleads.g.doubleclick.net https://*.doubleclick.net https://tpc.googlesyndication.com https://*.googlesyndication.com https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://www.google.com";
+const ADS_CONNECT = "https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://*.google.com";
+const dev = process.env.NODE_ENV !== "production";
+
+const csp = [
+  "default-src 'self'",
+  // Next.js inlines its bootstrap scripts (no nonces yet, see TODO.md); dev mode also needs eval.
+  `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ""} ${GOOGLE}/gsi/client ${ADS_SCRIPT}`,
+  `style-src 'self' 'unsafe-inline' ${GOOGLE}/gsi/style`,
+  // API /media pictures, flagcdn.com flags, Pexels/Pixabay/Wikipedia photos, data: avatars
+  `img-src 'self' data: blob: https: ${API}`,
+  "font-src 'self' data:",
+  "media-src 'self' data: blob:",
+  `connect-src 'self' ${API} ${GOOGLE}/gsi/ ${ADS_CONNECT}`,
+  `frame-src ${GOOGLE} ${ADS_FRAME}`,
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "frame-ancestors 'none'",
+].join("; ");
+
+const securityHeaders = [
+  { key: "Content-Security-Policy", value: csp },
+  { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains" },
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "X-Frame-Options", value: "DENY" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  // The microphone is used by speech recognition (Call, Sentence, Word, chats); nothing else.
+  { key: "Permissions-Policy", value: "camera=(), geolocation=(), payment=(), usb=(), microphone=(self)" },
+  // Google sign-in opens a popup that must be able to talk back to this window.
+  { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
+];
+
 // Pages that need a login (or are forms) are kept out of search results; robots.ts also tells crawlers not to visit them.
 const PRIVATE = [
   "/dashboard", "/admin", "/chat", "/call", "/sentence", "/word", "/dialogue", "/roleplay",
@@ -9,11 +50,19 @@ const PRIVATE = [
 const nextConfig = {
   poweredByHeader: false,
   images: { formats: ["image/avif", "image/webp"] },
+  // The repo has no root package.json; pin the root so Next does not pick a lockfile above it.
+  turbopack: { root: fileURLToPath(new URL(".", import.meta.url)) },
   async headers() {
-    return PRIVATE.flatMap((p) => [p, `${p}/:path*`]).map((source) => ({
-      source,
-      headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
-    }));
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      { source: "/admin/:path*", headers: [{ key: "Cache-Control", value: "no-store" }] },
+      // Pages behind a login (or forms) stay out of search results.
+      ...PRIVATE.flatMap((p) => [p, `${p}/:path*`]).map((source) => ({
+        source,
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      })),
+    ];
   },
 };
+
 export default nextConfig;

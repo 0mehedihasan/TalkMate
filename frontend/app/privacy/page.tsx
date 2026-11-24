@@ -2,8 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
+<<<<<<< HEAD
   title: "Privacy and cookies",
   alternates: { canonical: "/privacy" },
+=======
+  title: "Privacy and cookies | TalkMate",
+>>>>>>> ed4a835333706e874657e00e76d8f33995f28349
   description: "What TalkMate stores, which services see it, and how Google ads and cookies work on this site.",
 };
 

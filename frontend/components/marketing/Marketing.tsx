@@ -1,7 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
+<<<<<<< HEAD
 import { GUIDES } from "@/lib/guides";
+=======
+>>>>>>> ed4a835333706e874657e00e76d8f33995f28349
 import { LANGUAGE_PAGES } from "@/lib/languages";
 import { SUPPORT_EMAIL } from "@/lib/site";
 
@@ -21,7 +24,10 @@ export function SiteHeader() {
           <Link href="/#modes" className={`${link} hidden md:block`}>Modes</Link>
           <Link href="/#how-it-works" className={`${link} hidden md:block`}>How it works</Link>
           <Link href="/learn" className={`${link} hidden sm:block`}>Languages</Link>
+<<<<<<< HEAD
           <Link href="/guides" className={`${link} hidden md:block`}>Guides</Link>
+=======
+>>>>>>> ed4a835333706e874657e00e76d8f33995f28349
           <Link href="/login" className={link}>Sign in</Link>
           <Link href="/login" className="ml-1 rounded-control bg-brand-600 px-4 py-2 font-semibold text-ink transition-colors hover:bg-brand-500 active:bg-brand-700">Get started</Link>
         </nav>
@@ -73,7 +79,10 @@ export function SiteFooter() {
             <li><Link href="/privacy" className={item}>Privacy policy</Link></li>
             <li><Link href="/login" className={item}>Sign in</Link></li>
             <li><Link href="/learn" className={item}>All languages</Link></li>
+<<<<<<< HEAD
             <li><Link href="/guides" className={item}>Speaking guides</Link></li>
+=======
+>>>>>>> ed4a835333706e874657e00e76d8f33995f28349
           </ul>
           <p className={`${head} mt-8`}>Support</p>
           <a href={`mailto:${SUPPORT_EMAIL}`} className={`${item} break-all`}>{SUPPORT_EMAIL}</a>
@@ -129,6 +138,7 @@ export function LanguageLinks({ exclude }: { exclude?: string }) {
           <Link href={`/learn/${l.slug}`} className="block rounded-xl border border-line/[0.07] bg-surface px-4 py-3 transition-colors hover:border-brand-400/40 hover:bg-surface-2">
             <span className="block font-semibold">{l.name}</span>
             <span className="block text-sm text-muted">{l.native}</span>
+<<<<<<< HEAD
           </Link>
         </li>
       ))}
@@ -144,6 +154,8 @@ export function GuideLinks({ exclude }: { exclude?: string }) {
           <Link href={`/guides/${g.slug}`} className="block h-full rounded-xl border border-line/[0.07] bg-surface px-4 py-4 transition-colors hover:border-brand-400/40 hover:bg-surface-2">
             <span className="block font-semibold leading-snug">{g.title}</span>
             <span className="mt-2 block text-sm leading-relaxed text-muted">{g.description}</span>
+=======
+>>>>>>> ed4a835333706e874657e00e76d8f33995f28349
           </Link>
         </li>
       ))}

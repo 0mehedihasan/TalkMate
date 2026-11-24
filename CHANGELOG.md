@@ -5,12 +5,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versioning: [S
 
 ## [Unreleased]
 
+<<<<<<< HEAD
 ### Added
 - Search ranking pass (2026-11-24): `/guides` and three written guides (`/guides/<slug>`, content in `frontend/lib/guides.ts`, Article + BreadcrumbList structured data), linked from the header, footer, home page, `/learn` and every language page. Each `/learn/<language>` page now has an "at a glance" table (writing system, direction, word order), eight everyday phrases (was four), three language-specific tips, and two more FAQ entries; the page title and description name the language and the native name. `/learn` has an intro text and an ItemList.
 
 ### Changed
 - Sitemap (2026-11-24): `lastmod` is the fixed `CONTENT_UPDATED` date in `lib/site.ts` instead of the build time (Google ignores a date that changes on every build); the guides and `/privacy` are listed.
 - Home page `<h1>` now says "Learn a language by speaking it with an AI tutor." `/privacy` title no longer repeats the brand name and has a canonical link.
+=======
+### Changed
+>>>>>>> ed4a835333706e874657e00e76d8f33995f28349
 - Premium UI pass on the web app (2026-11-22), keeping TalkMate's dark violet/indigo look: one palette of semantic colour tokens (`app/globals.css`, `tailwind.config.ts`) replaces the two hard-coded hex palettes; Inter + Plus Jakarta Sans via `next/font`; visible focus rings, selection colour and reduced-motion support; no emoji anywhere in the interface (line icons from `components/ui/Glyph.tsx` instead, emoji stay in the content data); new Home (greeting header, compact 3-column mode grid, level/streak card, quieter Premium card); shared `PageHeader` on Learn, Courses, Explore, Progress and Account; calmer course, Explore and Progress colours (no rainbow gradients, no solid yellow/violet blocks); mode grids and intros with a cleaner shell; practice pages on the page background; one error-banner style; landing page with a two-column hero and a sample corrected chat turn, modes in a 5-column grid.
 - Public site redesign (2026-11-22): landing page with a two-column hero (sample corrected chat turn, facts row), a "Why it works" section, mode cards with icons and a Free badge, numbered steps, languages, FAQ with chevrons and a closing call-to-action panel; sticky header with Modes / How it works / Languages links; multi-column footer (brand, Languages, Practice, Company, Support) with the copyright, AI disclaimer and a "Developed by DEVAAS" credit linking to https://devaas.tech. Applies to `/`, `/learn` and `/learn/<language>`.
 - Support address is now `talkmate@edsol.academy` (the Hostinger mailbox; `support@talkmate.ai` never existed): `SUPPORT_EMAIL` in `frontend/lib/site.ts`, which `SupportView` now imports instead of keeping its own copy.

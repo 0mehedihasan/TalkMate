@@ -52,7 +52,11 @@ export default async function LanguagePage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-canvas text-ink">
+<<<<<<< HEAD
       <JsonLd data={[breadcrumb, page, faqJsonLd(faq)]} />
+=======
+      <JsonLd data={[breadcrumb, faqJsonLd(faq)]} />
+>>>>>>> ed4a835333706e874657e00e76d8f33995f28349
       <SiteHeader />
       <main className="mx-auto max-w-3xl px-5 py-12">
         <nav aria-label="Breadcrumb" className="text-sm text-muted">
@@ -61,11 +65,16 @@ export default async function LanguagePage({ params }: Props) {
         <h1 className="mt-4 text-3xl font-bold leading-tight sm:text-4xl">Learn {l.name} online with an AI tutor</h1>
         <p className="mt-4 text-lg text-muted">{l.intro}</p>
         <p className="mt-3 text-muted">
+<<<<<<< HEAD
           With TalkMate you practise {l.name} (<span lang={l.code}>{l.native}</span>) by talking, not just reading: your AI tutor answers in {l.name}, corrects your
+=======
+          With TalkMate you practise {l.name} (<span lang={langCode(l.slug)}>{l.native}</span>) by talking, not just reading: your AI tutor answers in {l.name}, corrects your
+>>>>>>> ed4a835333706e874657e00e76d8f33995f28349
           mistakes and explains them in the language you already speak.
         </p>
         <Link href="/login" className={`${btnPrimary} mt-6`}>Start learning {l.name} free</Link>
 
+<<<<<<< HEAD
         <h2 className="mt-14 text-2xl font-bold">{l.name} at a glance</h2>
         <dl className="mt-4 divide-y divide-line/10 overflow-hidden rounded-xl border border-line/10 bg-surface text-sm">
           {[["Writing system", l.glance.script], ["Direction", l.glance.direction], ["Typical word order", l.glance.order]].map(([k, v]) => (
@@ -77,6 +86,9 @@ export default async function LanguagePage({ params }: Props) {
         </dl>
 
         <h2 className="mt-14 text-2xl font-bold">{english ? "Useful English phrases" : `Everyday ${l.name} phrases`}</h2>
+=======
+        <h2 className="mt-14 text-2xl font-bold">Starter {english ? "phrases" : `${l.name} phrases`}</h2>
+>>>>>>> ed4a835333706e874657e00e76d8f33995f28349
         <div className="mt-4 overflow-x-auto rounded-xl border border-line/10">
           <table className="w-full text-left text-sm">
             <thead className="bg-surface text-muted">
@@ -90,8 +102,13 @@ export default async function LanguagePage({ params }: Props) {
               {l.phrases.map((p) => (
                 <tr key={p.meaning} className="border-t border-line/10">
                   <td className="px-4 py-3 text-muted">{p.meaning}</td>
+<<<<<<< HEAD
                   <td className="px-4 py-3 font-medium" lang={l.code}>{p.text}</td>
                   {showRoman && <td className="px-4 py-3 text-muted">{p.roman ?? ""}</td>}
+=======
+                  <td className="px-4 py-3 font-medium" lang={english ? "en" : langCode(l.slug)}>{p.text}</td>
+                  {!english && l.phrases.some((q) => q.roman) && <td className="px-4 py-3 text-muted">{p.roman ?? ""}</td>}
+>>>>>>> ed4a835333706e874657e00e76d8f33995f28349
                 </tr>
               ))}
             </tbody>
@@ -101,11 +118,14 @@ export default async function LanguagePage({ params }: Props) {
 
         <h2 className="mt-14 text-2xl font-bold">What is hard about {l.name}?</h2>
         <p className="mt-3 text-muted">{l.tricky}</p>
+<<<<<<< HEAD
 
         <h2 className="mt-14 text-2xl font-bold">Three tips for learning {l.name}</h2>
         <ol className="mt-4 list-decimal space-y-3 pl-5 text-muted marker:text-brand-300">
           {l.tips.map((t) => <li key={t}>{t}</li>)}
         </ol>
+=======
+>>>>>>> ed4a835333706e874657e00e76d8f33995f28349
 
         <h2 className="mt-14 text-2xl font-bold">How you practise {l.name} on TalkMate</h2>
         <ul className="mt-4 space-y-3 text-muted">

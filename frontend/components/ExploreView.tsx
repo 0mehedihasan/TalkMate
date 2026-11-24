@@ -1,5 +1,7 @@
 "use client";
 
+import { PageHeader } from "@/components/ui/PageHeader";
+import { CoverFallback, tintFor } from "@/components/ui/Glyph";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Lock } from "lucide-react";
@@ -10,11 +12,7 @@ import { pickDaily, seeded } from "@/lib/explore";
 import { MODES } from "@/lib/modes";
 
 // Static class names so Tailwind can see them (classes written in lib/ are not generated).
-const TILES = [
-  "from-indigo-500 to-violet-600", "from-pink-500 to-rose-600", "from-amber-400 to-orange-600", "from-emerald-500 to-teal-600",
-  "from-sky-500 to-blue-700", "from-fuchsia-500 to-purple-700",
-];
-const tile = (key: string) => TILES[[...key].reduce((a, c) => a + c.charCodeAt(0), 0) % TILES.length];
+const tile = (key: string) => tintFor(key);
 
 type Data = {
   roleplay?: RoleplayScenarioInfo[]; characters?: CharacterInfo[]; dialogue?: DialogueTopicInfo[]; flashcards?: FlashTopicInfo[];
@@ -82,25 +80,22 @@ export function ExploreView({ premium, onLocked }: { premium: boolean; onLocked:
 
   return (
     <div className="mx-auto w-full max-w-[560px] md:max-w-[1200px]">
-      <h1 className="text-lg font-semibold">Explore</h1>
-      <p className="mt-3 text-sm text-white/80 md:text-[13px]">Find your daily picks below.</p>
-      <hr className="mt-4 border-white/10" />
+      <PageHeader eyebrow="Today" title="Explore" lead="A fresh pick from every mode, chosen for today. New picks arrive at midnight." />
 
       {error && (
         <div className="mt-8">
-          <p className="text-sm text-red-300">{error}</p>
+          <p className="text-sm text-danger">{error}</p>
           <button onClick={() => { setData(null); load(); }} className="mt-3 rounded-full bg-white/10 px-4 py-2 text-sm">Try again</button>
         </div>
       )}
-      {!data && !error && <p className="mt-8 text-white/60">Loading today's picks…</p>}
+      {!data && !error && <p className="mt-8 text-muted">Loading today's picks…</p>}
 
       {data && !error && (
         <div className="mt-6 columns-1 gap-5 md:columns-2 xl:columns-3">
             {daily && (
-              <section aria-label="Your daily pick" className="mb-5 break-inside-avoid rounded-2xl bg-[#fbeaa8] p-5 text-[#16161c]">
-                <h2 className="text-lg font-semibold">Your daily pick</h2>
-                <p className="mt-3 text-[15px] font-medium leading-snug md:text-[13px]">Here is your daily pick to improve your language learning skills with an engaging experience.</p>
-                <hr className="mt-4 border-black/10" />
+              <section aria-label="Your daily pick" className="mb-5 break-inside-avoid rounded-card border border-accent/25 bg-gradient-to-b from-accent-soft to-surface p-5">
+                <p className="eyebrow !text-accent">Daily pick</p>
+                <h2 className="mt-1 font-display text-lg font-bold">One thing to try today</h2>
                 <h3 className="mt-4 text-base font-semibold md:text-sm">{daily.mode}</h3>
                 {link(daily.modeId, daily.href,
                   <Cover title={daily.title} cover={daily.cover} emoji={daily.emoji} seed={daily.id} />,
@@ -135,9 +130,9 @@ export function ExploreView({ premium, onLocked }: { premium: boolean; onLocked:
             {photos.length > 0 && (
               <Card mode="photo" sub="Complete the decks">
                 <Strip>
-                  {photos.map((p) => <Thumb key={p.id} src={p.image} emoji="🖼️" seed={p.id} />)}
+                  {photos.map((p) => <Thumb key={p.id} src={p.image} emoji="photo" seed={p.id} />)}
                 </Strip>
-                {link("photo", `/photo/${photos[0].id}`, "Start now", "mt-5 block w-full rounded-xl bg-[#3a3b4e] py-4 text-center text-sm font-semibold hover:bg-[#44455c] md:text-xs")}
+                {link("photo", `/photo/${photos[0].id}`, "Start now", "mt-5 block w-full rounded-xl bg-surface-3 py-4 text-center text-sm font-semibold hover:bg-surface-3 md:text-xs")}
               </Card>
             )}
 
@@ -155,7 +150,7 @@ export function ExploreView({ premium, onLocked }: { premium: boolean; onLocked:
                 <Strip>
                   {words.map((w) => <Thumb key={w.id} src={wordCovers[w.id] ?? null} emoji={w.emoji} seed={w.id} />)}
                 </Strip>
-                {link("word", `/word/${words[0].id}`, "Play now", "mt-5 block w-full rounded-xl bg-[#3a3b4e] py-4 text-center text-sm font-semibold hover:bg-[#44455c] md:text-xs")}
+                {link("word", `/word/${words[0].id}`, "Play now", "mt-5 block w-full rounded-xl bg-surface-3 py-4 text-center text-sm font-semibold hover:bg-surface-3 md:text-xs")}
               </Card>
             )}
 
@@ -179,9 +174,9 @@ export function ExploreView({ premium, onLocked }: { premium: boolean; onLocked:
                         </span>
                         <span className="block px-3 py-3">
                           <span className="block text-[15px] font-semibold md:text-[13px]">{t.title}</span>
-                          <span className="mt-1 block text-xs text-white/60 md:text-[10px]">{t.total} Flashcards</span>
+                          <span className="mt-1 block text-xs text-muted md:text-[10px]">{t.total} Flashcards</span>
                         </span>
-                      </>, "block overflow-hidden rounded-xl border border-white/10 bg-[#1c1c24]", t.title)}
+                      </>, "block overflow-hidden rounded-xl border border-line/10 bg-surface", t.title)}
                     </div>
                   ))}
                 </Carousel>
@@ -198,9 +193,9 @@ export function ExploreView({ premium, onLocked }: { premium: boolean; onLocked:
             )}
         </div>
       )}
-      {data && !error && <p className="mt-8 text-center text-[11px] text-white/40">Photos from <a href="https://pixabay.com" target="_blank" rel="noreferrer" className="underline">Pixabay</a> and <a href="https://www.pexels.com" target="_blank" rel="noreferrer" className="underline">Pexels</a>; characters from <a href="https://www.wikipedia.org" target="_blank" rel="noreferrer" className="underline">Wikipedia</a>. Picks change every day.</p>}
+      {data && !error && <p className="mt-8 text-center text-[11px] text-subtle">Photos from <a href="https://pixabay.com" target="_blank" rel="noreferrer" className="underline">Pixabay</a> and <a href="https://www.pexels.com" target="_blank" rel="noreferrer" className="underline">Pexels</a>; characters from <a href="https://www.wikipedia.org" target="_blank" rel="noreferrer" className="underline">Wikipedia</a>. Picks change every day.</p>}
       {data && !premium && !error && (
-        <p className="mt-2 flex items-center justify-center gap-1 text-[11px] text-white/40"><Lock size={10} /> Picks open the Premium modes.</p>
+        <p className="mt-2 flex items-center justify-center gap-1 text-[11px] text-subtle"><Lock size={10} /> Picks open the Premium modes.</p>
       )}
     </div>
   );
@@ -225,10 +220,10 @@ function dailyPick(d: Data, day: string): (Daily & { id: string; modeId: string 
 function Card({ mode, sub, children }: { mode: string; sub: string; children: ReactNode }) {
   const m = modeOf(mode);
   return (
-    <section aria-label={m.title} className="mb-5 break-inside-avoid rounded-2xl border border-white/5 bg-[#1f1f27] p-5">
+    <section aria-label={m.title} className="mb-5 break-inside-avoid rounded-2xl border border-line/5 bg-surface p-5">
       <h2 className="text-lg font-semibold">{m.title}</h2>
-      <p className="mt-3 text-[15px] leading-snug text-white/80 md:text-[13px]">{m.desc}</p>
-      <hr className="mt-4 border-white/10" />
+      <p className="mt-3 text-[15px] leading-snug text-ink/90 md:text-[13px]">{m.desc}</p>
+      <hr className="mt-4 border-line/10" />
       <h3 className="mt-4 text-base font-semibold md:text-sm">{sub}</h3>
       <div className="mt-4">{children}</div>
     </section>
@@ -237,7 +232,7 @@ function Card({ mode, sub, children }: { mode: string; sub: string; children: Re
 
 const TilePair = ({ children }: { children: ReactNode }) => <div className="grid grid-cols-2 gap-2.5">{children}</div>;
 
-/** Picture (or an emoji on a gradient) with the title in the top left corner. */
+/** Picture (or a line icon on a tinted tile) with the title in the top left corner. */
 function Cover({ title, cover, emoji, seed }: { title: string; cover: string | null; emoji: string; seed: string }) {
   const [failed, setFailed] = useState(false);
   return (
@@ -246,7 +241,7 @@ function Cover({ title, cover, emoji, seed }: { title: string; cover: string | n
         // eslint-disable-next-line @next/next/no-img-element
         <img src={cover} alt="" loading="lazy" onError={() => setFailed(true)} className="absolute inset-0 h-full w-full object-cover" />
       ) : (
-        <span className={`absolute inset-0 flex items-center justify-center bg-gradient-to-br pt-6 text-5xl ${tile(seed)}`} aria-hidden="true">{emoji}</span>
+        <span className="absolute inset-0"><CoverFallback seed={seed} title={title || emoji} size={40} /></span>
       )}
       {title && <><Shade /><Title text={title} /></>}
     </>
@@ -256,13 +251,13 @@ function Cover({ title, cover, emoji, seed }: { title: string; cover: string | n
 // a darkened top edge keeps the white title readable on any picture
 const Shade = () => <span className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/70 to-transparent" />;
 const Title = ({ text }: { text: string }) => (
-  <span lang="en" style={{ hyphens: "auto" }} className="absolute left-3 right-3 top-3 text-base font-semibold leading-tight text-white drop-shadow md:text-[15px]">{text}</span>
+  <span lang="en" style={{ hyphens: "auto" }} className="absolute left-3 right-3 top-3 text-base font-semibold leading-tight text-ink drop-shadow md:text-[15px]">{text}</span>
 );
 
 /** A row of five equal square thumbnails (slightly overlapping). */
-const Strip = ({ children }: { children: ReactNode }) => <div className="flex items-center [&>*:first-child]:ml-0 [&>*]:-ml-1 [&>*]:rounded-lg [&>*]:ring-2 [&>*]:ring-[#1f1f27]">{children}</div>;
+const Strip = ({ children }: { children: ReactNode }) => <div className="flex items-center [&>*:first-child]:ml-0 [&>*]:-ml-1 [&>*]:rounded-lg [&>*]:ring-2 [&>*]:ring-surface">{children}</div>;
 
-/** One square slot of fixed size: the picture fills it (cropped), or an emoji on a gradient if there is none yet. */
+/** One square slot of fixed size: the picture fills it (cropped), or a line icon if there is none yet. */
 function Thumb({ src, emoji, seed }: { src: string | null; emoji: string; seed: string }) {
   const [failed, setFailed] = useState(false);
   useEffect(() => setFailed(false), [src]);
@@ -271,7 +266,7 @@ function Thumb({ src, emoji, seed }: { src: string | null; emoji: string; seed: 
       {src && !failed
         // eslint-disable-next-line @next/next/no-img-element
         ? <img src={src} alt="" loading="lazy" onError={() => setFailed(true)} className="absolute inset-0 h-full w-full object-cover" />
-        : <span className="absolute inset-0 flex items-center justify-center text-2xl" aria-hidden="true">{emoji}</span>}
+        : <span className="absolute inset-0"><CoverFallback seed={seed} title={emoji} size={20} /></span>}
     </span>
   );
 }
@@ -300,7 +295,7 @@ function Carousel({ label, children }: { label: string; children: ReactNode }) {
     <div role="group" aria-roledescription="carousel" aria-label={label}>
       <div ref={ref} onScroll={onScroll} className="flex snap-x snap-mandatory gap-3 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">{children}</div>
       <div className="mt-6 flex items-center justify-between">
-        <span className="text-lg font-semibold" aria-live="polite">{index + 1}<span className="text-white/60">/{total}</span></span>
+        <span className="text-lg font-semibold" aria-live="polite">{index + 1}<span className="text-muted">/{total}</span></span>
         <div className="flex gap-3">
           <button type="button" onClick={() => go(-1)} disabled={index === 0} aria-label="Previous" className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-40"><ChevronLeft size={18} /></button>
           <button type="button" onClick={() => go(1)} disabled={index >= total - 1} aria-label="Next" className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-40"><ChevronRight size={18} /></button>

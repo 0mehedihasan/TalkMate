@@ -9,7 +9,7 @@ import { SubPage } from "./SubPage";
 const PLANS = [1, 3, 12, 24]; // months, same list as the backend
 const fmt = (iso: string) => new Date(iso).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
 const monthsLabel = (n: number) => `${n} ${n === 1 ? "Month" : "Months"}`;
-const outline = "w-full rounded-2xl border border-white/10 py-5 text-sm font-semibold transition-colors hover:bg-white/5 disabled:opacity-50";
+const outline = "w-full rounded-2xl border border-line/10 py-5 text-sm font-semibold transition-colors hover:bg-white/5 disabled:opacity-50";
 
 export function SubscriptionView({ onBack, onToast, onSnapshot }: {
   onBack: () => void; onToast: (message: string) => void; onSnapshot: (p: Progress) => void;
@@ -53,11 +53,11 @@ export function SubscriptionView({ onBack, onToast, onSnapshot }: {
   return (
     <SubPage title="Subscriptions" subtitle="Manage your subscriptions below." onBack={onBack}>
       <ErrorText text={error} />
-      {!sub && !error && <p className="text-center text-white/60">Loading…</p>}
+      {!sub && !error && <p className="text-center text-muted">Loading…</p>}
 
       {sub && status === "none" && (
         <div className="mx-auto max-w-[400px] text-center">
-          <p className="text-white/70">
+          <p className="text-muted">
             {sub.premium ? "Premium is on from the earlier demo unlock, so there is no plan to manage yet." : "You don't have a subscription."}
           </p>
           <button onClick={start} disabled={busy} className="mt-6 w-full rounded-full bg-pink-500 py-4 text-sm font-semibold hover:bg-pink-400 disabled:opacity-50">
@@ -68,14 +68,14 @@ export function SubscriptionView({ onBack, onToast, onSnapshot }: {
 
       {sub && status !== "none" && (
         <div className="mx-auto max-w-[400px]">
-          <div className="relative flex h-[250px] flex-col overflow-hidden rounded-3xl bg-gradient-to-br from-[#d92a6c] to-[#c41f5e] p-6">
-            <ChevronsRight aria-hidden size={230} strokeWidth={3} className="absolute -right-10 -top-2 text-white/10" />
+          <div className="relative flex h-[250px] flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-[#d92a6c] to-[#c41f5e] p-6">
+            <ChevronsRight aria-hidden size={230} strokeWidth={3} className="absolute -right-10 -top-2 text-subtle" />
             <span className="relative flex items-center gap-2 text-sm font-semibold"><Star size={14} fill="white" /> Premium</span>
             <p className="relative mt-1 text-3xl font-semibold">{monthsLabel(sub.months ?? 1)}</p>
-            <p className="relative mt-6 text-xs text-white/70">
-              {status === "active" && <>Next scheduled payment: <b className="text-white">{endDate && fmt(endDate)}</b></>}
-              {status === "paused" && <>Paused. Access until: <b className="text-white">{endDate && fmt(endDate)}</b></>}
-              {status === "canceled" && <>Cancelled. Access until: <b className="text-white">{endDate && fmt(endDate)}</b></>}
+            <p className="relative mt-6 text-xs text-muted">
+              {status === "active" && <>Next scheduled payment: <b className="text-ink">{endDate && fmt(endDate)}</b></>}
+              {status === "paused" && <>Paused. Access until: <b className="text-ink">{endDate && fmt(endDate)}</b></>}
+              {status === "canceled" && <>Cancelled. Access until: <b className="text-ink">{endDate && fmt(endDate)}</b></>}
             </p>
             {status !== "canceled" && (
               <button onClick={() => { setMonths(sub.months ?? 1); setPlanOpen(true); }}
@@ -90,17 +90,17 @@ export function SubscriptionView({ onBack, onToast, onSnapshot }: {
             {status !== "canceled" && <button className={outline} disabled={busy} onClick={() => setCancelOpen(true)}>Cancel subscription</button>}
           </div>
           {status !== "canceled" && (
-            <p className="mt-4 text-center text-[11px] font-semibold leading-4 text-white/70">
+            <p className="mt-4 text-center text-[11px] font-semibold leading-4 text-muted">
               If you cancel your subscription, you will lose access to all advanced modes and future premium updates.
             </p>
           )}
         </div>
       )}
 
-      <div className="mx-auto mt-24 max-w-[320px] border-t border-white/10 pt-6 text-center text-[11px] font-semibold">
+      <div className="mx-auto mt-24 max-w-[320px] border-t border-line/10 pt-6 text-center text-[11px] font-semibold">
         You can update your payment method or view invoices{" "}
         <button onClick={() => onToast("Billing isn't connected yet")} className="underline">here</button>
-        <p className="mt-2 font-normal text-white/50">Billing isn't connected yet, so changes here are for testing.</p>
+        <p className="mt-2 font-normal text-muted">Billing isn't connected yet, so changes here are for testing.</p>
       </div>
 
       {planOpen && (
@@ -109,21 +109,21 @@ export function SubscriptionView({ onBack, onToast, onSnapshot }: {
           <div className="mt-4 space-y-2" role="radiogroup" aria-label="Plan length">
             {PLANS.map((m) => (
               <button key={m} role="radio" aria-checked={months === m} onClick={() => setMonths(m)}
-                className={`flex w-full items-center justify-between rounded-xl border px-4 py-3 text-left text-sm font-semibold ${months === m ? "border-indigo-500 bg-indigo-500/10" : "border-white/10 hover:bg-white/5"}`}>
+                className={`flex w-full items-center justify-between rounded-xl border px-4 py-3 text-left text-sm font-semibold ${months === m ? "border-brand-500 bg-brand-500/10" : "border-line/10 hover:bg-white/5"}`}>
                 {monthsLabel(m)}
-                {months === m && <span className="h-3 w-3 rounded-full bg-indigo-500" />}
+                {months === m && <span className="h-3 w-3 rounded-full bg-brand-500" />}
               </button>
             ))}
           </div>
           <button disabled={busy} onClick={() => act(() => api.account.changePlan(months), "Plan changed")}
-            className="mt-5 w-full rounded-full bg-indigo-600 py-3 text-sm font-semibold hover:bg-indigo-500 disabled:opacity-50">Save plan</button>
+            className="mt-5 w-full rounded-full bg-brand-600 py-3 text-sm font-semibold hover:bg-brand-500 disabled:opacity-50">Save plan</button>
         </Modal>
       )}
 
       {cancelOpen && (
         <Modal onClose={() => setCancelOpen(false)} label="Cancel subscription">
           <h2 className="text-xl font-semibold">Cancel subscription?</h2>
-          <p className="mt-2 text-sm text-white/70">
+          <p className="mt-2 text-sm text-muted">
             You keep Premium until {endDate ? fmt(endDate) : "the end of this period"}. After that you lose access to all advanced modes.
           </p>
           <div className="mt-5 flex gap-3">
